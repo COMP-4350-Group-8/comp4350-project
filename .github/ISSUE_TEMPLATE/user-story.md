@@ -9,7 +9,7 @@ assignees: ''
 
 **For Feature:** #
 
-#### User Story:
+#### Story:
 - 
 #### Acceptance Criteria:
 - [ ]
