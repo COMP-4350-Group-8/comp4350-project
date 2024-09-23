@@ -1,6 +1,6 @@
 ---
-name: Feature
-about: Feature
+name: "(Functional) Feature"
+about: "(Functional) Feature"
 title: ''
 labels: c.Feature
 assignees: ''

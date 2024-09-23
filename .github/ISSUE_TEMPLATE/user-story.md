@@ -1,6 +1,6 @@
 ---
 name: User Story
-about: User Story
+about: User Story (Below Feature | Above Task)
 title: ''
 labels: c.UserStory
 assignees: ''
