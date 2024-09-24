@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "dgSpecHash": "gzydSiLhHvY=",
+  "success": false,
+  "projectFilePath": "C:\\Users\\owenh\\source\\repos\\SailMapper\\SailMapper.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1101",
+      "level": "Error",
+      "message": "Unable to find package Swashbuckle.AspNetCore. No packages exist with this id in source(s): C:\\Program Files\\dotnet\\library-packs, Microsoft Visual Studio Offline Packages",
+      "libraryId": "Swashbuckle.AspNetCore",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
+}
