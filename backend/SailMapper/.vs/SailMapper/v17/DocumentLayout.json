@@ -1,18 +1,22 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\owenh\\source\\repos\\SailMapper\\",
+  "WorkspaceRootPath": "C:\\Users\\owenh\\source\\repos\\comp4350-project\\backend\\SailMapper\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\owenh\\source\\repos\\sailmapper\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\owenh\\source\\repos\\comp4350-project\\backend\\sailmapper\\sailmapper.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|solutionrelative:sailmapper.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\owenh\\source\\repos\\comp4350-project\\backend\\sailmapper\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|solutionrelative:controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\owenh\\source\\repos\\sailmapper\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\owenh\\source\\repos\\comp4350-project\\backend\\sailmapper\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|solutionrelative:weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\owenh\\source\\repos\\sailmapper\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|solutionrelative:weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\owenh\\source\\repos\\comp4350-project\\backend\\sailmapper\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,15 +26,28 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SailMapper.csproj",
+              "DocumentMoniker": "C:\\Users\\owenh\\source\\repos\\comp4350-project\\backend\\SailMapper\\SailMapper.csproj",
+              "RelativeDocumentMoniker": "SailMapper.csproj",
+              "ToolTip": "C:\\Users\\owenh\\source\\repos\\comp4350-project\\backend\\SailMapper\\SailMapper.csproj",
+              "RelativeToolTip": "SailMapper.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-09-24T21:28:55.077Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "WeatherForecast.cs",
-              "DocumentMoniker": "C:\\Users\\owenh\\source\\repos\\SailMapper\\WeatherForecast.cs",
+              "DocumentMoniker": "C:\\Users\\owenh\\source\\repos\\comp4350-project\\backend\\SailMapper\\WeatherForecast.cs",
               "RelativeDocumentMoniker": "WeatherForecast.cs",
-              "ToolTip": "C:\\Users\\owenh\\source\\repos\\SailMapper\\WeatherForecast.cs",
+              "ToolTip": "C:\\Users\\owenh\\source\\repos\\comp4350-project\\backend\\SailMapper\\WeatherForecast.cs",
               "RelativeToolTip": "WeatherForecast.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -39,11 +56,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\owenh\\source\\repos\\SailMapper\\Program.cs",
+              "DocumentMoniker": "C:\\Users\\owenh\\source\\repos\\comp4350-project\\backend\\SailMapper\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\owenh\\source\\repos\\SailMapper\\Program.cs",
+              "ToolTip": "C:\\Users\\owenh\\source\\repos\\comp4350-project\\backend\\SailMapper\\Program.cs",
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -52,13 +69,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "WeatherForecastController.cs",
-              "DocumentMoniker": "C:\\Users\\owenh\\source\\repos\\SailMapper\\Controllers\\WeatherForecastController.cs",
+              "DocumentMoniker": "C:\\Users\\owenh\\source\\repos\\comp4350-project\\backend\\SailMapper\\Controllers\\WeatherForecastController.cs",
               "RelativeDocumentMoniker": "Controllers\\WeatherForecastController.cs",
-              "ToolTip": "C:\\Users\\owenh\\source\\repos\\SailMapper\\Controllers\\WeatherForecastController.cs",
+              "ToolTip": "C:\\Users\\owenh\\source\\repos\\comp4350-project\\backend\\SailMapper\\Controllers\\WeatherForecastController.cs",
               "RelativeToolTip": "Controllers\\WeatherForecastController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-24T21:21:58.581Z",
               "EditorCaption": ""

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SailMapper")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+04e9a3b2608be5c9c793a24e535d857347aa6753")]
 [assembly: System.Reflection.AssemblyProductAttribute("SailMapper")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SailMapper")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
