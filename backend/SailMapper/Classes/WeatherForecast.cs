@@ -1,4 +1,4 @@
-namespace SailMapper
+namespace SailMapper.Classes
 {
     public class WeatherForecast
     {

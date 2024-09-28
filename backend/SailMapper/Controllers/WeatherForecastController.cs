@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using SailMapper.Classes;
 
 namespace SailMapper.Controllers
 {
