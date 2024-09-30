@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using SailMapper.Data;
 using SailMapper.Classes;
 
 namespace SailMapper.Controllers
@@ -13,22 +14,28 @@ namespace SailMapper.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly SailDBContext _dbContext;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, SailDBContext context)
         {
             _logger = logger;
+            _dbContext = context;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            var forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
                 TemperatureC = Random.Shared.Next(-20, 55),
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+
+            _dbContext.WeatherForecasts.AddRange(forecasts);
+            _dbContext.SaveChanges();
+            return forecasts;
         }
     }
 }

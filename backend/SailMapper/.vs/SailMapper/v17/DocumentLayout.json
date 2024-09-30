@@ -1,22 +1,50 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\owenh\\source\\repos\\comp4350-project\\backend\\SailMapper\\",
+  "WorkspaceRootPath": "C:\\Users\\Azat\\source\\repos\\comp4350-project\\backend\\SailMapper\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\owenh\\source\\repos\\comp4350-project\\backend\\sailmapper\\sailmapper.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|solutionrelative:sailmapper.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\azat\\source\\repos\\comp4350-project\\backend\\sailmapper\\data\\saildbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|solutionrelative:data\\saildbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\owenh\\source\\repos\\comp4350-project\\backend\\sailmapper\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\azat\\source\\repos\\comp4350-project\\backend\\sailmapper\\classes\\race.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|solutionrelative:classes\\race.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\azat\\source\\repos\\comp4350-project\\backend\\sailmapper\\classes\\rating.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|solutionrelative:classes\\rating.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\azat\\source\\repos\\comp4350-project\\backend\\sailmapper\\classes\\boat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|solutionrelative:classes\\boat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\azat\\source\\repos\\comp4350-project\\backend\\sailmapper\\controllers\\racecontrollers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|solutionrelative:controllers\\racecontrollers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\azat\\source\\repos\\comp4350-project\\backend\\sailmapper\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|solutionrelative:controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\owenh\\source\\repos\\comp4350-project\\backend\\sailmapper\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|solutionrelative:weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\azat\\source\\repos\\comp4350-project\\backend\\sailmapper\\classes\\track.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|solutionrelative:classes\\track.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\owenh\\source\\repos\\comp4350-project\\backend\\sailmapper\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\azat\\source\\repos\\comp4350-project\\backend\\sailmapper\\classes\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|solutionrelative:classes\\weatherforecast.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\azat\\source\\repos\\comp4350-project\\backend\\sailmapper\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\azat\\source\\repos\\comp4350-project\\backend\\sailmapper\\sailmapper.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|solutionrelative:sailmapper.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|c:\\users\\azat\\source\\repos\\comp4350-project\\backend\\sailmapper\\classes\\result.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02D75299-A1A2-4425-A675-0AB5559D4AC8}|SailMapper.csproj|solutionrelative:classes\\result.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,59 +54,157 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 8,
           "Children": [
             {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SailMapper.csproj",
-              "DocumentMoniker": "C:\\Users\\owenh\\source\\repos\\comp4350-project\\backend\\SailMapper\\SailMapper.csproj",
-              "RelativeDocumentMoniker": "SailMapper.csproj",
-              "ToolTip": "C:\\Users\\owenh\\source\\repos\\comp4350-project\\backend\\SailMapper\\SailMapper.csproj",
-              "RelativeToolTip": "SailMapper.csproj",
+              "DocumentIndex": 1,
+              "Title": "Race.cs",
+              "DocumentMoniker": "C:\\Users\\Azat\\source\\repos\\comp4350-project\\backend\\SailMapper\\Classes\\Race.cs",
+              "RelativeDocumentMoniker": "Classes\\Race.cs",
+              "ToolTip": "C:\\Users\\Azat\\source\\repos\\comp4350-project\\backend\\SailMapper\\Classes\\Race.cs",
+              "RelativeToolTip": "Classes\\Race.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-09-24T21:28:55.077Z",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-30T07:03:56.504Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "RaceControllers.cs",
+              "DocumentMoniker": "C:\\Users\\Azat\\source\\repos\\comp4350-project\\backend\\SailMapper\\Controllers\\RaceControllers.cs",
+              "RelativeDocumentMoniker": "Controllers\\RaceControllers.cs",
+              "ToolTip": "C:\\Users\\Azat\\source\\repos\\comp4350-project\\backend\\SailMapper\\Controllers\\RaceControllers.cs",
+              "RelativeToolTip": "Controllers\\RaceControllers.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAQwEAAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-30T07:03:13.119Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "WeatherForecastController.cs",
+              "DocumentMoniker": "C:\\Users\\Azat\\source\\repos\\comp4350-project\\backend\\SailMapper\\Controllers\\WeatherForecastController.cs",
+              "RelativeDocumentMoniker": "Controllers\\WeatherForecastController.cs",
+              "ToolTip": "C:\\Users\\Azat\\source\\repos\\comp4350-project\\backend\\SailMapper\\Controllers\\WeatherForecastController.cs",
+              "RelativeToolTip": "Controllers\\WeatherForecastController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAABKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T21:21:58.581Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "WeatherForecast.cs",
-              "DocumentMoniker": "C:\\Users\\owenh\\source\\repos\\comp4350-project\\backend\\SailMapper\\WeatherForecast.cs",
-              "RelativeDocumentMoniker": "WeatherForecast.cs",
-              "ToolTip": "C:\\Users\\owenh\\source\\repos\\comp4350-project\\backend\\SailMapper\\WeatherForecast.cs",
-              "RelativeToolTip": "WeatherForecast.cs",
+              "Title": "Rating.cs",
+              "DocumentMoniker": "C:\\Users\\Azat\\source\\repos\\comp4350-project\\backend\\SailMapper\\Classes\\Rating.cs",
+              "RelativeDocumentMoniker": "Classes\\Rating.cs",
+              "ToolTip": "C:\\Users\\Azat\\source\\repos\\comp4350-project\\backend\\SailMapper\\Classes\\Rating.cs",
+              "RelativeToolTip": "Classes\\Rating.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABrAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-30T03:14:47.316Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Result.cs",
+              "DocumentMoniker": "C:\\Users\\Azat\\source\\repos\\comp4350-project\\backend\\SailMapper\\Classes\\Result.cs",
+              "RelativeDocumentMoniker": "Classes\\Result.cs",
+              "ToolTip": "C:\\Users\\Azat\\source\\repos\\comp4350-project\\backend\\SailMapper\\Classes\\Result.cs",
+              "RelativeToolTip": "Classes\\Result.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-24T21:22:05.69Z",
+              "WhenOpened": "2024-09-30T03:19:20.925Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SailDBContext.cs",
+              "DocumentMoniker": "C:\\Users\\Azat\\source\\repos\\comp4350-project\\backend\\SailMapper\\Data\\SailDBContext.cs",
+              "RelativeDocumentMoniker": "Data\\SailDBContext.cs",
+              "ToolTip": "C:\\Users\\Azat\\source\\repos\\comp4350-project\\backend\\SailMapper\\Data\\SailDBContext.cs",
+              "RelativeToolTip": "Data\\SailDBContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAA1AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-30T02:30:32.475Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "SailMapper.csproj",
+              "DocumentMoniker": "C:\\Users\\Azat\\Source\\Repos\\comp4350-project\\backend\\SailMapper\\SailMapper.csproj",
+              "RelativeDocumentMoniker": "SailMapper.csproj",
+              "ToolTip": "C:\\Users\\Azat\\Source\\Repos\\comp4350-project\\backend\\SailMapper\\SailMapper.csproj",
+              "RelativeToolTip": "SailMapper.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-09-24T21:28:55.077Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Azat\\source\\repos\\comp4350-project\\backend\\SailMapper\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\Azat\\source\\repos\\comp4350-project\\backend\\SailMapper\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-24T21:22:03.189Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "WeatherForecast.cs",
+              "DocumentMoniker": "C:\\Users\\Azat\\source\\repos\\comp4350-project\\backend\\SailMapper\\Classes\\WeatherForecast.cs",
+              "RelativeDocumentMoniker": "Classes\\WeatherForecast.cs",
+              "ToolTip": "C:\\Users\\Azat\\source\\repos\\comp4350-project\\backend\\SailMapper\\Classes\\WeatherForecast.cs",
+              "RelativeToolTip": "Classes\\WeatherForecast.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-30T03:46:12.409Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\owenh\\source\\repos\\comp4350-project\\backend\\SailMapper\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\owenh\\source\\repos\\comp4350-project\\backend\\SailMapper\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Title": "Boat.cs",
+              "DocumentMoniker": "C:\\Users\\Azat\\source\\repos\\comp4350-project\\backend\\SailMapper\\Classes\\Boat.cs",
+              "RelativeDocumentMoniker": "Classes\\Boat.cs",
+              "ToolTip": "C:\\Users\\Azat\\source\\repos\\comp4350-project\\backend\\SailMapper\\Classes\\Boat.cs",
+              "RelativeToolTip": "Classes\\Boat.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-24T21:22:03.189Z",
+              "WhenOpened": "2024-09-30T03:39:10.398Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "WeatherForecastController.cs",
-              "DocumentMoniker": "C:\\Users\\owenh\\source\\repos\\comp4350-project\\backend\\SailMapper\\Controllers\\WeatherForecastController.cs",
-              "RelativeDocumentMoniker": "Controllers\\WeatherForecastController.cs",
-              "ToolTip": "C:\\Users\\owenh\\source\\repos\\comp4350-project\\backend\\SailMapper\\Controllers\\WeatherForecastController.cs",
-              "RelativeToolTip": "Controllers\\WeatherForecastController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAABJAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "Track.cs",
+              "DocumentMoniker": "C:\\Users\\Azat\\source\\repos\\comp4350-project\\backend\\SailMapper\\Classes\\Track.cs",
+              "RelativeDocumentMoniker": "Classes\\Track.cs",
+              "ToolTip": "C:\\Users\\Azat\\source\\repos\\comp4350-project\\backend\\SailMapper\\Classes\\Track.cs",
+              "RelativeToolTip": "Classes\\Track.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-24T21:21:58.581Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-30T03:05:41.41Z"
             }
           ]
         }
