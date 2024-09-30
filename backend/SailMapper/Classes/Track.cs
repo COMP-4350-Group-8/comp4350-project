@@ -4,6 +4,7 @@ namespace SailMapper.Classes
 {
     public class Track
     {
+        public required int Id { get; set; }
         public required Boat Boat { get; set; }
         public Race? Race { get; set; }
         public DateTime Started { get; set; }

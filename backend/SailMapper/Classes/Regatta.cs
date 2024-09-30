@@ -1,6 +1,6 @@
 ﻿namespace SailMapper.Classes
 {
-    public class Reggata
+    public class Regatta
     {
         public required int Id { get; set; }
         public required string Name { get; set; }
