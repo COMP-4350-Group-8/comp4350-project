@@ -21,22 +21,25 @@ namespace SailMapper.Controllers
         {
             raceService = new RaceService();
         }
-
+
         [HttpPost("")]
-        [ProducesResponseType(StatusCodes.Status201Created]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> CreateRace(HttpRequestMessage request, string json)
+        public async Task<IResult> CreateRace(HttpRequestMessage request)
         {
-            var race = await JsonSerializer.DeserializeAsync<Race>(new MemoryStream(Encoding.UTF8.GetBytes(json)));
-            if (race == null)
+            if (request.Content != null)
             {
-                return Results.BadRequest();
-            }
-            var id = await raceService.AddRace(race);
-            if (id != null)
-            {
-                return Results.Created(id, race); 
+                var race = await JsonSerializer.DeserializeAsync<Race>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
+                if (race == null)
+                {
+                    return Results.BadRequest();
+                }
+                var id = await raceService.AddRace(race);
+                if (id != null)
+                {
+                    return Results.Created(id, race);
+                }
             }
             return Results.Problem();
         }
