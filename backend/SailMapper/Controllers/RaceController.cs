@@ -77,17 +77,20 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType (StatusCodes.Status404NotFound)]
-        public async Task<IResult> UpdateRace(string id, string json)
+        public async Task<IResult> UpdateRace(string id, HttpRequestMessage request)
         {
-            var race = await JsonSerializer.DeserializeAsync<Race>(new MemoryStream(Encoding.UTF8.GetBytes(json)));
-            if (race == null)
+            if (request != null && request.Content != null)
             {
-                return Results.BadRequest();
-            }
-            bool success = await raceService.updateRace(id, race);
-            if (id != null)
-            {
-                return Results.Ok(id);
+                var race = await JsonSerializer.DeserializeAsync<Race>(new MemoryStream(Encoding.UTF8.GetBytes(json)));
+                if (race == null)
+                {
+                    return Results.BadRequest();
+                }
+                bool success = await raceService.updateRace(id, race);
+                if (id != null)
+                {
+                    return Results.Ok(id);
+                }
             }
             return Results.Problem();
         }
