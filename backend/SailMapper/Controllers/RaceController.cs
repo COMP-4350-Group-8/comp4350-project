@@ -21,7 +21,7 @@ namespace SailMapper.Controllers
         {
             raceService = new RaceService();
         }
-
+
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -81,12 +81,12 @@ namespace SailMapper.Controllers
         {
             if (request != null && request.Content != null)
             {
-                var race = await JsonSerializer.DeserializeAsync<Race>(new MemoryStream(Encoding.UTF8.GetBytes(json)));
+                var race = await JsonSerializer.DeserializeAsync<Race>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
                 if (race == null)
                 {
                     return Results.BadRequest();
                 }
-                bool success = await raceService.updateRace(id, race);
+                bool success = await raceService.UpdateRace(id, race);
                 if (id != null)
                 {
                     return Results.Ok(id);
@@ -101,7 +101,7 @@ namespace SailMapper.Controllers
         [ProducesResponseType (StatusCodes.Status404NotFound)]
         public async Task<IResult> GetParticipants(string id)
         {
-            Boat[] boats = await raceService.getParticipants(id);
+            Boat[] boats = await raceService.GetParticipants(id);
             if (boats == null)
             {
                 return Results.NotFound();
@@ -141,10 +141,10 @@ namespace SailMapper.Controllers
         [HttpGet("{id}/results")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType (StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IResult> GetResults(string id)
         {
-            Result result = await raceService.GetResults(id);
+            Result[] result = await raceService.GetResults(id);
             if(result == null)
                 return Results.NotFound();
             return Results.Ok(result);

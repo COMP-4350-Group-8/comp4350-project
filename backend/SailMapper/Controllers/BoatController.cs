@@ -35,7 +35,7 @@ namespace SailMapper.Controllers
         {
             if (request.Content != null)
             {
-                var boat = await JsonSerializer.DeserializeAsync<Race>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
+                Boat boat = await JsonSerializer.DeserializeAsync<Boat>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
                 if (boat == null)
                 {
                     return Results.BadRequest();
@@ -68,7 +68,7 @@ namespace SailMapper.Controllers
         {
             if (request.Content != null)
             {
-                var boat = await JsonSerializer.DeserializeAsync<Race>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
+                Boat boat = await JsonSerializer.DeserializeAsync<Boat>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
                 if (boat == null)
                 {
                     return Results.BadRequest();

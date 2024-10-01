@@ -68,7 +68,7 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> UpdateRegatta(string id)
+        public async Task<IResult> UpdateRegatta(string id, HttpRequestMessage request)
         {
             if (request != null && request.Content != null)
             {
@@ -81,7 +81,7 @@ namespace SailMapper.Controllers
                 return Results.BadRequest();
             }
 
-            bool success = await regattaService.UpdateRegatta(regatta);
+            bool success = await regattaService.UpdateRegatta(id, regatta);
             if (success)
             {
                 return Results.Ok();

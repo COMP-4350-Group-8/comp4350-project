@@ -1,7 +1,14 @@
-﻿namespace SailMapper.Classes
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace SailMapper.Classes
 {
     public class CourseMark
     {
+        [SetsRequiredMembers]
+        public CourseMark() 
+        {
+            Id = 0;
+        }
         public required int Id { get; set; }
         public float Latitude { get; set; }
         public float Longitude { get; set; }

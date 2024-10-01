@@ -81,7 +81,7 @@ namespace SailMapper.Controllers
                 {
                     return Results.BadRequest();
                 }
-                bool success = await courseService.updateCourse(id, course);
+                bool success = await courseService.UpdateCourse(id, course);
                 if (id != null)
                 {
                     return Results.Ok(id);
@@ -109,7 +109,7 @@ namespace SailMapper.Controllers
         {
             if (request.Content != null)
             {
-                var mark = await JsonSerializer.DeserializeAsync<Course>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
+                CourseMark mark = await JsonSerializer.DeserializeAsync<CourseMark>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
                 if (mark == null)
                 {
                     return Results.BadRequest();
@@ -132,12 +132,12 @@ namespace SailMapper.Controllers
         {
             if (request != null && request.Content != null)
             {
-                var mark= await JsonSerializer.DeserializeAsync<Course>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
+                var mark= await JsonSerializer.DeserializeAsync<CourseMark>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
                 if (mark == null)
                 {
                     return Results.BadRequest();
                 }
-                bool success = await courseService.UpdateCourseMark(mark);
+                bool success = await courseService.UpdateCourseMark(id, mark);
                 if (id != null)
                 {
                     return Results.Ok(id);

@@ -1,7 +1,11 @@
-﻿namespace SailMapper.Classes
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace SailMapper.Classes
 {
     public class Result
     {
+        [SetsRequiredMembers]
+        public Result() { }
         public required Boat Boat { get; set; }
         public required Race race { get; set; }
         public required int FinishPosition { get; set; }

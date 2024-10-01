@@ -1,9 +1,12 @@
-﻿using System.Reflection.Metadata;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection.Metadata;
 
 namespace SailMapper.Classes
 {
     public class Track
     {
+        [SetsRequiredMembers]
+        public Track() { }
         public required int Id { get; set; }
         public required Boat Boat { get; set; }
         public Race? Race { get; set; }
