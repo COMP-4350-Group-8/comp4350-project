@@ -30,7 +30,7 @@ namespace SailMapper.Controllers
                 {
                     return Results.BadRequest();
                 }
-                var id = await courseService.Addcourse(course);
+                var id = await courseService.AddCourse(course);
                 if (id != null)
                 {
                     return Results.Created(id, course);
@@ -100,6 +100,51 @@ namespace SailMapper.Controllers
             return Results.Ok(course);
         }
 
+        [HttpPost("{id}/marks")]
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+         public async Task<IResult> CreateMark(HttpRequestMessage request)
+        {
+            if (request.Content != null)
+            {
+                var mark = await JsonSerializer.DeserializeAsync<Course>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
+                if (mark == null)
+                {
+                    return Results.BadRequest();
+                }
+                var id = await courseService.AddMark(mark);
+                if (id != null)
+                {
+                    return Results.Created(id, mark);
+                }
+            }
+            return Results.Problem();
+        }
+
+        [HttpPut("{id}/marks/{markId}")]
+        [ProducesResponseType(StatusCodes.Status202Accepted)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IResult> UpdateCourseMark(string id, HttpRequestMessage request)
+        {
+            if (request != null && request.Content != null)
+            {
+                var mark= await JsonSerializer.DeserializeAsync<Course>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
+                if (mark == null)
+                {
+                    return Results.BadRequest();
+                }
+                bool success = await courseService.UpdateCourseMark(mark);
+                if (id != null)
+                {
+                    return Results.Ok(id);
+                }
+            }
+            return Results.Problem();
+        }
 
         [HttpDelete("{id}/marks/{markId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
