@@ -18,6 +18,10 @@ namespace SailMapper.Controllers
             boatService = new BoatService();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>List of all boats</returns>
         [HttpGet("")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -27,6 +31,11 @@ namespace SailMapper.Controllers
             return Results.Ok(boats);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>Id of created boat</returns>
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -49,6 +58,11 @@ namespace SailMapper.Controllers
             return Results.Problem();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>data of specified boat</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -58,8 +72,11 @@ namespace SailMapper.Controllers
             return Results.Ok(boat);
         }
 
-
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>Http codes</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

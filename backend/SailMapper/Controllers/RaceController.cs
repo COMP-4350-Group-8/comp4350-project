@@ -22,6 +22,21 @@ namespace SailMapper.Controllers
             raceService = new RaceService();
         }
 
+        /// <summary>
+        /// Add a Race by sending a race object
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// Post /race
+        /// {
+        ///     "Course Id": string
+        ///     "Start Time": DateTime
+        ///     "End Time": DateTime
+        ///     "Name": string
+        /// }
+        /// </remarks>
+        /// <param name="request"></param>
+        /// <returns>Id of created race</returns>
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -44,6 +59,10 @@ namespace SailMapper.Controllers
             return Results.Problem();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>List of all races</returns>
         [HttpGet("")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -53,6 +72,11 @@ namespace SailMapper.Controllers
             return Results.Ok(races);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Data for specified race</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -63,6 +87,11 @@ namespace SailMapper.Controllers
             return Results.Ok(race);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Http codes</returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -73,6 +102,15 @@ namespace SailMapper.Controllers
             return Results.Ok(success);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        ///<remarks>
+        /// send a partially populated Race object, all populated fields will be updated to the given data
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <param name="request"></param>
+        /// <returns>Http codes</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -95,6 +133,11 @@ namespace SailMapper.Controllers
             return Results.Problem();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>List of all boat objects in the specified race</returns>
         [HttpGet("{id}/participants")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -109,7 +152,12 @@ namespace SailMapper.Controllers
             return Results.Ok<Boat[]>(boats);
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="boat"></param>
+        /// <returns>Http codes</returns>
         [HttpPut("{id}/participant/{boat}")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -123,7 +171,13 @@ namespace SailMapper.Controllers
             }
             return Results.NotFound();
         }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="boat"></param>
+        /// <returns>Http codes</returns>
         [HttpDelete("{id}/participant/{boat}")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -138,6 +192,11 @@ namespace SailMapper.Controllers
             return Results.NotFound();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Result object for each boat in the race</returns>
         [HttpGet("{id}/results")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

@@ -16,7 +16,12 @@ namespace SailMapper.Controllers
         {
             courseService = new CourseService();
         }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -39,6 +44,10 @@ namespace SailMapper.Controllers
             return Results.Problem();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>List of all courses</returns>
         [HttpGet("")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -48,6 +57,11 @@ namespace SailMapper.Controllers
             return Results.Ok(courses);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns> data for a specific course</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -58,6 +72,11 @@ namespace SailMapper.Controllers
             return Results.Ok(course);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns> Http codes</returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -68,6 +87,12 @@ namespace SailMapper.Controllers
             return Results.Ok(success);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="request"></param>
+        /// <returns> http codes</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -90,16 +115,26 @@ namespace SailMapper.Controllers
             return Results.Problem();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>list of course marks</returns>
         [HttpGet("{id}/marks")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType (StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IResult> GetCourseMarks(string id)
         {
             var course = await courseService.GetCourseMarks(id);
             return Results.Ok(course);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns>Http codes</returns>
         [HttpPost("{id}/marks")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -123,6 +158,12 @@ namespace SailMapper.Controllers
             return Results.Problem();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="request"></param>
+        /// <returns>Http codes</returns>
         [HttpPut("{id}/marks/{markId}")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -146,6 +187,12 @@ namespace SailMapper.Controllers
             return Results.Problem();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="markId"></param>
+        /// <returns>Http codes</returns>
         [HttpDelete("{id}/marks/{markId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
