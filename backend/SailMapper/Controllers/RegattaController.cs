@@ -137,6 +137,17 @@ namespace SailMapper.Controllers
             }
         }
 
+         [HttpGet("{id}/results")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IResult> GetRegattaResults(string id)
+        {
+            var results = await regattaService.GetRegattaResults(id);
+            return Results.Ok(results);
+
+        }
+
 
 
     }

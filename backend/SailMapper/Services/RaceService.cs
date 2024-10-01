@@ -18,7 +18,7 @@ namespace SailMapper.Services
         //return list of races, not full info
         public Task<Race[]> GetRaces()
         {
-            
+            return Task.FromResult(new Race[1]); 
         }
     }
 }
