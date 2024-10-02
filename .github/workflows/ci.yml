@@ -7,20 +7,20 @@ jobs:
 
   linting_checks:
     name: Linting Checks
-    uses: ./.github/workflows/linting_checks.yml
+    uses: ./.github/workflows/linting-checks.yml
 
   unit_tests:
     name: Unit Tests
     if: ${{ always() }}
     needs: linting_checks
-    uses: ./.github/workflows/unit_tests.yml
+    uses: ./.github/workflows/unit-tests.yml
 
     
   integration_tests:
     name: Integration Tests
     if: ${{ always() }}
     needs: [unit_tests, linting_checks]
-    uses: ./.github/workflows/integration_tests.yml 
+    uses: ./.github/workflows/integration-tests.yml 
 
   regression_tests:
     name: Regression Tests
