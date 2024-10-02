@@ -13,6 +13,6 @@ namespace SailMapper.Classes
         public DateTime Started { get; set; }
         public DateTime Finished { get; set; }
         public float Distance { get; set; }
-        public Blob GpxData { get; set; }
+        public required string GpxData { get; set; }
     }
 }
