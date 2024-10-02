@@ -1,12 +1,12 @@
-name: Integration_Tests
+name: Integration Tests
 
 on:
   workflow_call:
 
 jobs:
-  temp:
-    name: temp
+  temp_it:
+    name: temp it
     runs-on: ubuntu-latest
     steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
+      - name:
+        run: echo 'No Integration Tests' >> $GITHUB_STEP_SUMMARY

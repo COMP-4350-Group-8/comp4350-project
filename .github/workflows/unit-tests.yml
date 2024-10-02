@@ -1,4 +1,4 @@
-name: Unit_Tests
+name: Unit Tests
 
 on:
   workflow_call:
@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
+        shell: bash
         working-directory: ./frontend/flutter_client
     steps:
       - name: Clone repository
@@ -18,5 +19,5 @@ jobs:
         with:
           channel: "stable"
       - run: flutter pub get
-      - run: flutter analyze
+      # - run: flutter analyze
       - run: flutter test

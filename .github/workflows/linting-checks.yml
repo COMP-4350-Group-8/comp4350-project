@@ -1,9 +1,12 @@
-name: Linting_Checks
+name: Linting Checks
 
 on:
   workflow_call:
 
 jobs:
-  temp:
-    name: temp
+  temp_lc:
+    name: temp lc
     runs-on: ubuntu-latest
+    steps:
+      - name:
+        run: echo 'No Lint Checks' >> $GITHUB_STEP_SUMMARY
