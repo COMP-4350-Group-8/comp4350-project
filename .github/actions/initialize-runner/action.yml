@@ -1,4 +1,4 @@
-name: "Initialize Runner"
+name: "Initialize Flutter Runner"
 description: "Initializes the runner enviroment for a specified technology"
 inputs:
   target_tech:
