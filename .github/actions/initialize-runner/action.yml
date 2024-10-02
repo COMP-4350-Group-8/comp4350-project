@@ -1,0 +1,29 @@
+name: "Initialize Runner"
+description: "Initializes the runner enviroment for a specified technology"
+inputs:
+  target_tech:
+        description: 'The target technology to build'
+        required: true
+        type: choice
+        options:
+          - flutter
+          - react
+          - backend
+
+runs:
+  using: "composite"
+  steps:
+
+    - name: Clone repository
+      if: ${{ inputs.target_tech == 'flutter' }}
+      uses: actions/checkout@v4
+
+    - name: Set up Flutter
+      if: ${{ inputs.target_tech == 'flutter' }}
+      uses: subosito/flutter-action@v2
+      with:
+        channel: "stable"
+
+    - name: Flutter Dependencies
+      if: ${{ inputs.target_tech == 'flutter' }}  
+    - run: flutter pub get

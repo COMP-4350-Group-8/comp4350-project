@@ -1,0 +1,12 @@
+name: Linting_Checks
+
+on:
+  workflow_call:
+
+jobs:
+  temp:
+    name: temp
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
