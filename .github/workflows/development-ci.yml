@@ -4,6 +4,7 @@ on:
   workflow_run:
     workflows: [Manual CI Trigger]
   pull_request:
+  push:
 
 jobs:
   flutter-linting:
