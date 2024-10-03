@@ -1,0 +1,51 @@
+name: Development
+
+on:
+  workflow_run:
+    workflows: [Manual CI Trigger]
+  pull_request:
+
+jobs:
+  flutter-linting:
+    name: Flutter Lint Check
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./frontend/flutter_client
+    timeout-minutes: 5
+    steps:
+      - name: Print
+        run: No linting checks for 
+        
+  flutter-unit-tests:
+    name: Flutter Unit Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./frontend/flutter_client
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+      - run: flutter pub get
+      - run: flutter analyze
+      - name: Runs Flutter Unit Tests
+        run: flutter test
+
+  flutter-integration-tests:
+    name: Flutter Integration Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./frontend/flutter_client
+    timeout-minutes: 5
+    steps:
+      - name: Print
+        run: No integration tests for Flutter

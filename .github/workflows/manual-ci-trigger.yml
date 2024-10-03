@@ -1,0 +1,23 @@
+name: Manual CI Trigger
+
+on:
+  workflow_dispatch:
+    inputs:
+      print_inputs:
+        description: 'True to print to STDOUT'
+        required: true
+        type: boolean
+      environment:
+        description: 'Environment to run against'
+        type: environment
+        required: true
+
+jobs:
+  print-environment:
+    runs-on: ubuntu-latest
+    if: ${{ inputs.print_inputs }}
+    steps:
+      - name: Print inputs
+        run: |
+          echo print_inputs: ${{ inputs.print_inputs }}
+          echo enviroment: ${{ inputs.environment }}
