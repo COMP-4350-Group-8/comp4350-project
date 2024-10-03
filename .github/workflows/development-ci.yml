@@ -13,11 +13,12 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./frontend/flutter_client
+        working-directory: frontend/flutter_client
     timeout-minutes: 5
     steps:
       - name: Print
-        run: No linting checks for 
+        run: |
+          echo Flutter: No linting checks
         
   flutter-unit-tests:
     name: Flutter Unit Tests
@@ -45,8 +46,9 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./frontend/flutter_client
+        working-directory: frontend/flutter_client
     timeout-minutes: 5
     steps:
       - name: Print
-        run: No integration tests for Flutter
+        run: |
+          echo Flutter: No integration tests
