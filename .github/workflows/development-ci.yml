@@ -198,7 +198,6 @@ jobs:
   integration-test-results:
     if: ${{ always() }}
     needs: [flutter-integration-tests, react-integration-tests, backend-integration-tests]
-    name: Integration Test Results
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -207,3 +206,25 @@ jobs:
       - name: Print
         run: |
           echo Integration Test Results
+
+
+#======================================================
+# Results
+#======================================================
+
+  dev-results:
+    if: ${{ always() }}
+    needs: [integration-test-results, unit-test-results, lint-test-results]
+    name: Results
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print results
+        run: |
+          echo "dev-env-ci-results" >> $GITHUB_STEP_SUMMARY
+          echo "::debug:: worflow_run.conclusion ${{ github.event.workflow_run.conclusion }}"
+          echo "::debug:: worflow_run.referenced_workflows ${{ github.event.workflow_run.referenced_workflows }}"
+          echo "::debug:: worflow_run.run_attempt ${{ github.event.workflow_run.run_attempt }}"
+          echo "::debug:: worflow_run.triggering_actor ${{ github.event.workflow_run.triggering_actor }}"
