@@ -8,7 +8,11 @@ namespace SailMapper.Services
     {
 
         private readonly SailDBContext _dbContext;
-        public RaceService() { }
+        public RaceService() 
+        {
+            _dbContext = new SailDBContext();
+        
+        }
 
         //Implement
         //return id
@@ -20,9 +24,11 @@ namespace SailMapper.Services
 
         //Implement
         //return list of races, not full info
-        public Task<Race[]> GetRaces()
+        public async Task<List<Race>> GetRaces()
         {
-            return Task.FromResult(new Race[0]);
+            List<Race> races  = _dbContext.Races.ToList();
+            
+            return races;
         }
 
         public Task<Race> GetRace()

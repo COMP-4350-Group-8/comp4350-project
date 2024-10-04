@@ -43,19 +43,20 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IResult> CreateRace(HttpRequestMessage request)
         {
-            if (request.Content != null)
-            {
+         //   if (request.Content != null)
+         //   {
                 var race = await JsonSerializer.DeserializeAsync<Race>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
                 if (race == null)
                 {
-                    return Results.BadRequest();
+                    race = new Race();
+                    //return Results.BadRequest();
                 }
                 var id = await raceService.AddRace(race);
                 if (id != null)
                 {
                     return Results.Created(id, race);
                 }
-            }
+          //  }
             return Results.Problem();
         }
 
