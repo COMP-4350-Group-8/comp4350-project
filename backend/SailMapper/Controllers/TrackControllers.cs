@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SailMapper.Data;
 using SailMapper.Classes;
+using SailMapper.Services;
+using System.Text.Json;
+using System.Text;
 
 namespace SailMapper.Controllers
 {
@@ -38,95 +41,53 @@ namespace SailMapper.Controllers
         }
 
         // to get all tracks of a race
-        [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200Ok)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpGet("/race/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> GetRaceTracks(HttpRequestMessage request)
+        public async Task<IResult> GetRaceTracks(string id)
         {
-            if (request.Content != null)
-            {
-                var track = await JsonSerializer.DeserializeAsync<Track>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
-                if (track == null)
-                {
-                    return Results.NotFound();
-                }
-                var id = await trackService.getRaceTracks(track);
-                if (id != null)
-                {
-                    return Results.Ok(id);
-                }
-            }
-            return Results.Problem();
-        }
+                var tracks= await trackService.GetRaceTracks(id);
+                return Results.Ok(tracks);
 
-        // to get all tracks of a boat
-        [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200Ok)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> GetBoatTracks(HttpRequestMessage request)
-        {
-            if (request.Content != null)
-            {
-                var track = await JsonSerializer.DeserializeAsync<Track>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
-                if (track == null)
-                {
-                    return Results.NotFound();
-                }
-                var id = await trackService.getBoatTracks(track);
-                if (id != null)
-                {
-                    return Results.Ok(id);
-                }
-            }
-            return Results.Problem();
         }
 
         // get a specific tracks
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200Ok)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> GetTrack(HttpRequestMessage request)
+        public async Task<IResult> GetTrack(string id)
         {
-            if (request.Content != null)
-            {
-                var track = await JsonSerializer.DeserializeAsync<Track>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
+                var track = await trackService.GetTrack(id);
                 if (track == null)
                 {
-                    return Results.NotFound();
+                    return Results.Problem();
                 }
-                var id = await trackService.getTrack(track);
-                if (id != null)
-                {
-                    return Results.Ok(id);
-                }
-            }
-            return Results.Problem();
+                return Results.Ok(id);
         }
 
 
         //updating a track
         [HttpPut("{id}")]
-        [ProducesResponseType(StatusCodes.Status200Ok)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> UpdateTrack(HttpRequestMessage request)
+        public async Task<IResult> UpdateTrack(string id, HttpRequestMessage request)
         {
             if (request.Content != null)
             {
                 var track = await JsonSerializer.DeserializeAsync<Track>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
                 if (track == null)
                 {
-                    return Results.NotFound();
+                    return Results.BadRequest();
                 }
-                var id = await trackService.updateTrack(track);
-                if (id != null)
+                var result = await trackService.UpdateTrack(track);
+                if (result == null)
                 {
-                    return Results.Ok(id);
+                    return Results.NotFound(id);
                 }
+                return Results.Ok(id);
             }
             return Results.Problem();
         }
@@ -134,25 +95,17 @@ namespace SailMapper.Controllers
 
         // getting gpx file
         [HttpGet("{id}/gpx")]
-        [ProducesResponseType(StatusCodes.Status200Ok)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> GetTrackGPX(HttpRequestMessage request)
+        public async Task<IResult> GetTrackGPX(string id)
         {
-            if (request.Content != null)
-            {
-                var track = await JsonSerializer.DeserializeAsync<Track>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
-                if (track == null)
+                var points = await trackService.GetGPX(id);
+                if (points == null)
                 {
-                    return Results.NotFound();
+                    return Results.NotFound(id);
                 }
-                var id = await trackService.getGPX(track);
-                if (id != null)
-                {
-                    return Results.Ok(id);
-                }
-            }
-            return Results.Problem();
+                return Results.Ok(points);
         }
 
     }

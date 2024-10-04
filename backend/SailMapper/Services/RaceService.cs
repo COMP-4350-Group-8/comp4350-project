@@ -1,17 +1,21 @@
 ﻿using SailMapper.Classes;
+using SailMapper.Data;
 
 namespace SailMapper.Services
 {
+
     public class RaceService
     {
 
+        private readonly SailDBContext _dbContext;
         public RaceService() { }
 
         //Implement
         //return id
-        public Task<string> AddRace(Race race)
+        public async Task<string> AddRace(Race race)
         {
-            return Task.FromResult("");
+            var id = await _dbContext.Races.AddAsync(race);
+            return id.ToString();
         }
 
         //Implement
