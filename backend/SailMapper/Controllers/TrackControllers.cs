@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SailMapper.Data;
 using SailMapper.Classes;
 using SailMapper.Services;
 using System.Text.Json;
@@ -41,7 +40,7 @@ namespace SailMapper.Controllers
         }
 
         // to get all tracks of a race
-        [HttpGet("/race/{id}")]
+        [HttpGet("race/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IResult> GetRaceTracks(string id)
