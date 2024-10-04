@@ -4,9 +4,11 @@ name: Development
 on:
   workflow_run:
     workflows: [Manual CI Trigger]
+    types: [completed]
   pull_request:
+    types: [opened, reopened]
   push:
-
+    branches: ['!main']
 
 
 jobs:
@@ -23,6 +25,8 @@ jobs:
         shell: bash
         working-directory: frontend/flutter_client
     timeout-minutes: 5
+    # Skipping #
+    if: false
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -36,9 +40,11 @@ jobs:
           echo Flutter: No linting checks
         
   react-linting:
-    name: REACT Unit Tests
+    name: REACT Lint Check
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    # Skipping #
+    if: false
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -47,9 +53,11 @@ jobs:
           echo REACT: No Unit tests
 
   backend-linting:
-    name: Backend Unit Tests
+    name: Backend Lint Check
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    # Skipping #
+    if: false
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -60,7 +68,7 @@ jobs:
   lint-test-results:
     if: ${{ always() }}
     needs: [flutter-linting, react-linting, backend-linting]
-    name: Unit Test Results
+    name:  Lint Check Results
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -76,7 +84,6 @@ jobs:
 #======================================================
 
   flutter-unit-tests:
-    if: ${{ always() }}
     name: Flutter Unit Tests
     runs-on: ubuntu-latest
     defaults:
@@ -97,10 +104,11 @@ jobs:
         run: flutter test
 
   react-unit-tests:
-    if: ${{ always() }}
     name: REACT Unit Tests
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    # Skipping #
+    if: false
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -109,10 +117,11 @@ jobs:
           echo REACT: No Unit tests
 
   backend-unit-tests:
-    if: ${{ always() }}
     name: Backend Unit Tests
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    # Skipping #
+    if: false
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -139,7 +148,6 @@ jobs:
 #======================================================
 
   flutter-integration-tests:
-    if: ${{ always() }}
     name: Flutter Integration Tests
     runs-on: ubuntu-latest
     defaults:
@@ -147,6 +155,8 @@ jobs:
         shell: bash
         working-directory: frontend/flutter_client
     timeout-minutes: 5
+    # Skipping #
+    if: false
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -160,10 +170,11 @@ jobs:
           echo Flutter: No integration tests
     
   react-integration-tests:
-    if: ${{ always() }}
     name: REACT Integration Tests
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    # Skipping #
+    if: false
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -172,10 +183,11 @@ jobs:
           echo REACT: No integration tests
 
   backend-integration-tests:
-    if: ${{ always() }}
     name: Backend Integration Tests
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    # Skipping #
+    if: false
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
