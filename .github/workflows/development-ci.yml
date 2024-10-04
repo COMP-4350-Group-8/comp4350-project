@@ -1,10 +1,13 @@
 name: Development
 
+
 on:
   workflow_run:
     workflows: [Manual CI Trigger]
   pull_request:
   push:
+
+
 
 jobs:
 
@@ -74,7 +77,6 @@ jobs:
 
   flutter-unit-tests:
     if: ${{ always() }}
-    needs: [lint-test-results]
     name: Flutter Unit Tests
     runs-on: ubuntu-latest
     defaults:
@@ -96,7 +98,6 @@ jobs:
 
   react-unit-tests:
     if: ${{ always() }}
-    needs: [lint-test-results]
     name: REACT Unit Tests
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -109,7 +110,6 @@ jobs:
 
   backend-unit-tests:
     if: ${{ always() }}
-    needs: [lint-test-results]
     name: Backend Unit Tests
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -140,7 +140,6 @@ jobs:
 
   flutter-integration-tests:
     if: ${{ always() }}
-    needs: [unit-test-results]
     name: Flutter Integration Tests
     runs-on: ubuntu-latest
     defaults:
@@ -162,7 +161,6 @@ jobs:
     
   react-integration-tests:
     if: ${{ always() }}
-    needs: [unit-test-results]
     name: REACT Integration Tests
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -175,7 +173,6 @@ jobs:
 
   backend-integration-tests:
     if: ${{ always() }}
-    needs: [unit-test-results]
     name: Backend Integration Tests
     runs-on: ubuntu-latest
     timeout-minutes: 5
