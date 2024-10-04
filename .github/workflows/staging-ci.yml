@@ -1,0 +1,45 @@
+name: Staging
+
+on:
+  workflow_run:
+    workflows: [Development]
+    types: [completed]
+    branches: [main]
+
+jobs:
+
+  flutter-security-tests:
+    name: Flutter Security Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./frontend/flutter_client
+    timeout-minutes: 5
+    steps:
+      - name: Print
+        run: No security tests for Flutter
+
+  flutter-load-testing:
+    name: Flutter Load Testing
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./frontend/flutter_client
+    timeout-minutes: 5
+    steps:
+      - name: Print
+        run: No load tests for Flutter
+
+  flutter-regression-tests:
+    name: Flutter Regression Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./frontend/flutter_client
+    timeout-minutes: 5
+    steps:
+      - name: Print
+        run: No regression tests for Flutter

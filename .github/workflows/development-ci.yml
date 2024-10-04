@@ -1,0 +1,197 @@
+name: Development
+
+
+on:
+  workflow_run:
+    workflows: [Manual CI Trigger]
+  pull_request:
+  push:
+
+
+
+jobs:
+
+#======================================================
+# Linting
+#======================================================
+
+  flutter-linting:
+    name: Flutter Lint Check
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: frontend/flutter_client
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+      - run: flutter pub get
+      - name: Print
+        run: |
+          echo Flutter: No linting checks
+        
+  react-linting:
+    name: REACT Unit Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo REACT: No Unit tests
+
+  backend-linting:
+    name: Backend Unit Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Backend: No Unit tests
+
+  lint-test-results:
+    if: ${{ always() }}
+    needs: [flutter-linting, react-linting, backend-linting]
+    name: Unit Test Results
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Unit Test Results
+
+
+#======================================================
+# Unit Tests
+#======================================================
+
+  flutter-unit-tests:
+    if: ${{ always() }}
+    name: Flutter Unit Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./frontend/flutter_client
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+      - run: flutter pub get
+      - run: flutter analyze
+      - name: Runs Flutter Unit Tests
+        run: flutter test
+
+  react-unit-tests:
+    if: ${{ always() }}
+    name: REACT Unit Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo REACT: No Unit tests
+
+  backend-unit-tests:
+    if: ${{ always() }}
+    name: Backend Unit Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Backend: No Unit tests
+
+  unit-test-results:
+    if: ${{ always() }}
+    needs: [flutter-unit-tests, react-unit-tests, backend-unit-tests]
+    name: Unit Test Results
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Unit Test Results
+
+
+#======================================================
+# Integration Tests
+#======================================================
+
+  flutter-integration-tests:
+    if: ${{ always() }}
+    name: Flutter Integration Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: frontend/flutter_client
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+      - run: flutter pub get
+      - name: Print
+        run: |
+          echo Flutter: No integration tests
+    
+  react-integration-tests:
+    if: ${{ always() }}
+    name: REACT Integration Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo REACT: No integration tests
+
+  backend-integration-tests:
+    if: ${{ always() }}
+    name: Backend Integration Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Backend: No integration tests
+  
+  integration-test-results:
+    if: ${{ always() }}
+    needs: [flutter-integration-tests, react-integration-tests, backend-integration-tests]
+    name: Integration Test Results
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Integration Test Results
