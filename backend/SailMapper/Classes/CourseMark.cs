@@ -14,8 +14,10 @@ namespace SailMapper.Classes
         public float Longitude { get; set; }
         public string Description { get; set; } = string.Empty;
         public bool? Rounding { get; set; }
-        public CourseMark? Gate { get; set; }
         public bool? IsStartLine{ get; set; }
+        public CourseMark? Gate { get; set; }
+        public Course? Course { get; set; }
+        public int? CourseId { get; set; }
 
     }
 }
