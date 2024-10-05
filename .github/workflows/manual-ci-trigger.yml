@@ -1,3 +1,7 @@
+#============================================#
+#        ~ ~~ ~~~ [README] ~~~ ~~ ~          #
+# Do Not Use | Old Workflow | Leave Disabled #
+#============================================#
 name: Manual CI Trigger
 
 on:
