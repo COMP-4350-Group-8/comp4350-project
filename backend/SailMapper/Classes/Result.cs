@@ -12,11 +12,11 @@ namespace SailMapper.Classes
         public Race? Race { get; set; }
         public int? RaceId { get; set; }
 
-        public int? FinishPosition { get; set; }
-        public TimeOnly? ElapsedTime { get; set; }
-        public TimeOnly? CorrectedTime { get; set; }
-        public int? Rating { get; set; }
-        public int? Points { get; set; }
-        public string? FinishType { get; set; } = string.Empty;
+        public required int FinishPosition { get; set; }
+        public TimeSpan ElapsedTime { get; set; }
+        public TimeSpan CorrectedTime { get; set; }
+        public required int Rating { get; set; }
+        public required int Points { get; set; }
+        public string FinishType { get; set; } = string.Empty;
     }
 }

@@ -63,7 +63,7 @@ namespace SailMapper.Controllers
             var regattas = await regattaService.GetRegattas();
             return Results.Ok(regattas);
         }
-        
+
         /// <summary>
         /// 
         /// </summary>

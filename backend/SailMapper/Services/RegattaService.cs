@@ -46,7 +46,7 @@ namespace SailMapper.Services
         {
             return Task.FromResult(false);
         }
-        public Task<Result[][]> GetRegattaResults(string id )
+        public Task<Result[][]> GetRegattaResults(string id)
         {
             return Task.FromResult(new Result[0][]);
         }

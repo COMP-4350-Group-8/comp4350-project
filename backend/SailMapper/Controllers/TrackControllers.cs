@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SailMapper.Classes;
 using SailMapper.Services;
-using System.Text.Json;
 using System.Text;
+using System.Text.Json;
 
 namespace SailMapper.Controllers
 {
@@ -45,8 +45,8 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IResult> GetRaceTracks(string id)
         {
-                var tracks= await trackService.GetRaceTracks(id);
-                return Results.Ok(tracks);
+            var tracks = await trackService.GetRaceTracks(id);
+            return Results.Ok(tracks);
 
         }
 
@@ -57,12 +57,12 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IResult> GetTrack(string id)
         {
-                var track = await trackService.GetTrack(id);
-                if (track == null)
-                {
-                    return Results.Problem();
-                }
-                return Results.Ok(id);
+            var track = await trackService.GetTrack(id);
+            if (track == null)
+            {
+                return Results.Problem();
+            }
+            return Results.Ok(id);
         }
 
 
@@ -99,12 +99,12 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IResult> GetTrackGPX(string id)
         {
-                var points = await trackService.GetGPX(id);
-                if (points == null)
-                {
-                    return Results.NotFound(id);
-                }
-                return Results.Ok(points);
+            var points = await trackService.GetGPX(id);
+            if (points == null)
+            {
+                return Results.NotFound(id);
+            }
+            return Results.Ok(points);
         }
 
     }

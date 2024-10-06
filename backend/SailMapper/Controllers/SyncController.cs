@@ -13,6 +13,6 @@ namespace SailMapper.Controllers
         {
             syncService = new SyncService();
         }
-        
+
     }
 }

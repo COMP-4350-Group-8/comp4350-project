@@ -31,7 +31,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", info);
 
-// Set the comments path for the Swagger JSON and UI.
+    // Set the comments path for the Swagger JSON and UI.
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
@@ -49,7 +49,7 @@ if (app.Environment.IsDevelopment())
             {
                 u.RouteTemplate = "swagger/{documentName}/swagger.json";
             });
-    
+
     app.UseSwaggerUI(c =>
         {
             c.RoutePrefix = "swagger";
