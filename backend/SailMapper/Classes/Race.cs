@@ -5,7 +5,7 @@ namespace SailMapper.Classes
     public class Race
     {
         [SetsRequiredMembers]
-        public Race() 
+        public Race()
         {
             Id = 0;
             Course = new Course();

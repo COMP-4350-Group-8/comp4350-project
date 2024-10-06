@@ -15,10 +15,10 @@ namespace SailMapper.Services
 
 
         private readonly SailDBContext _dbContext;
-        public RaceService() 
+        public RaceService()
         {
             _dbContext = new SailDBContext();
-        
+
         }
 
         public async Task<string> AddRace(Race race)
@@ -30,8 +30,8 @@ namespace SailMapper.Services
 
         public async Task<List<Race>> GetRaces()
         {
-            List<Race> races  = _dbContext.Races.ToList();
-            
+            List<Race> races = _dbContext.Races.ToList();
+
             return races;
         }
 
@@ -68,7 +68,7 @@ namespace SailMapper.Services
         public async Task<List<Boat>> GetParticipants(int id)
         {
             Race race = await GetRaceEntity(id);
-            if(race != null && race.Participants != null)
+            if (race != null && race.Participants != null)
             {
                 return race.Participants.ToList();
             }
@@ -80,13 +80,13 @@ namespace SailMapper.Services
         {
             Race race = await GetRaceEntity(id);
             Boat boat = await _dbContext.Boats.FindAsync(boatId);
-            
-            if(race != null && boat != null)
+
+            if (race != null && boat != null)
             {
                 race.Participants.Add(boat);
                 await _dbContext.SaveChangesAsync();
 
-                return true; 
+                return true;
             }
             return false;
         }
@@ -95,13 +95,13 @@ namespace SailMapper.Services
         {
             Race race = await GetRaceEntity(id);
             Boat boat = await _dbContext.Boats.FindAsync(boatId);
-            
-            if(race != null && boat != null)
+
+            if (race != null && boat != null)
             {
                 race.Participants.Remove(boat);
                 await _dbContext.SaveChangesAsync();
 
-                return true; 
+                return true;
             }
             return false;
         }
@@ -111,7 +111,7 @@ namespace SailMapper.Services
             Race race = await GetRaceEntity(id);
             List<Result> results = _dbContext.Results.Where(c => c.Race == race).ToList();
 
-            if(race.Participants != null && results.Count == race.Participants.Count)
+            if (race.Participants != null && results.Count == race.Participants.Count)
             {
                 return results;
             }
@@ -126,7 +126,7 @@ namespace SailMapper.Services
         {
             List<Track> tracks = _dbContext.Tracks.Where(c => c.Race != null && c.Race.Id == id).ToList();
 
-            if(averageBoat == -1 || averageBoat >= tracks.Count)
+            if (averageBoat == -1 || averageBoat >= tracks.Count)
             {
                 averageBoat = FindAverageBoat(tracks, B);
             }
@@ -137,8 +137,8 @@ namespace SailMapper.Services
             await _dbContext.SaveChangesAsync();
             return results;
         }
-        
-        
+
+
         // calculate results for a race using PHRF Time on Time
         // takes a list of tracks from a race and returns the results for those boats
 

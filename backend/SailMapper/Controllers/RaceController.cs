@@ -10,7 +10,7 @@ namespace SailMapper.Controllers
     [Route("/race")]
     public class RaceController
     {
-               private readonly RaceService raceService;
+        private readonly RaceService raceService;
 
         public RaceController()
         {
@@ -38,20 +38,20 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IResult> CreateRace(HttpRequestMessage request)
         {
-         //   if (request.Content != null)
-         //   {
-                var race = await JsonSerializer.DeserializeAsync<Race>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
-                if (race == null)
-                {
-                    race = new Race();
-                    //return Results.BadRequest();
-                }
-                var id = await raceService.AddRace(race);
-                if (id != null)
-                {
-                    return Results.Created(id, race);
-                }
-          //  }
+            //   if (request.Content != null)
+            //   {
+            var race = await JsonSerializer.DeserializeAsync<Race>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
+            if (race == null)
+            {
+                race = new Race();
+                //return Results.BadRequest();
+            }
+            var id = await raceService.AddRace(race);
+            if (id != null)
+            {
+                return Results.Created(id, race);
+            }
+            //  }
             return Results.Problem();
         }
 
@@ -76,7 +76,7 @@ namespace SailMapper.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType (StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IResult> GetRace(int id)
         {
             var race = await raceService.GetRace(id);
@@ -91,7 +91,7 @@ namespace SailMapper.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType (StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IResult> DeleteRace(int id)
         {
             bool success = await raceService.DeleteRace(id);
@@ -110,7 +110,7 @@ namespace SailMapper.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType (StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IResult> UpdateRace(int id, HttpRequestMessage request)
         {
             if (request != null && request.Content != null)
@@ -137,7 +137,7 @@ namespace SailMapper.Controllers
         [HttpGet("{id}/participants")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType (StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IResult> GetParticipants(int id)
         {
             List<Boat> boats = await raceService.GetParticipants(id);
@@ -157,17 +157,17 @@ namespace SailMapper.Controllers
         [HttpPut("{id}/participant/{boat}")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType (StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IResult> AddParticipant(int id, int boat)
         {
-           bool success = await raceService.AddParticipant(id, boat);
+            bool success = await raceService.AddParticipant(id, boat);
             if (success)
             {
                 return Results.Ok(id);
             }
             return Results.NotFound();
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -177,10 +177,10 @@ namespace SailMapper.Controllers
         [HttpDelete("{id}/participant/{boat}")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ProducesResponseType (StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IResult> RemoveParticipant(int id, int boat)
         {
-           bool success = await raceService.RemoveParticipant(id, boat);
+            bool success = await raceService.RemoveParticipant(id, boat);
             if (success)
             {
                 return Results.Ok(id);
@@ -200,7 +200,7 @@ namespace SailMapper.Controllers
         public async Task<IResult> GetResults(int id)
         {
             List<Result> result = await raceService.GetResults(id);
-            if(result == null)
+            if (result == null)
                 return Results.NotFound();
             return Results.Ok(result);
         }
@@ -220,7 +220,7 @@ namespace SailMapper.Controllers
             if (result == null)
                 return Results.NotFound();
             return Results.Ok(result);
-        } 
+        }
 
     }
 }

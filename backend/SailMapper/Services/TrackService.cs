@@ -4,7 +4,7 @@ namespace SailMapper.Services
 {
     public class TrackService
     {
-        
+
         public TrackService() { }
 
         public Task<string> AddTrack(Track track)

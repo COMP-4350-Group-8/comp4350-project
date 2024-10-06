@@ -40,9 +40,9 @@ namespace Tests
         public async void Add_Race()
         {
             Race race = new Race();
-           // var id = await _service.AddRace(race);
-            
-            //Assert.NotNull(id);
+            var id = await _service.AddRace(race);
+
+            Assert.NotNull(id);
         }
     }
 }
