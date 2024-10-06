@@ -19,5 +19,9 @@ namespace SailMapper.Classes
         public int? RatingId { get; set; } // Nullable in case a Boat doesn't have a Rating
 
         public Rating? Rating { get; set; }
+
+        public ICollection<Result>? Results { get; set; }
+        public ICollection<Track>? Tracks { get; set; }
+        public ICollection<Race>? Races { get; set; } = new List<Race>();
     }
 }

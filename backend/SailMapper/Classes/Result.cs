@@ -6,8 +6,12 @@ namespace SailMapper.Classes
     {
         [SetsRequiredMembers]
         public Result() { }
+        public int Id { get; set; }
         public required Boat Boat { get; set; }
-        public required Race race { get; set; }
+        public int BoatId { get; set; }
+        public required Race Race { get; set; }
+        public int RaceId { get; set; }
+
         public required int FinishPosition { get; set; }
         public TimeSpan ElapsedTime { get; set; }
         public TimeSpan CorrectedTime { get; set; }

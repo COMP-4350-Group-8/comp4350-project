@@ -9,6 +9,6 @@ namespace SailMapper.Classes
         public required int Id { get; set; }
         public required string Name { get; set; }
         public required string Description { get; set; }
-        public required List<Race> Races { get; set; }
+        public ICollection<Race>? Races { get; set; }
     }
 }
