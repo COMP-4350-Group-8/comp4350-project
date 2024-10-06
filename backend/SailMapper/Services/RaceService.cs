@@ -111,7 +111,7 @@ namespace SailMapper.Services
             Race race = await GetRaceEntity(id);
             List<Result> results = _dbContext.Results.Where(c => c.Race == race).ToList();
 
-            if(results.Count == race.Participants.Count)
+            if(race.Participants != null && results.Count == race.Participants.Count)
             {
                 return results;
             }
@@ -146,46 +146,48 @@ namespace SailMapper.Services
         {
             List<Result> results = new List<Result>();
 
-            int A = tracks[averageBoat].Boat.Rating.CurrentRating;
-
-            for(int i = 0; i < tracks.Count; i++) 
+            if (tracks != null && tracks.Count > averageBoat)
             {
-                Track track = tracks[i];
-                if(track.Boat != null && track.Boat.Rating != null)
-                {
-                    var TCF = A / (B + track.Boat.Rating.CurrentRating);
+                int A = tracks[averageBoat].Boat.Rating.CurrentRating;
 
-                    results[i].ElapsedTime = track.Started - track.Finished;
-                    results[i].CorrectedTime = results[i].ElapsedTime * TCF;
-                }
-                else //boat could not be retrived or it did not have a rating 
+                for (int i = 0; i < tracks.Count; i++)
                 {
-                    results[i].ElapsedTime = track.Started - track.Finished;
-                    results[i].CorrectedTime = new TimeSpan(0); 
+                    Track track = tracks[i];
+                    if (track.Boat != null && track.Boat.Rating != null)
+                    {
+                        var TCF = A / (B + track.Boat.Rating.CurrentRating);
+
+                        results[i].ElapsedTime = track.Started - track.Finished;
+                        results[i].CorrectedTime = results[i].ElapsedTime * TCF;
+                    }
+                    else //boat could not be retrived or it did not have a rating 
+                    {
+                        results[i].ElapsedTime = track.Started - track.Finished;
+                        results[i].CorrectedTime = new TimeSpan(0);
+                    }
+                }
+
+                results.Sort((r1, r2) => r1.CorrectedTime.CompareTo(r2.CorrectedTime));
+
+                for (int i = 0; i < results.Count; i++)
+                {
+
+                    if (results[i].CorrectedTime.TotalSeconds > 1)
+                    {
+                        results[i].FinishPosition = i + 1;
+                        results[i].Points = i + 1;
+                        results[i].FinishType = FinishTypes[0];
+                    }
+                    else
+                    {
+                        results[i].FinishPosition = results.Count;
+                        results[i].Points = results.Count + 1;
+                        results[i].FinishType = FinishTypes[1];
+                    }
+
+
                 }
             }
-
-            results.Sort((r1, r2) => r1.CorrectedTime.CompareTo(r2.CorrectedTime));
-
-            for(int i = 0; i < results.Count; i++)
-            {
-
-                if (results[i].CorrectedTime.TotalSeconds > 1)
-                {
-                    results[i].FinishPosition = i + 1;
-                    results[i].Points = i + 1;
-                    results[i].FinishType = FinishTypes[0];
-                }
-                else
-                {
-                    results[i].FinishPosition = results.Count;
-                    results[i].Points = results.Count + 1;
-                    results[i].FinishType = FinishTypes[1];
-                }
-
-                
-            }
-
             return results;
         }
 
