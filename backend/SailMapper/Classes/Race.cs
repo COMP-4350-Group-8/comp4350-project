@@ -15,6 +15,6 @@ namespace SailMapper.Classes
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string Name { get; set; } = string.Empty;
-        public Boat[] Participants { get; set; } = [];
+        public List<Boat> Participants { get; set; } = [];
     }
 }

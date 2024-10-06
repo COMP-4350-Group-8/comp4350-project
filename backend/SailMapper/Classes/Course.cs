@@ -8,10 +8,11 @@ namespace SailMapper.Classes
         public Course() 
         {
             Id = 0;
+            courseMarks = new List<CourseMark>();
         }
         public required int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public required CourseMark[] courseMarks { get; set; }
+        public required List<CourseMark> courseMarks { get; set; }
     }
 }
