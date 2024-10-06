@@ -95,7 +95,7 @@ jobs:
           echo Backend: No Unit tests
 
   lint-test-results:
-    if: ${{ always() }}
+    if: ${{ !(vars.DO_BACKEND_LINT_TEST != 'true' && vars.DO_FLUTTER_LINT_TEST != 'true' && vars.DO_REACT_LINT_TEST != 'true') && always() }}
     needs: [flutter-linting, react-linting, backend-linting]
     name:  Lint Check Results
     runs-on: ubuntu-latest
@@ -166,7 +166,7 @@ jobs:
           echo Backend: No Unit tests
 
   unit-test-results:
-    if: ${{ always() }}
+    if: ${{ !(vars.DO_BACKEND_UNIT_TEST != 'true' && vars.DO_FLUTTER_UNIT_TEST != 'true' && vars.DO_REACT_UNIT_TEST != 'true') && always() }}
     needs: [flutter-unit-tests, react-unit-tests, backend-unit-tests]
     name: Unit Test Results
     runs-on: ubuntu-latest
@@ -229,7 +229,7 @@ jobs:
           echo Backend: No integration tests
   
   integration-test-results:
-    if: ${{ always() }}
+    if: ${{ !(vars.DO_BACKEND_INTEGRATION_TEST != 'true' && vars.DO_FLUTTER_INTEGRATION_TEST != 'true' && vars.DO_REACT_INTEGRATION_TEST != 'true') && always() }}
     needs: [flutter-integration-tests, react-integration-tests, backend-integration-tests]
     runs-on: ubuntu-latest
     timeout-minutes: 5
