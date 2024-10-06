@@ -5,8 +5,9 @@ namespace SailMapper.Data
 
     public class SailDBContext : DbContext
     {
+        string connectionString = "Server=localhost;Database=master;Trusted_Connection=True;TrustServerCertificate=True;";
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-           optionsBuilder.UseMySql("DataSource=SailMapperDb; Cache=Shared");
+           optionsBuilder.UseSqlServer(connectionString);
 
         public DbSet<Boat> Boats { get; set; }
         public DbSet<Course> Courses { get; set; }

@@ -41,7 +41,7 @@ namespace SailMapper.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reggatas",
+                name: "Regattas",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -51,19 +51,7 @@ namespace SailMapper.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reggatas", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "WeatherForecasts",
-                columns: table => new
-                {
-                    Date = table.Column<DateOnly>(type: "TEXT", nullable: false),
-                    TemperatureC = table.Column<int>(type: "INTEGER", nullable: false),
-                    Summary = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
+                    table.PrimaryKey("PK_Regattas", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -127,7 +115,7 @@ namespace SailMapper.Migrations
                     StartTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     EndTime = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    ReggataId = table.Column<int>(type: "INTEGER", nullable: true)
+                    RegattaId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -139,9 +127,9 @@ namespace SailMapper.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Races_Reggatas_ReggataId",
-                        column: x => x.ReggataId,
-                        principalTable: "Reggatas",
+                        name: "FK_Races_Regattas_RegattaId",
+                        column: x => x.RegattaId,
+                        principalTable: "Regattas",
                         principalColumn: "Id");
                 });
 
@@ -221,9 +209,9 @@ namespace SailMapper.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Races_ReggataId",
+                name: "IX_Races_RegattaId",
                 table: "Races",
-                column: "ReggataId");
+                column: "RegattaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Results_BoatId",
@@ -259,9 +247,6 @@ namespace SailMapper.Migrations
                 name: "Tracks");
 
             migrationBuilder.DropTable(
-                name: "WeatherForecasts");
-
-            migrationBuilder.DropTable(
                 name: "Boats");
 
             migrationBuilder.DropTable(
@@ -274,7 +259,7 @@ namespace SailMapper.Migrations
                 name: "Courses");
 
             migrationBuilder.DropTable(
-                name: "Reggatas");
+                name: "Regattas");
         }
     }
 }

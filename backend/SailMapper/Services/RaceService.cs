@@ -68,9 +68,9 @@ namespace SailMapper.Services
         public async Task<List<Boat>> GetParticipants(int id)
         {
             Race race = await GetRaceEntity(id);
-            if(race != null)
+            if(race != null && race.Participants != null)
             {
-                return race.Participants;
+                return race.Participants.ToList();
             }
 
             return null;
@@ -109,7 +109,7 @@ namespace SailMapper.Services
         public async Task<List<Result>> GetResults(int id)
         {
             Race race = await GetRaceEntity(id);
-            List<Result> results = _dbContext.Results.Where(c => c.race == race).ToList();
+            List<Result> results = _dbContext.Results.Where(c => c.Race == race).ToList();
 
             if(results.Count == race.Participants.Count)
             {
