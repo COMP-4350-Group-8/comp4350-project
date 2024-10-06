@@ -7,14 +7,14 @@ namespace SailMapper.Classes
     {
         [SetsRequiredMembers]
         public Track() { }
-        public required int Id { get; set; }
-        public required Boat Boat { get; set; }
-        public int BoatId { get; set; }
+        public int Id { get; set; }
+        public Boat? Boat { get; set; }
+        public int? BoatId { get; set; }
         public Race? Race { get; set; }
-        public int RaceId { get; set; }
-        public DateTime Started { get; set; }
-        public DateTime Finished { get; set; }
-        public float Distance { get; set; }
-        public required string GpxData { get; set; }
+        public int? RaceId { get; set; }
+        public DateTime? Started { get; set; }
+        public DateTime? Finished { get; set; }
+        public float? Distance { get; set; }
+        public string? GpxData { get; set; }
     }
 }

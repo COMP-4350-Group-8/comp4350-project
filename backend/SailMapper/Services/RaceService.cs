@@ -8,9 +8,9 @@ namespace SailMapper.Services
     {
 
         private readonly SailDBContext _dbContext;
-        public RaceService() 
+        public RaceService(SailDBContext dBContext) 
         {
-            _dbContext = new SailDBContext();
+            _dbContext = dBContext;
         
         }
 
@@ -27,7 +27,7 @@ namespace SailMapper.Services
         public async Task<List<Race>> GetRaces()
         {
             List<Race> races  = _dbContext.Races.ToList();
-            
+
             return races;
         }
 
@@ -78,3 +78,5 @@ namespace SailMapper.Services
 
     }
 }
+
+

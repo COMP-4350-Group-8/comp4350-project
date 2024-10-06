@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SailMapper.Classes;
+using SailMapper.Data;
 using SailMapper.Services;
 using System.Text;
 using System.Text.Json;
@@ -16,10 +17,12 @@ namespace SailMapper.Controllers
         };
 
         private readonly RaceService raceService;
+        private readonly SailDBContext _dBContext;
 
-        public RaceController()
+        public RaceController(SailDBContext dBContext)
         {
-            raceService = new RaceService();
+            _dBContext = dBContext;
+            raceService = new RaceService(dBContext);
         }
 
         /// <summary>
