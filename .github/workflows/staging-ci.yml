@@ -1,3 +1,7 @@
+#============================================#
+#        ~ ~~ ~~~ [README] ~~~ ~~ ~          #
+# Do Not Use | Old Workflow | Leave Disabled #
+#============================================#
 name: Staging
 
 on:
@@ -8,6 +12,10 @@ on:
 
 jobs:
 
+#======================================================
+# Security Testing
+#======================================================
+
   flutter-security-tests:
     name: Flutter Security Tests
     runs-on: ubuntu-latest
@@ -16,9 +24,32 @@ jobs:
         shell: bash
         working-directory: ./frontend/flutter_client
     timeout-minutes: 5
+    # Skipping #
+    if: false
     steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
       - name: Print
-        run: No security tests for Flutter
+        run: |
+          echo Flutter: No security tests
+
+  security-test-results:
+    if: ${{ always() }}
+    needs: [flutter-security-tests]
+    name: Security Test Results
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Security Test Results
+
+
+#======================================================
+# Load Testing
+#======================================================
 
   flutter-load-testing:
     name: Flutter Load Testing
@@ -28,9 +59,32 @@ jobs:
         shell: bash
         working-directory: ./frontend/flutter_client
     timeout-minutes: 5
+    # Skipping #
+    if: false
     steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
       - name: Print
-        run: No load tests for Flutter
+        run: |
+          echo Flutter: No load tests
+
+  load-test-results:
+    if: ${{ always() }}
+    needs: [flutter-load-testing]
+    name: Load Test Results
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Load Test Results
+
+
+#======================================================
+# Regression Testing
+#======================================================
 
   flutter-regression-tests:
     name: Flutter Regression Tests
@@ -40,6 +94,45 @@ jobs:
         shell: bash
         working-directory: ./frontend/flutter_client
     timeout-minutes: 5
+    # Skipping #
+    if: false
     steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
       - name: Print
-        run: No regression tests for Flutter
+        run: |
+          echo Flutter: No regression tests
+
+  regression-test-results:
+    if: ${{ always() }}
+    needs: [flutter-regression-tests]
+    name: Regression Test Results
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Regression Test Results
+
+#======================================================
+# Results
+#======================================================
+
+  staging-results:
+    if: ${{ always() }}
+    needs: [regression-test-results, load-test-results, security-test-results]
+    name: Results
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print results
+        run: |
+          echo "sta-env-ci-results" >> $GITHUB_STEP_SUMMARY
+          echo "::debug:: worflow_run.conclusion ${{ github.event.workflow_run.conclusion }}"
+          echo "::debug:: worflow_run.referenced_workflows ${{ github.event.workflow_run.referenced_workflows }}"
+          echo "::debug:: worflow_run.run_attempt ${{ github.event.workflow_run.run_attempt }}"
+          echo "::debug:: worflow_run.triggering_actor ${{ github.event.workflow_run.triggering_actor }}"

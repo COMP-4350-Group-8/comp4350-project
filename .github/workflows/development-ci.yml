@@ -1,12 +1,17 @@
+#============================================#
+#        ~ ~~ ~~~ [README] ~~~ ~~ ~          #
+# Do Not Use | Old Workflow | Leave Disabled #
+#============================================#
 name: Development
-
 
 on:
   workflow_run:
     workflows: [Manual CI Trigger]
+    types: [completed]
   pull_request:
+    types: [opened, reopened]
   push:
-
+    branches: ['!main']
 
 
 jobs:
@@ -23,6 +28,8 @@ jobs:
         shell: bash
         working-directory: frontend/flutter_client
     timeout-minutes: 5
+    # Skipping #
+    if: false
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -36,9 +43,11 @@ jobs:
           echo Flutter: No linting checks
         
   react-linting:
-    name: REACT Unit Tests
+    name: REACT Lint Check
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    # Skipping #
+    if: false
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -47,9 +56,11 @@ jobs:
           echo REACT: No Unit tests
 
   backend-linting:
-    name: Backend Unit Tests
+    name: Backend Lint Check
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    # Skipping #
+    if: false
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -60,7 +71,7 @@ jobs:
   lint-test-results:
     if: ${{ always() }}
     needs: [flutter-linting, react-linting, backend-linting]
-    name: Unit Test Results
+    name:  Lint Check Results
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -76,7 +87,6 @@ jobs:
 #======================================================
 
   flutter-unit-tests:
-    if: ${{ always() }}
     name: Flutter Unit Tests
     runs-on: ubuntu-latest
     defaults:
@@ -97,10 +107,11 @@ jobs:
         run: flutter test
 
   react-unit-tests:
-    if: ${{ always() }}
     name: REACT Unit Tests
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    # Skipping #
+    if: false
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -109,10 +120,11 @@ jobs:
           echo REACT: No Unit tests
 
   backend-unit-tests:
-    if: ${{ always() }}
     name: Backend Unit Tests
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    # Skipping #
+    if: false
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -139,7 +151,6 @@ jobs:
 #======================================================
 
   flutter-integration-tests:
-    if: ${{ always() }}
     name: Flutter Integration Tests
     runs-on: ubuntu-latest
     defaults:
@@ -147,6 +158,8 @@ jobs:
         shell: bash
         working-directory: frontend/flutter_client
     timeout-minutes: 5
+    # Skipping #
+    if: false
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -160,10 +173,11 @@ jobs:
           echo Flutter: No integration tests
     
   react-integration-tests:
-    if: ${{ always() }}
     name: REACT Integration Tests
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    # Skipping #
+    if: false
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -172,10 +186,11 @@ jobs:
           echo REACT: No integration tests
 
   backend-integration-tests:
-    if: ${{ always() }}
     name: Backend Integration Tests
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    # Skipping #
+    if: false
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -186,7 +201,6 @@ jobs:
   integration-test-results:
     if: ${{ always() }}
     needs: [flutter-integration-tests, react-integration-tests, backend-integration-tests]
-    name: Integration Test Results
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -195,3 +209,25 @@ jobs:
       - name: Print
         run: |
           echo Integration Test Results
+
+
+#======================================================
+# Results
+#======================================================
+
+  dev-results:
+    if: ${{ always() }}
+    needs: [integration-test-results, unit-test-results, lint-test-results]
+    name: Results
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print results
+        run: |
+          echo "dev-env-ci-results" >> $GITHUB_STEP_SUMMARY
+          echo "::debug:: worflow_run.conclusion ${{ github.event.workflow_run.conclusion }}"
+          echo "::debug:: worflow_run.referenced_workflows ${{ github.event.workflow_run.referenced_workflows }}"
+          echo "::debug:: worflow_run.run_attempt ${{ github.event.workflow_run.run_attempt }}"
+          echo "::debug:: worflow_run.triggering_actor ${{ github.event.workflow_run.triggering_actor }}"

@@ -1,3 +1,7 @@
+#============================================#
+#        ~ ~~ ~~~ [README] ~~~ ~~ ~          #
+# Do Not Use | Old Workflow | Leave Disabled #
+#============================================#
 name: Manual CI Trigger
 
 on:
@@ -7,10 +11,12 @@ on:
         description: 'True to print to STDOUT'
         required: true
         type: boolean
+        default: false
       environment:
         description: 'Environment to run against'
         type: environment
         required: true
+        default: development
 
 jobs:
   print-environment:
