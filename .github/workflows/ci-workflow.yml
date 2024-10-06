@@ -262,7 +262,7 @@ jobs:
           echo Flutter: No security tests
 
   security-test-results:
-    if: ${{ always() }}
+    if: ${{ !(vars.DO_BACKEND_SECURITY_TEST != 'true' && vars.DO_FLUTTER_SECURITY_TEST != 'true' && vars.DO_REACT_SECURITY_TEST != 'true') && always() }}
     needs: [flutter-security-tests]
     name: Security Test Results
     runs-on: ubuntu-latest
@@ -296,7 +296,7 @@ jobs:
           echo Flutter: No load tests
 
   load-test-results:
-    if: ${{ always() }}
+    if: ${{ !(vars.DO_BACKEND_LOAD_TEST != 'true' && vars.DO_FLUTTER_LOAD_TEST != 'true' && vars.DO_REACT_LOAD_TEST != 'true') && always() }}
     needs: [flutter-load-testing]
     name: Load Test Results
     runs-on: ubuntu-latest
@@ -330,7 +330,7 @@ jobs:
           echo Flutter: No regression tests
 
   regression-test-results:
-    if: ${{ always() }}
+    if: ${{ !(vars.DO_BACKEND_REGRESSION_TEST != 'true' && vars.DO_FLUTTER_REGRESSION_TEST != 'true' && vars.DO_REACT_REGRESSION_TEST != 'true') && always() }}
     needs: [flutter-regression-tests]
     name: Regression Test Results
     runs-on: ubuntu-latest
@@ -372,7 +372,7 @@ jobs:
           echo "| Unit | ${{ vars.DO_FLUTTER_UNIT_TEST }} | ${{ vars.DO_REACT_UNIT_TEST }} | ${{ vars.DO_BACKEND_UNIT_TEST }} |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## Run Results:" >> $GITHUB_STEP_SUMMARY
-          echo "true = run __|__ false = did not run __|__ n/a = not applicable" >> $GITHUB_STEP_SUMMARY
+          echo "x/y = x out of y were a successful __|__ n/a = not applicable" >> $GITHUB_STEP_SUMMARY
           echo "| Test | Flutter | REACT | Backend |" >> $GITHUB_STEP_SUMMARY
           echo "| :--- | :----: | :----: | :----: |" >> $GITHUB_STEP_SUMMARY
           echo "| Integration | ${{ env.FLUTTER_INTEGRATION_TEST_RESULTS }} | ${{ env.REACT_INTEGRATION_TEST_RESULTS }} | ${{ env.BACKEND_INTEGRATION_TEST_RESULTS }} |" >> $GITHUB_STEP_SUMMARY
