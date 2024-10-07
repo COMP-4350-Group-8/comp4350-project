@@ -49,7 +49,7 @@ namespace SailMapper.Controllers
             var id = await raceService.AddRace(race);
             if (id != null)
             {
-                return Results.Created(id, race);
+                return Results.Created(id.ToString(), race);
             }
             //  }
             return Results.Problem();

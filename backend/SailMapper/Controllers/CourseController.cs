@@ -38,7 +38,7 @@ namespace SailMapper.Controllers
                 var id = await courseService.AddCourse(course);
                 if (id != null)
                 {
-                    return Results.Created(id, course);
+                    return Results.Created(id.ToString(), course);
                 }
             }
             return Results.Problem();
@@ -66,7 +66,7 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IResult> GetCourse(string id)
+        public async Task<IResult> GetCourse(int id)
         {
             var course = await courseService.GetCourse(id);
             return Results.Ok(course);
@@ -81,7 +81,7 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IResult> DeleteCourse(string id)
+        public async Task<IResult> DeleteCourse(int id)
         {
             bool success = await courseService.DeleteCourse(id);
             return Results.Ok(success);
@@ -97,7 +97,7 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IResult> UpdateCourse(string id, HttpRequestMessage request)
+        public async Task<IResult> UpdateCourse(int id, HttpRequestMessage request)
         {
             if (request != null && request.Content != null)
             {
@@ -106,7 +106,7 @@ namespace SailMapper.Controllers
                 {
                     return Results.BadRequest();
                 }
-                bool success = await courseService.UpdateCourse(id, course);
+                bool success = await courseService.UpdateCourse(course);
                 if (id != null)
                 {
                     return Results.Ok(id);
@@ -124,7 +124,7 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IResult> GetCourseMarks(string id)
+        public async Task<IResult> GetCourseMarks(int id)
         {
             var course = await courseService.GetCourseMarks(id);
             return Results.Ok(course);
@@ -152,7 +152,7 @@ namespace SailMapper.Controllers
                 var id = await courseService.AddMark(mark);
                 if (id != null)
                 {
-                    return Results.Created(id, mark);
+                    return Results.Created(id.ToString(), mark);
                 }
             }
             return Results.Problem();
@@ -169,7 +169,7 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> UpdateCourseMark(string id, HttpRequestMessage request)
+        public async Task<IResult> UpdateCourseMark(int id, HttpRequestMessage request)
         {
             if (request != null && request.Content != null)
             {
@@ -178,7 +178,7 @@ namespace SailMapper.Controllers
                 {
                     return Results.BadRequest();
                 }
-                bool success = await courseService.UpdateCourseMark(id, mark);
+                bool success = await courseService.UpdateCourseMark(mark);
                 if (id != null)
                 {
                     return Results.Ok(id);
@@ -197,9 +197,9 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IResult> DeleteCourseMark(string id, string markId)
+        public async Task<IResult> DeleteCourseMark(int id)
         {
-            bool success = await courseService.DeleteCourseMark(id, markId);
+            bool success = await courseService.DeleteCourseMark(id);
             return Results.Ok(success);
         }
 

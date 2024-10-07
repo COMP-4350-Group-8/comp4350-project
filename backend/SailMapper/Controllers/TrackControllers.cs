@@ -33,7 +33,7 @@ namespace SailMapper.Controllers
                 var id = await trackService.AddTrack(track);
                 if (id != null)
                 {
-                    return Results.Created(id, track);
+                    return Results.Created(id.ToString(), track);
                 }
             }
             return Results.Problem();
@@ -43,7 +43,7 @@ namespace SailMapper.Controllers
         [HttpGet("race/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> GetRaceTracks(string id)
+        public async Task<IResult> GetRaceTracks(int id)
         {
             var tracks = await trackService.GetRaceTracks(id);
             return Results.Ok(tracks);
@@ -55,7 +55,7 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> GetTrack(string id)
+        public async Task<IResult> GetTrack(int id)
         {
             var track = await trackService.GetTrack(id);
             if (track == null)
@@ -72,7 +72,7 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> UpdateTrack(string id, HttpRequestMessage request)
+        public async Task<IResult> UpdateTrack(int id, HttpRequestMessage request)
         {
             if (request.Content != null)
             {
@@ -97,7 +97,7 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> GetTrackGPX(string id)
+        public async Task<IResult> GetTrackGPX(int id)
         {
             var points = await trackService.GetGPX(id);
             if (points == null)

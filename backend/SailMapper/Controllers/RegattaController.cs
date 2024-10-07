@@ -45,7 +45,7 @@ namespace SailMapper.Controllers
             var id = await regattaService.AddRegatta(regatta);
             if (id != null)
             {
-                return Results.Created(id, regatta);
+                return Results.Created(id.ToString(), regatta);
             }
 
             return Results.Problem();
@@ -73,7 +73,7 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> GetRegatta(string id)
+        public async Task<IResult> GetRegatta(int id)
         {
             var regatta = await regattaService.GetRegatta(id);
             return Results.Ok(regatta);
@@ -90,7 +90,7 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> UpdateRegatta(string id, HttpRequestMessage request)
+        public async Task<IResult> UpdateRegatta(int id, HttpRequestMessage request)
         {
             if (request != null && request.Content != null)
             {
@@ -103,7 +103,7 @@ namespace SailMapper.Controllers
                 return Results.BadRequest();
             }
 
-            bool success = await regattaService.UpdateRegatta(id, regatta);
+            bool success = await regattaService.UpdateRegatta(regatta);
             if (success)
             {
                 return Results.Ok();
@@ -121,7 +121,7 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> DeleteRegatta(string id)
+        public async Task<IResult> DeleteRegatta(int id)
         {
             bool success = await regattaService.DeleteRegatta(id);
             return Results.Ok(success);
@@ -137,7 +137,7 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> AddRace(string id, string raceId)
+        public async Task<IResult> AddRace(int id, int raceId)
         {
             bool success = await regattaService.AddRace(id, raceId);
             if (success)
@@ -146,7 +146,7 @@ namespace SailMapper.Controllers
             }
             else
             {
-                return Results.Problem(raceId);
+                return Results.Problem(raceId.ToString());
             }
         }
 
@@ -160,7 +160,7 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> DeleteRegatta(string id, string raceId)
+        public async Task<IResult> DeleteRegatta(int id, int raceId)
         {
             bool success = await regattaService.RemoveRace(id, raceId);
             if (success)
@@ -169,7 +169,7 @@ namespace SailMapper.Controllers
             }
             else
             {
-                return Results.Problem(raceId);
+                return Results.Problem(raceId.ToString());
             }
         }
 
@@ -182,7 +182,7 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> GetRegattaResults(string id)
+        public async Task<IResult> GetRegattaResults(int id)
         {
             var results = await regattaService.GetRegattaResults(id);
             return Results.Ok(results);

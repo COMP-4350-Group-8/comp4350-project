@@ -21,11 +21,11 @@ namespace SailMapper.Services
 
         }
 
-        public async Task<string> AddRace(Race race)
+        public async Task<int> AddRace(Race race)
         {
-            var id = await _dbContext.Races.AddAsync(race);
+            await _dbContext.Races.AddAsync(race);
             await _dbContext.SaveChangesAsync();
-            return id.ToString();
+            return race.Id;
         }
 
         public async Task<List<Race>> GetRaces()
@@ -37,8 +37,7 @@ namespace SailMapper.Services
 
         public async Task<Race> GetRace(int id)
         {
-            Race race = await GetRaceEntity(id);
-            return race;
+            return await GetRaceEntity(id);
         }
 
 
@@ -109,6 +108,11 @@ namespace SailMapper.Services
         public async Task<List<Result>> GetResults(int id)
         {
             Race race = await GetRaceEntity(id);
+            return await GetResults(race);
+        }
+
+        public async Task<List<Result>> GetResults(Race race)
+        {
             List<Result> results = _dbContext.Results.Where(c => c.Race == race).ToList();
 
             if (race.Participants != null && results.Count == race.Participants.Count)
@@ -117,9 +121,10 @@ namespace SailMapper.Services
             }
             else
             {
-                return await CalculateResults(id);
+                return await CalculateResults(race.Id);
             }
         }
+
 
 
         public async Task<List<Result>> CalculateResults(int id, int averageBoat = -1, int B = 550)
