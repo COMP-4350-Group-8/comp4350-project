@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using SailMapper.Classes;
 using SailMapper.Controllers;
+using SailMapper.Data;
 using SailMapper.Services;
 
 namespace Tests
@@ -13,11 +14,13 @@ namespace Tests
 
         private readonly RaceController _controller;
         private readonly RaceService _service;
+        private readonly SailDBContext _dbContext;
 
-        public RaceTests()
+        public RaceTests(SailDBContext dbContext)
         {
-            _controller = new RaceController();
-            _service = new RaceService();
+            _dbContext = dbContext;
+            _controller = new RaceController(dbContext);
+            _service = new RaceService(dbContext);
         }
 
         [Fact]

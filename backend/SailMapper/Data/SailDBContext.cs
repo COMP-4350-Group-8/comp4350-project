@@ -5,9 +5,7 @@ namespace SailMapper.Data
 
     public class SailDBContext : DbContext
     {
-        string connectionString = "Server=localhost;Database=master;Trusted_Connection=True;TrustServerCertificate=True;";
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-           optionsBuilder.UseSqlServer(connectionString);
+        
 
         public SailDBContext(DbContextOptions<SailDBContext> options) : base(options)
         {

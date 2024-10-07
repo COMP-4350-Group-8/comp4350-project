@@ -12,12 +12,12 @@ namespace SailMapper.Controllers
     public class RaceController
     {
         private readonly RaceService raceService;
-        private readonly SailDBContext _dBContext;
+        private readonly SailDBContext _dbContext;
 
-        public RaceController(SailDBContext dBContext)
+        public RaceController(SailDBContext dbContext)
         {
-            _dBContext = dBContext;
-            raceService = new RaceService(dBContext);
+            _dbContext = dbContext;
+            raceService = new RaceService(dbContext);
         }
 
         /// <summary>
