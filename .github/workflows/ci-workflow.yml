@@ -1,0 +1,396 @@
+name: CI Workflow
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run tests against'
+        type: environment
+        required: false
+
+env:
+  # Integration Results
+  FLUTTER_INTEGRATION_TEST_RESULTS: null
+  REACT_INTEGRATION_TEST_RESULTS: null
+  BACKEND_INTEGRATION_TEST_RESULTS: null
+  # Lint Results
+  FLUTTER_LINT_TEST_RESULTS: null
+  REACT_LINT_TEST_RESULTS: null
+  BACKEND_LINT_TEST_RESULTS: null
+  # Load Results
+  FLUTTER_LOAD_TEST_RESULTS: null
+  REACT_LOAD_TEST_RESULTS: null
+  BACKEND_LOAD_TEST_RESULTS: null
+  # Regression Results
+  FLUTTER_REGRESSION_TEST_RESULTS: null
+  REACT_REGRESSION_TEST_RESULTS: null
+  BACKEND_REGRESSION_TEST_RESULTS: null
+  # Security Results
+  FLUTTER_SECURITY_TEST_RESULTS: null
+  REACT_SECURITY_TEST_RESULTS: null
+  BACKEND_SECURITY_TEST_RESULTS: null
+  # Unit Results
+  FLUTTER_UNIT_TEST_RESULTS: null
+  REACT_UNIT_TEST_RESULTS: null
+  BACKEND_UNIT_TEST_RESULTS: null
+
+jobs:
+
+#======================================================
+# Linting
+#======================================================
+
+  flutter-linting:
+    name: Flutter Lint Check
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: frontend/flutter_client
+    timeout-minutes: 5
+    if: ${{ vars.DO_FLUTTER_LINT_TEST == 'true' }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+      - run: flutter pub get
+      - name: Flutter Analyze
+        run: flutter analyze
+        
+  react-linting:
+    name: REACT Lint Check
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: frontend/react
+    timeout-minutes: 5
+    if: ${{ vars.DO_REACT_LINT_TEST == 'true' }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+      - run: npm install
+      - name: Run Lint
+        run: npm lint
+
+  backend-linting:
+    name: Backend Lint Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: ${{ vars.DO_BACKEND_LINT_TEST == 'true' }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Backend: No Unit tests
+
+  lint-test-results:
+    if: ${{ !(vars.DO_BACKEND_LINT_TEST != 'true' && vars.DO_FLUTTER_LINT_TEST != 'true' && vars.DO_REACT_LINT_TEST != 'true') && always() }}
+    needs: [flutter-linting, react-linting, backend-linting]
+    name:  Lint Check Results
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Unit Test Results
+
+
+#======================================================
+# Unit Tests
+#======================================================
+
+  flutter-unit-tests:
+    name: Flutter Unit Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./frontend/flutter_client
+    timeout-minutes: 5
+    if: ${{ vars.DO_FLUTTER_UNIT_TEST == 'true' }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+      - run: flutter pub get
+      - name: Runs Flutter Unit Tests
+        run: flutter test
+
+  react-unit-tests:
+    name: REACT Unit Tests
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: frontend/react
+    timeout-minutes: 5
+    if: ${{ vars.DO_REACT_UNIT_TEST == 'true' }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+      - run: npm install
+      - run: npm run build
+      - name: Run REACT Unit Tests
+        run: npm test
+
+  backend-unit-tests:
+    name: Backend Unit Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: ${{ vars.DO_BACKEND_UNIT_TEST == 'true' }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Backend: No Unit tests
+
+  unit-test-results:
+    if: ${{ !(vars.DO_BACKEND_UNIT_TEST != 'true' && vars.DO_FLUTTER_UNIT_TEST != 'true' && vars.DO_REACT_UNIT_TEST != 'true') && always() }}
+    needs: [flutter-unit-tests, react-unit-tests, backend-unit-tests]
+    name: Unit Test Results
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Unit Test Results
+
+
+#======================================================
+# Integration Tests
+#======================================================
+
+  flutter-integration-tests:
+    name: Flutter Integration Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: frontend/flutter_client
+    timeout-minutes: 5
+    if: ${{ vars.DO_FLUTTER_INTEGRATION_TEST == 'true' }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+      - run: flutter pub get
+      - name: Print
+        run: |
+          echo Flutter: No integration tests
+    
+  react-integration-tests:
+    name: REACT Integration Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: ${{ vars.DO_REACT_INTEGRATION_TEST == 'true' }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo REACT: No integration tests
+
+  backend-integration-tests:
+    name: Backend Integration Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: ${{ vars.DO_BACKEND_INTEGRATION_TEST == 'true' }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Backend: No integration tests
+  
+  integration-test-results:
+    if: ${{ !(vars.DO_BACKEND_INTEGRATION_TEST != 'true' && vars.DO_FLUTTER_INTEGRATION_TEST != 'true' && vars.DO_REACT_INTEGRATION_TEST != 'true') && always() }}
+    needs: [flutter-integration-tests, react-integration-tests, backend-integration-tests]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Integration Test Results
+
+
+#======================================================
+# Security Testing
+#======================================================
+
+  flutter-security-tests:
+    name: Flutter Security Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./frontend/flutter_client
+    timeout-minutes: 5
+    if: ${{ vars.DO_FLUTTER_SECURITY_TEST == 'true' }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Flutter: No security tests
+
+  security-test-results:
+    if: ${{ !(vars.DO_BACKEND_SECURITY_TEST != 'true' && vars.DO_FLUTTER_SECURITY_TEST != 'true' && vars.DO_REACT_SECURITY_TEST != 'true') && always() }}
+    needs: [flutter-security-tests]
+    name: Security Test Results
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Security Test Results
+
+
+#======================================================
+# Load Testing
+#======================================================
+
+  flutter-load-testing:
+    name: Flutter Load Testing
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./frontend/flutter_client
+    timeout-minutes: 5
+    if: ${{ vars.DO_FLUTTER_LOAD_TEST == 'true' }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Flutter: No load tests
+
+  load-test-results:
+    if: ${{ !(vars.DO_BACKEND_LOAD_TEST != 'true' && vars.DO_FLUTTER_LOAD_TEST != 'true' && vars.DO_REACT_LOAD_TEST != 'true') && always() }}
+    needs: [flutter-load-testing]
+    name: Load Test Results
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Load Test Results
+
+
+#======================================================
+# Regression Testing
+#======================================================
+
+  flutter-regression-tests:
+    name: Flutter Regression Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./frontend/flutter_client
+    timeout-minutes: 5
+    if: ${{ vars.DO_FLUTTER_REGRESSION_TEST == 'true' }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Flutter: No regression tests
+
+  regression-test-results:
+    if: ${{ !(vars.DO_BACKEND_REGRESSION_TEST != 'true' && vars.DO_FLUTTER_REGRESSION_TEST != 'true' && vars.DO_REACT_REGRESSION_TEST != 'true') && always() }}
+    needs: [flutter-regression-tests]
+    name: Regression Test Results
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Regression Test Results
+
+#======================================================
+# Results
+#======================================================
+    
+
+  ci-results:
+    if: ${{ always() }}
+    needs: [regression-test-results, load-test-results, security-test-results, integration-test-results, unit-test-results, lint-test-results]
+    name: Results
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print results
+        run: |
+          echo "# CI Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Run Config:" >> $GITHUB_STEP_SUMMARY
+          echo "true = run __|__ false = did not run __|__ n/a = not applicable" >> $GITHUB_STEP_SUMMARY
+          echo "| Test | Flutter | REACT | Backend |" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :----: | :----: | :----: |" >> $GITHUB_STEP_SUMMARY
+          echo "| Integration | ${{ vars.DO_FLUTTER_INTEGRATION_TEST }} | ${{ vars.DO_REACT_INTEGRATION_TEST }} | ${{ vars.DO_BACKEND_INTEGRATION_TEST }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Lint | ${{ vars.DO_FLUTTER_LINT_TEST }} | ${{ vars.DO_REACT_LINT_TEST }} | ${{ vars.DO_BACKEND_LINT_TEST }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Load | ${{ vars.DO_FLUTTER_LOAD_TEST }} | ${{ vars.DO_REACT_LOAD_TEST }} | ${{ vars.DO_BACKEND_LOAD_TEST }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Regression | ${{ vars.DO_FLUTTER_REGRESSION_TEST }} | ${{ vars.DO_REACT_REGRESSION_TEST }} | ${{ vars.DO_BACKEND_REGRESSION_TEST }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Security | ${{ vars.DO_FLUTTER_SECURITY_TEST }} | ${{ vars.DO_REACT_SECURITY_TEST }} | ${{ vars.DO_BACKEND_SECURITY_TEST }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Unit | ${{ vars.DO_FLUTTER_UNIT_TEST }} | ${{ vars.DO_REACT_UNIT_TEST }} | ${{ vars.DO_BACKEND_UNIT_TEST }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Run Results:" >> $GITHUB_STEP_SUMMARY
+          echo "x/y = x out of y were a successful __|__ n/a = not applicable" >> $GITHUB_STEP_SUMMARY
+          echo "| Test | Flutter | REACT | Backend |" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :----: | :----: | :----: |" >> $GITHUB_STEP_SUMMARY
+          echo "| Integration | ${{ env.FLUTTER_INTEGRATION_TEST_RESULTS }} | ${{ env.REACT_INTEGRATION_TEST_RESULTS }} | ${{ env.BACKEND_INTEGRATION_TEST_RESULTS }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Lint | ${{ env.FLUTTER_LINT_TEST_RESULTS }} | ${{ env.REACT_LINT_TEST_RESULTS }} | ${{ env.BACKEND_LINT_TEST_RESULTS }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Load | ${{ env.FLUTTER_LOAD_TEST_RESULTS }} | ${{ env.REACT_LOAD_TEST_RESULTS }} | ${{ env.BACKEND_LOAD_TEST_RESULTS }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Regression | ${{ env.FLUTTER_REGRESSION_TEST_RESULTS }} | ${{ env.REACT_REGRESSION_TEST_RESULTS }} | ${{ env.BACKEND_REGRESSION_TEST_RESULTS }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Security | ${{ env.FLUTTER_SECURITY_TEST_RESULTS }} | ${{ env.REACT_SECURITY_TEST_RESULTS }} | ${{ env.BACKEND_SECURITY_TEST_RESULTS }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Unit | ${{ env.FLUTTER_UNIT_TEST_RESULTS }} | ${{ env.REACT_UNIT_TEST_RESULTS }} | ${{ env.BACKEND_UNIT_TEST_RESULTS }} |" >> $GITHUB_STEP_SUMMARY
+          
+          
+  
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
