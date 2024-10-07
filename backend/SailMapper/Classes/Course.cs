@@ -10,7 +10,7 @@ namespace SailMapper.Classes
             Id = 0;
             courseMarks = new List<CourseMark>();
         }
-        public required int Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public ICollection<CourseMark>? courseMarks { get; set; }

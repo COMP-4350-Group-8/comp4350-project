@@ -15,10 +15,9 @@ namespace SailMapper.Services
 
 
         private readonly SailDBContext _dbContext;
-        public RaceService()
+        public RaceService(SailDBContext dbContext)
         {
-            _dbContext = new SailDBContext();
-
+            _dbContext = dbContext;        
         }
 
         public async Task<int> AddRace(Race race)
@@ -30,8 +29,8 @@ namespace SailMapper.Services
 
         public async Task<List<Race>> GetRaces()
         {
-            List<Race> races = _dbContext.Races.ToList();
-
+            List<Race> races  = _dbContext.Races.ToList();
+            
             return races;
         }
 

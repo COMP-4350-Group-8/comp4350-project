@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SailMapper.Data;
@@ -11,36 +12,57 @@ using SailMapper.Data;
 namespace SailMapper.Migrations
 {
     [DbContext(typeof(SailDBContext))]
-    [Migration("20240930040214_InitialModel")]
-    partial class InitialModel
+    [Migration("20241007034755_AddCourseIdToRace")]
+    partial class AddCourseIdToRace
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("BoatRace", b =>
+                {
+                    b.Property<int>("ParticipantsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RacesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ParticipantsId", "RacesId");
+
+                    b.HasIndex("RacesId");
+
+                    b.ToTable("BoatRace");
+                });
 
             modelBuilder.Entity("SailMapper.Classes.Boat", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Class")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<int?>("RatingId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("SailNumber")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Skipper")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -53,17 +75,24 @@ namespace SailMapper.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("RaceId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RaceId");
 
                     b.ToTable("Courses");
                 });
@@ -72,29 +101,31 @@ namespace SailMapper.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("CourseId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<int?>("GateId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<bool?>("IsStartLine")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<float>("Latitude")
-                        .HasColumnType("REAL");
+                        .HasColumnType("float");
 
                     b.Property<float>("Longitude")
-                        .HasColumnType("REAL");
+                        .HasColumnType("float");
 
                     b.Property<bool?>("Rounding")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 
@@ -109,29 +140,31 @@ namespace SailMapper.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CourseId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("EndTime")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
-                    b.Property<int?>("ReggataId")
-                        .HasColumnType("INTEGER");
+                    b.Property<int?>("RegattaId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("StartTime")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
-                    b.HasIndex("ReggataId");
+                    b.HasIndex("RegattaId");
 
                     b.ToTable("Races");
                 });
@@ -140,95 +173,118 @@ namespace SailMapper.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Adjustment")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<int>("BaseRating")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    b.Property<int>("CurrentRating")
+                        .HasColumnType("int");
 
                     b.Property<int>("SpinnakerAdjustment")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Ratings");
                 });
 
-            modelBuilder.Entity("SailMapper.Classes.Reggata", b =>
+            modelBuilder.Entity("SailMapper.Classes.Regatta", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Reggatas");
+                    b.ToTable("Regattas");
                 });
 
             modelBuilder.Entity("SailMapper.Classes.Result", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int>("BoatId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
-                    b.Property<TimeOnly>("CorrectedTime")
-                        .HasColumnType("TEXT");
+                    b.Property<TimeSpan>("CorrectedTime")
+                        .HasColumnType("time(6)");
 
-                    b.Property<TimeOnly>("ElapsedTime")
-                        .HasColumnType("TEXT");
+                    b.Property<TimeSpan>("ElapsedTime")
+                        .HasColumnType("time(6)");
 
                     b.Property<int>("FinishPosition")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("FinishType")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("Points")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    b.Property<int>("RaceId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Rating")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
-                    b.Property<int>("raceId")
-                        .HasColumnType("INTEGER");
+                    b.HasKey("Id");
 
                     b.HasIndex("BoatId");
 
-                    b.HasIndex("raceId");
+                    b.HasIndex("RaceId");
 
                     b.ToTable("Results");
                 });
 
             modelBuilder.Entity("SailMapper.Classes.Track", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int>("BoatId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<float>("Distance")
-                        .HasColumnType("REAL");
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("Finished")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("GpxData")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
-                    b.Property<int?>("RaceId")
-                        .HasColumnType("INTEGER");
+                    b.Property<int>("RaceId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Started")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("BoatId");
 
@@ -237,18 +293,19 @@ namespace SailMapper.Migrations
                     b.ToTable("Tracks");
                 });
 
-            modelBuilder.Entity("SailMapper.Classes.WeatherForecast", b =>
+            modelBuilder.Entity("BoatRace", b =>
                 {
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("TEXT");
+                    b.HasOne("SailMapper.Classes.Boat", null)
+                        .WithMany()
+                        .HasForeignKey("ParticipantsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<string>("Summary")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("TemperatureC")
-                        .HasColumnType("INTEGER");
-
-                    b.ToTable("WeatherForecasts");
+                    b.HasOne("SailMapper.Classes.Race", null)
+                        .WithMany()
+                        .HasForeignKey("RacesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SailMapper.Classes.Boat", b =>
@@ -260,15 +317,24 @@ namespace SailMapper.Migrations
                     b.Navigation("Rating");
                 });
 
+            modelBuilder.Entity("SailMapper.Classes.Course", b =>
+                {
+                    b.HasOne("SailMapper.Classes.Race", null)
+                        .WithMany("Courses")
+                        .HasForeignKey("RaceId");
+                });
+
             modelBuilder.Entity("SailMapper.Classes.CourseMark", b =>
                 {
-                    b.HasOne("SailMapper.Classes.Course", null)
+                    b.HasOne("SailMapper.Classes.Course", "Course")
                         .WithMany("courseMarks")
                         .HasForeignKey("CourseId");
 
                     b.HasOne("SailMapper.Classes.CourseMark", "Gate")
                         .WithMany()
                         .HasForeignKey("GateId");
+
+                    b.Navigation("Course");
 
                     b.Navigation("Gate");
                 });
@@ -281,47 +347,58 @@ namespace SailMapper.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SailMapper.Classes.Reggata", null)
+                    b.HasOne("SailMapper.Classes.Regatta", "Regatta")
                         .WithMany("Races")
-                        .HasForeignKey("ReggataId");
+                        .HasForeignKey("RegattaId");
 
                     b.Navigation("Course");
+
+                    b.Navigation("Regatta");
                 });
 
             modelBuilder.Entity("SailMapper.Classes.Result", b =>
                 {
                     b.HasOne("SailMapper.Classes.Boat", "Boat")
-                        .WithMany()
-                        .HasForeignKey("BoatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SailMapper.Classes.Race", "race")
-                        .WithMany()
-                        .HasForeignKey("raceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Boat");
-
-                    b.Navigation("race");
-                });
-
-            modelBuilder.Entity("SailMapper.Classes.Track", b =>
-                {
-                    b.HasOne("SailMapper.Classes.Boat", "Boat")
-                        .WithMany()
+                        .WithMany("Results")
                         .HasForeignKey("BoatId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SailMapper.Classes.Race", "Race")
-                        .WithMany()
-                        .HasForeignKey("RaceId");
+                        .WithMany("Results")
+                        .HasForeignKey("RaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Boat");
 
                     b.Navigation("Race");
+                });
+
+            modelBuilder.Entity("SailMapper.Classes.Track", b =>
+                {
+                    b.HasOne("SailMapper.Classes.Boat", "Boat")
+                        .WithMany("Tracks")
+                        .HasForeignKey("BoatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SailMapper.Classes.Race", "Race")
+                        .WithMany("Tracks")
+                        .HasForeignKey("RaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Boat");
+
+                    b.Navigation("Race");
+                });
+
+            modelBuilder.Entity("SailMapper.Classes.Boat", b =>
+                {
+                    b.Navigation("Results");
+
+                    b.Navigation("Tracks");
                 });
 
             modelBuilder.Entity("SailMapper.Classes.Course", b =>
@@ -329,12 +406,21 @@ namespace SailMapper.Migrations
                     b.Navigation("courseMarks");
                 });
 
+            modelBuilder.Entity("SailMapper.Classes.Race", b =>
+                {
+                    b.Navigation("Courses");
+
+                    b.Navigation("Results");
+
+                    b.Navigation("Tracks");
+                });
+
             modelBuilder.Entity("SailMapper.Classes.Rating", b =>
                 {
                     b.Navigation("Boats");
                 });
 
-            modelBuilder.Entity("SailMapper.Classes.Reggata", b =>
+            modelBuilder.Entity("SailMapper.Classes.Regatta", b =>
                 {
                     b.Navigation("Races");
                 });

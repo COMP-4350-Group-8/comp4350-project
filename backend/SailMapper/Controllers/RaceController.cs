@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SailMapper.Classes;
+using SailMapper.Data;
 using SailMapper.Services;
 using System.Text;
 using System.Text.Json;
@@ -8,13 +9,15 @@ namespace SailMapper.Controllers
 {
     [ApiController]
     [Route("/race")]
-    public class RaceController
+    public class RaceController : ControllerBase
     {
         private readonly RaceService raceService;
+        private readonly SailDBContext _dbContext;
 
-        public RaceController()
+        public RaceController(SailDBContext dbContext)
         {
-            raceService = new RaceService();
+            _dbContext = dbContext;
+            raceService = new RaceService(dbContext);
         }
 
         /// <summary>
@@ -32,29 +35,48 @@ namespace SailMapper.Controllers
         /// </remarks>
         /// <param name="request"></param>
         /// <returns>Id of created race</returns>
+        //[HttpPost("")]
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        //public async Task<IResult> CreateRace(HttpRequestMessage request)
+        //{
+        //    //   if (request.Content != null)
+        //    //   {
+        //    var race = await JsonSerializer.DeserializeAsync<Race>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
+        //    if (race == null)
+        //    {
+        //        race = new Race();
+        //        //return Results.BadRequest();
+        //    }
+        //    var id = await raceService.AddRace(race);
+        //    if (id != null)
+        //    {
+        //        return Results.Created(id, race);
+        //    }
+        //    //  }
+        //    return Results.Problem();
+        //}
+
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> CreateRace(HttpRequestMessage request)
+        public async Task<IActionResult> CreateRace([FromBody] Race race)
         {
-            //   if (request.Content != null)
-            //   {
-            var race = await JsonSerializer.DeserializeAsync<Race>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
             if (race == null)
             {
-                race = new Race();
-                //return Results.BadRequest();
+                return BadRequest("Invalid race data.");
             }
+
             var id = await raceService.AddRace(race);
             if (id != null)
             {
-                return Results.Created(id.ToString(), race);
+                return CreatedAtAction(nameof(GetRace), new { id = race.Id }, race);
             }
-            //  }
-            return Results.Problem();
-        }
 
+            return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while creating the race.");
+        }
         /// <summary>
         /// 
         /// </summary>

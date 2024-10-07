@@ -12,6 +12,7 @@ namespace SailMapper.Classes
         }
         public required int Id { get; set; }
         public required Course Course { get; set; }
+        public required int CourseId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string Name { get; set; } = string.Empty;
@@ -19,8 +20,8 @@ namespace SailMapper.Classes
         public ICollection<Course>? Courses { get; set; }
         public ICollection<Result>? Results { get; set; }
         public ICollection<Track>? Tracks { get; set; }
-        public int RegattaId { get; set; }
-        public Regatta Regatta { get; set; }
+        public int? RegattaId { get; set; }
+        public Regatta? Regatta { get; set; }
 
     }
 }
