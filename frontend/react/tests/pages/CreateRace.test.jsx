@@ -54,6 +54,86 @@ describe("CreateRace", () => {
         expect(screen.getByText(/delete/i)).toBeInTheDocument();
     });
 
+    it("should add a note to the list with a capital letter", async () => {
+        const user = userEvent.setup();
+
+        render(<CreateRace/>);
+
+        // Confirm the textbox exists, and write "Hello" in it
+        const textbox = screen.getByRole("textbox");
+        expect(textbox).toBeInTheDocument();
+        await user.click(textbox);
+        await user.keyboard("Hello");
+
+        // Add the note to the list
+        const button = screen.getByRole("button");
+        expect(button).toBeInTheDocument();
+        await user.click(button);
+
+        // Confirm the note was added to the list
+        expect(screen.getByText("Hello")).toBeInTheDocument();
+    });
+
+    it("should add a note to the list with a special character", async () => {
+        const user = userEvent.setup();
+
+        render(<CreateRace/>);
+
+        // Confirm the textbox exists, and write "Hello!" in it
+        const textbox = screen.getByRole("textbox");
+        expect(textbox).toBeInTheDocument();
+        await user.click(textbox);
+        await user.keyboard("Hello!");
+
+        // Add the note to the list
+        const button = screen.getByRole("button");
+        expect(button).toBeInTheDocument();
+        await user.click(button);
+
+        // Confirm the note was added to the list
+        expect(screen.getByText("Hello!")).toBeInTheDocument();
+    });
+
+    it("should add a note to the list with a sentence", async () => {
+        const user = userEvent.setup();
+
+        render(<CreateRace/>);
+
+        // Confirm the textbox exists, and write "Hi there, my name is Steve and I'm #1" in it
+        const textbox = screen.getByRole("textbox");
+        expect(textbox).toBeInTheDocument();
+        await user.click(textbox);
+        await user.keyboard("Hi there, my name is Steve and I'm #1");
+
+        // Add the note to the list
+        const button = screen.getByRole("button");
+        expect(button).toBeInTheDocument();
+        await user.click(button);
+
+        // Confirm the note was added to the list
+        expect(screen.getByText("Hi there, my name is Steve and I'm #1")).toBeInTheDocument();
+    });
+
+    it("should add a note to the list with some special symbols", async () => {
+        const user = userEvent.setup();
+
+        render(<CreateRace/>);
+
+        // Confirm the textbox exists, and write "蟲誤, 修正" in it
+        const textbox = screen.getByRole("textbox");
+        expect(textbox).toBeInTheDocument();
+        await user.click(textbox);
+        await user.keyboard("蟲誤, 修正");
+
+        // Add the note to the list
+        const button = screen.getByRole("button");
+        expect(button).toBeInTheDocument();
+        await user.click(button);
+
+        // Confirm the note was added to the list
+        expect(screen.getByText("蟲誤, 修正")).toBeInTheDocument();
+    });
+
     it("should delete a note from the list when the user clicks the note's Delete button", async () => {
         const user = userEvent.setup();
 
