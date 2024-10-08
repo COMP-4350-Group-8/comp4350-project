@@ -8,10 +8,10 @@ namespace SailMapper.Services
         private readonly SailDBContext _dbContext;
         private readonly RaceService _raceService;
 
-        public RegattaService()
+        public RegattaService(SailDBContext dbContext)
         {
-            _dbContext = new SailDBContext();
-            _raceService = new RaceService();
+            _dbContext = dbContext;
+            _raceService = new RaceService(dbContext);
         }
 
         public async Task<int> AddRegatta(Regatta regatta)

@@ -31,7 +31,7 @@ namespace SailMapper.Controllers
             var id = await trackService.AddTrack(track);
             if (id != null)
             {
-                return Created(id, track);
+                return CreatedAtAction(nameof(GetTrack), new { id = track.Id }, track);
             }
         
             return Problem();

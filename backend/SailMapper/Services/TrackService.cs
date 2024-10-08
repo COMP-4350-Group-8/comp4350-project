@@ -8,9 +8,9 @@ namespace SailMapper.Services
         private readonly SailDBContext _dbContext;
 
 
-        public TrackService()
+        public TrackService(SailDBContext dbContext)
         {
-            _dbContext = new SailDBContext();
+            _dbContext = dbContext;
         }
 
         public async Task<int> AddTrack(Track track)

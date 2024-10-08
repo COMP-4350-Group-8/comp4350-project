@@ -40,7 +40,7 @@ namespace SailMapper.Controllers
             var id = await regattaService.AddRegatta(regatta);
             if (id != null)
             {
-                return Created(id, regatta);
+                return CreatedAtAction(nameof(GetRegatta), new { id = regatta.Id }, regatta);
             }
 
             return Problem();
@@ -135,7 +135,7 @@ namespace SailMapper.Controllers
             }
             else
             {
-                return Problem(raceId);
+                return Problem(raceId.ToString());
             }
         }
 
@@ -158,7 +158,7 @@ namespace SailMapper.Controllers
             }
             else
             {
-                return Problem(raceId);
+                return Problem(raceId.ToString());
             }
         }
 

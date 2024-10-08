@@ -37,8 +37,8 @@ namespace SailMapper.Controllers
              var id = await courseService.AddCourse(course);
              if (id != null)
              {
-                 return Created(id, course);
-             }
+                return CreatedAtAction(nameof(GetCourse), new { id = course.Id }, course);
+            }
             
             return Problem();
         }
@@ -103,7 +103,7 @@ namespace SailMapper.Controllers
             {
                 return BadRequest();
             }
-            bool success = await courseService.UpdateCourse(id, course);
+            bool success = await courseService.UpdateCourse(course);
             if (id != null)
             {
                 return Ok(id);
@@ -146,7 +146,7 @@ namespace SailMapper.Controllers
             var id = await courseService.AddMark(mark);
             if (id != null)
             {
-                return Created(id, mark);
+                return CreatedAtAction(nameof(GetCourseMarks), new { id = mark.Id }, mark);
             }
             
             return Problem();
@@ -169,7 +169,7 @@ namespace SailMapper.Controllers
             {
                 return BadRequest();
             }
-            bool success = await courseService.UpdateCourseMark(id, mark);
+            bool success = await courseService.UpdateCourseMark(mark);
             if (id != null)
             {
                 return Ok(id);
@@ -190,7 +190,7 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteCourseMark(int id, int markId)
         {
-            bool success = await courseService.DeleteCourseMark(id, markId);
+            bool success = await courseService.DeleteCourseMark(markId);
             return Ok(success);
         }
 

@@ -7,9 +7,9 @@ namespace SailMapper.Services
     {
         private readonly SailDBContext _dbContext;
 
-        public CourseService()
+        public CourseService(SailDBContext dbContext)
         {
-            _dbContext = new SailDBContext();
+            _dbContext = dbContext;
         }
 
         public async Task<int> AddCourse(Course course)

@@ -33,29 +33,6 @@ namespace SailMapper.Controllers
         /// </remarks>
         /// <param name="request"></param>
         /// <returns>Id of created race</returns>
-        //[HttpPost("")]
-        //[ProducesResponseType(StatusCodes.Status201Created)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        //public async Task<IResult> CreateRace(HttpRequestMessage request)
-        //{
-        //    //   if (request.Content != null)
-        //    //   {
-        //    var race = await JsonSerializer.DeserializeAsync<Race>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
-        //    if (race == null)
-        //    {
-        //        race = new Race();
-        //        //return Results.BadRequest();
-        //    }
-        //    var id = await raceService.AddRace(race);
-        //    if (id != null)
-        //    {
-        //        return Results.Created(id, race);
-        //    }
-        //    //  }
-        //    return Results.Problem();
-        //}
-
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -159,7 +136,7 @@ namespace SailMapper.Controllers
             {
                 return NotFound();
             }
-            return Ok<List<Boat>>(boats);
+            return Ok(boats);
         }
 
         /// <summary>

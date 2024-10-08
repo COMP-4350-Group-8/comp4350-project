@@ -7,9 +7,9 @@ namespace SailMapper.Services
     {
         private readonly SailDBContext _dbContext;
 
-        public BoatService()
+        public BoatService(SailDBContext dbContext)
         {
-            _dbContext = new SailDBContext();
+            _dbContext = dbContext;
         }
 
         public async Task<string> AddBoat(Boat boat)
