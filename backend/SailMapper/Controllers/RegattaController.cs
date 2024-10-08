@@ -92,7 +92,7 @@ namespace SailMapper.Controllers
                 return BadRequest();
             }
 
-            bool success = await regattaService.UpdateRegatta(id, regatta);
+            bool success = await regattaService.UpdateRegatta(regatta);
             if (success)
             {
                 return Ok();

@@ -28,7 +28,7 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetBoats()
         {
-            Boat[] boats = await boatService.GetBoats();
+            List<Boat> boats = await boatService.GetBoats();
             return Ok(boats);
         }
 

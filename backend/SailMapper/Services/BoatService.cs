@@ -1,41 +1,63 @@
 ﻿using SailMapper.Classes;
+using SailMapper.Data;
 
 namespace SailMapper.Services
 {
     public class BoatService
     {
-        //Implement
-        //return id
-        public Task<string> AddBoat(Boat boat)
+        private readonly SailDBContext _dbContext;
+
+        public BoatService()
         {
-            return Task.FromResult("");
+            _dbContext = new SailDBContext();
         }
 
-        //Implement
-        //return list of boats, not full info
-        public Task<Boat[]> GetBoats()
+        public async Task<string> AddBoat(Boat boat)
         {
-            return Task.FromResult(new Boat[0]);
+            var id = await _dbContext.Boats.AddAsync(boat);
+            await _dbContext.SaveChangesAsync();
+            return id.ToString();
         }
 
-        public Task<Boat> GetBoat()
+        public async Task<List<Boat>> GetBoats()
         {
-            return Task.FromResult(new Boat());
+            List<Boat> boats = _dbContext.Boats.ToList();
+            return boats;
         }
 
-        public Task<Boat> GetBoat(string id)
+        public async Task<Boat> GetBoat(int id)
         {
-            return Task.FromResult(new Boat());
+            Boat boat = await GetBoatEntity(id);
+
+            return boat;
         }
 
-        public Task<bool> DeleteBoat(string id)
+        public async Task<bool> DeleteBoat(int id)
         {
-            return Task.FromResult(false);
+            Boat boat = await GetBoatEntity(id);
+            if (boat != null)
+            {
+                _dbContext.Boats.Remove(boat);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
-        public Task<bool> UpdateBoat(Boat boat)
+        public async Task<bool> UpdateBoat(Boat boatUpdate)
         {
-            return Task.FromResult(false);
+            var boat = _dbContext.Boats.Update(boatUpdate);
+            if (boat != null)
+            {
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
+        private async Task<Boat> GetBoatEntity(int id)
+        {
+            return await _dbContext.Boats.FindAsync(id);
         }
 
 

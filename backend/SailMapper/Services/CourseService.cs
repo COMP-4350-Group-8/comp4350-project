@@ -1,61 +1,119 @@
 ﻿using SailMapper.Classes;
+using SailMapper.Data;
 
 namespace SailMapper.Services
 {
     public class CourseService
     {
-        //Implement
-        //return id
-        public Task<string> AddCourse(Course course)
+        private readonly SailDBContext _dbContext;
+
+        public CourseService()
         {
-            return Task.FromResult("");
+            _dbContext = new SailDBContext();
+        }
+
+        public async Task<int> AddCourse(Course course)
+        {
+            await _dbContext.Courses.AddAsync(course);
+            await _dbContext.SaveChangesAsync();
+            return course.Id;
         }
 
         //Implement
         //return list of courses, not full info
-        public Task<Course[]> GetCourses()
+        public async Task<List<Course>> GetCourses()
         {
-            return Task.FromResult(new Course[0]);
+            List<Course> courses = _dbContext.Courses.ToList();
+
+            return courses;
         }
 
-        public Task<Course> GetCourse()
+        public async Task<Course> GetCourse(int id)
         {
-            return Task.FromResult(new Course());
+            return await GetCourseEntity(id);
         }
 
-        public Task<Course> GetCourse(string id)
+        public async Task<bool> DeleteCourse(int id)
         {
-            return Task.FromResult(new Course());
+            Course course = await GetCourseEntity(id);
+            if (course != null)
+            {
+                _dbContext.Courses.Remove(course);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
-        public Task<bool> DeleteCourse(string id)
+        public async Task<bool> UpdateCourse(Course courseUpdate)
         {
-            return Task.FromResult(false);
+            var course = _dbContext.Courses.Update(courseUpdate);
+            if (course != null)
+            {
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
-        public Task<bool> UpdateCourse(string id, Course course)
+        public async Task<List<CourseMark>> GetCourseMarks(int id)
         {
-            return Task.FromResult(false);
+            Course course = await GetCourseEntity(id);
+
+            if (course != null && course.courseMarks != null)
+            {
+                return course.courseMarks.ToList();
+            }
+            return null;
         }
 
-        public Task<CourseMark[]> GetCourseMarks(string id)
+        public async Task<int> AddMark(CourseMark mark)
         {
-            return Task.FromResult(new CourseMark[0]);
+            if (mark.CourseId.HasValue)
+            {
+                Course course = await GetCourseEntity((int)mark.CourseId);
+
+                _dbContext.CourseMarks.Add(mark);
+                course.courseMarks.Add(mark);
+                await _dbContext.SaveChangesAsync();
+
+                return mark.Id;
+            }
+            return -1;
         }
 
-        public Task<string> AddMark(CourseMark mark)
+        public async Task<bool> DeleteCourseMark(int markId)
         {
-            return Task.FromResult("");
+            CourseMark mark = await GetCourseMarkEntity(markId);
+            if (mark != null)
+            {
+                _dbContext.CourseMarks.Remove(mark);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
-        public Task<bool> DeleteCourseMark(string id, string markId)
+        public async Task<bool> UpdateCourseMark(CourseMark markUpdate)
         {
-            return Task.FromResult(false);
+            var mark = _dbContext.CourseMarks.Update(markUpdate);
+            if (mark != null)
+            {
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
-        public Task<bool> UpdateCourseMark(string id, CourseMark mark)
+        private async Task<Course> GetCourseEntity(int id)
         {
-            return Task.FromResult(false);
+            return await _dbContext.Courses.FindAsync(id);
         }
+        private async Task<CourseMark> GetCourseMarkEntity(int id)
+        {
+            return await _dbContext.CourseMarks.FindAsync(id);
+        }
+
+
     }
 }
