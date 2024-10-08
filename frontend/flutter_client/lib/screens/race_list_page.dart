@@ -9,7 +9,7 @@ class RaceListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const int itemCount = 50;
+    const int itemCount = 10;
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
     final ButtonStyle buttonStyle = OutlinedButton.styleFrom(
       shape: RoundedRectangleBorder(
@@ -23,7 +23,7 @@ class RaceListPage extends StatelessWidget {
     );
     return Scaffold(
       appBar: AppBar(
-        title: Text('${destination.title} RaceListPage '),
+        title: Text('${destination.title} RaceListPage - /race_list'),
         foregroundColor: Colors.white,
       ),
       body: SizedBox.expand(
@@ -39,9 +39,9 @@ class RaceListPage extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/raceInfo');
+                  Navigator.pushNamed(context, '/race_info');
                 },
-                child: Text('Push /raceInfo [$index]'),
+                child: Text('Push /race_info [$index]'),
               ),
             );
           },

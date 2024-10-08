@@ -28,11 +28,11 @@ class _RootPageState extends State<RootPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.destination.title} ROOT'),
+        title: Text('${widget.destination.title} ROOT - /root'),
         foregroundColor: Colors.white,
       ),
       body: Center(
-        child: Text('Text'),
+        child: Text('Root Text'),
       ),
     );
   }

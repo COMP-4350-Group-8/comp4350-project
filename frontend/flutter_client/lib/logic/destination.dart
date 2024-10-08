@@ -41,10 +41,12 @@ class _DestinationViewState extends State<DestinationView> {
           builder: (BuildContext context) {
             switch (settings.name) {
               case '/':
-                return RootPage(destination: widget.destination);
-              case '/raceList':
                 return RaceListPage(destination: widget.destination);
-              case '/raceInfo':
+              case '/root':
+                return RootPage(destination: widget.destination);
+              case '/race_list':
+                return RaceListPage(destination: widget.destination);
+              case '/race_info':
                 return RaceInfoPage(destination: widget.destination);
             }
             assert(false);
