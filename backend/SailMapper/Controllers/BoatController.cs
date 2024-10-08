@@ -3,19 +3,20 @@ using SailMapper.Classes;
 using SailMapper.Services;
 using System.Text;
 using System.Text.Json;
+using SailMapper.Data;
 
 namespace SailMapper.Controllers
 {
     [ApiController]
     [Route("/boat")]
-    public class BoatController
+    public class BoatController : ControllerBase
     {
 
         private readonly BoatService boatService;
 
-        public BoatController()
+        public BoatController(SailDBContext dbContext)
         {
-            boatService = new BoatService();
+            boatService = new BoatService(dbContext);
         }
 
         /// <summary>
@@ -25,10 +26,10 @@ namespace SailMapper.Controllers
         [HttpGet("")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> GetBoats()
+        public async Task<IActionResult> GetBoats()
         {
             Boat[] boats = await boatService.GetBoats();
-            return Results.Ok(boats);
+            return Ok(boats);
         }
 
         /// <summary>
@@ -40,22 +41,20 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> CreateBoat(HttpRequestMessage request)
+        public async Task<IActionResult> CreateBoat([FromBody] Boat boat)
         {
-            if (request.Content != null)
+            
+            if (boat == null)
             {
-                Boat boat = await JsonSerializer.DeserializeAsync<Boat>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
-                if (boat == null)
-                {
-                    return Results.BadRequest();
-                }
-                var id = await boatService.AddBoat(boat);
-                if (id != null)
-                {
-                    return Results.Created(id, boat);
-                }
+                return BadRequest();
             }
-            return Results.Problem();
+            var id = await boatService.AddBoat(boat);
+            if (id != null)
+            {
+                return Created(id, boat);
+            }
+            
+            return Problem();
         }
 
         /// <summary>
@@ -66,10 +65,10 @@ namespace SailMapper.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> GetBoat(string id)
+        public async Task<IActionResult> GetBoat(int id)
         {
             Boat boat = await boatService.GetBoat(id);
-            return Results.Ok(boat);
+            return Ok(boat);
         }
 
         /// <summary>
@@ -81,22 +80,20 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> UpdateBoat(HttpRequestMessage request)
+        public async Task<IActionResult> UpdateBoat([FromBody] Boat boat)
         {
-            if (request.Content != null)
-            {
-                Boat boat = await JsonSerializer.DeserializeAsync<Boat>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
+            
                 if (boat == null)
                 {
-                    return Results.BadRequest();
+                    return BadRequest();
                 }
                 bool success = await boatService.UpdateBoat(boat);
                 if (success)
                 {
-                    return Results.Ok();
+                    return Ok();
                 }
-            }
-            return Results.Problem();
+            
+            return Problem();
         }
     }
 }

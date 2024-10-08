@@ -3,18 +3,19 @@ using SailMapper.Classes;
 using SailMapper.Services;
 using System.Text;
 using System.Text.Json;
+using SailMapper.Data;
 
 namespace SailMapper.Controllers
 {
     [ApiController]
     [Route("/course")]
-    public class CourseController
+    public class CourseController : ControllerBase
     {
         private readonly CourseService courseService;
 
-        public CourseController()
+        public CourseController(SailDBContext dbContext)
         {
-            courseService = new CourseService();
+            courseService = new CourseService(dbContext);
         }
 
         /// <summary>
@@ -26,22 +27,20 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> CreateCourse(HttpRequestMessage request)
+        public async Task<IActionResult> CreateCourse([FromBody] Course course)
         {
-            if (request.Content != null)
-            {
-                var course = await JsonSerializer.DeserializeAsync<Course>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
-                if (course == null)
-                {
-                    return Results.BadRequest();
-                }
-                var id = await courseService.AddCourse(course);
-                if (id != null)
-                {
-                    return Results.Created(id, course);
-                }
-            }
-            return Results.Problem();
+
+             if (course == null)
+             {
+                 return BadRequest();
+             }
+             var id = await courseService.AddCourse(course);
+             if (id != null)
+             {
+                 return Created(id, course);
+             }
+            
+            return Problem();
         }
 
         /// <summary>
@@ -51,10 +50,10 @@ namespace SailMapper.Controllers
         [HttpGet("")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> GetCourses()
+        public async Task<IActionResult> GetCourses()
         {
             var courses = await courseService.GetCourses();
-            return Results.Ok(courses);
+            return Ok(courses);
         }
 
         /// <summary>
@@ -66,10 +65,10 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IResult> GetCourse(string id)
+        public async Task<IActionResult> GetCourse(int id)
         {
             var course = await courseService.GetCourse(id);
-            return Results.Ok(course);
+            return Ok(course);
         }
 
         /// <summary>
@@ -81,10 +80,10 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IResult> DeleteCourse(string id)
+        public async Task<IActionResult> DeleteCourse(int id)
         {
             bool success = await courseService.DeleteCourse(id);
-            return Results.Ok(success);
+            return Ok(success);
         }
 
         /// <summary>
@@ -97,22 +96,20 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IResult> UpdateCourse(string id, HttpRequestMessage request)
+        public async Task<IActionResult> UpdateCourse(int id, [FromBody] Course course)
         {
-            if (request != null && request.Content != null)
+
+            if (course == null)
             {
-                var course = await JsonSerializer.DeserializeAsync<Course>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
-                if (course == null)
-                {
-                    return Results.BadRequest();
-                }
-                bool success = await courseService.UpdateCourse(id, course);
-                if (id != null)
-                {
-                    return Results.Ok(id);
-                }
+                return BadRequest();
             }
-            return Results.Problem();
+            bool success = await courseService.UpdateCourse(id, course);
+            if (id != null)
+            {
+                return Ok(id);
+            }
+            
+            return Problem();
         }
 
         /// <summary>
@@ -124,10 +121,10 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IResult> GetCourseMarks(string id)
+        public async Task<IActionResult> GetCourseMarks(int id)
         {
             var course = await courseService.GetCourseMarks(id);
-            return Results.Ok(course);
+            return Ok(course);
         }
 
         /// <summary>
@@ -140,22 +137,19 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> CreateMark(HttpRequestMessage request)
+        public async Task<IActionResult> CreateMark([FromBody] CourseMark mark)
         {
-            if (request.Content != null)
+            if (mark == null)
             {
-                CourseMark mark = await JsonSerializer.DeserializeAsync<CourseMark>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
-                if (mark == null)
-                {
-                    return Results.BadRequest();
-                }
-                var id = await courseService.AddMark(mark);
-                if (id != null)
-                {
-                    return Results.Created(id, mark);
-                }
+                return BadRequest();
             }
-            return Results.Problem();
+            var id = await courseService.AddMark(mark);
+            if (id != null)
+            {
+                return Created(id, mark);
+            }
+            
+            return Problem();
         }
 
         /// <summary>
@@ -169,22 +163,19 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> UpdateCourseMark(string id, HttpRequestMessage request)
+        public async Task<IActionResult> UpdateCourseMark(int id, [FromBody] CourseMark mark)
         {
-            if (request != null && request.Content != null)
+            if (mark == null)
             {
-                var mark = await JsonSerializer.DeserializeAsync<CourseMark>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
-                if (mark == null)
-                {
-                    return Results.BadRequest();
-                }
-                bool success = await courseService.UpdateCourseMark(id, mark);
-                if (id != null)
-                {
-                    return Results.Ok(id);
-                }
+                return BadRequest();
             }
-            return Results.Problem();
+            bool success = await courseService.UpdateCourseMark(id, mark);
+            if (id != null)
+            {
+                return Ok(id);
+            }
+            
+            return Problem();
         }
 
         /// <summary>
@@ -197,10 +188,10 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IResult> DeleteCourseMark(string id, string markId)
+        public async Task<IActionResult> DeleteCourseMark(int id, int markId)
         {
             bool success = await courseService.DeleteCourseMark(id, markId);
-            return Results.Ok(success);
+            return Ok(success);
         }
 
 

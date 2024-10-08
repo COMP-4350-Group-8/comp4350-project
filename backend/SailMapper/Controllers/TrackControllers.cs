@@ -3,17 +3,18 @@ using SailMapper.Classes;
 using SailMapper.Services;
 using System.Text;
 using System.Text.Json;
+using SailMapper.Data;
 
 namespace SailMapper.Controllers
 {
     [ApiController]
     [Route("/track")]
-    public class TrackControllers
+    public class TrackControllers : ControllerBase
     {
         private readonly TrackService trackService;
-        public TrackControllers()
+        public TrackControllers(SailDBContext dbContext)
         {
-            trackService = new TrackService();
+            trackService = new TrackService(dbContext);
         }
 
         // to create a track
@@ -21,32 +22,29 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> CreateTrack(HttpRequestMessage request)
+        public async Task<IActionResult> CreateTrack([FromBody] Track track)
         {
-            if (request.Content != null)
+            if (track == null)
             {
-                var track = await JsonSerializer.DeserializeAsync<Track>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
-                if (track == null)
-                {
-                    return Results.BadRequest();
-                }
-                var id = await trackService.AddTrack(track);
-                if (id != null)
-                {
-                    return Results.Created(id, track);
-                }
+                return BadRequest();
             }
-            return Results.Problem();
+            var id = await trackService.AddTrack(track);
+            if (id != null)
+            {
+                return Created(id, track);
+            }
+        
+            return Problem();
         }
 
         // to get all tracks of a race
         [HttpGet("race/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> GetRaceTracks(string id)
+        public async Task<IActionResult> GetRaceTracks(int id)
         {
             var tracks = await trackService.GetRaceTracks(id);
-            return Results.Ok(tracks);
+            return Ok(tracks);
 
         }
 
@@ -55,14 +53,14 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> GetTrack(string id)
+        public async Task<IActionResult> GetTrack(int id)
         {
             var track = await trackService.GetTrack(id);
             if (track == null)
             {
-                return Results.Problem();
+                return Problem();
             }
-            return Results.Ok(id);
+            return Ok(id);
         }
 
 
@@ -72,23 +70,23 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> UpdateTrack(string id, HttpRequestMessage request)
+        public async Task<IActionResult> UpdateTrack(int id, [FromBody] Track track)
         {
-            if (request.Content != null)
+                
+            if (track == null)
             {
-                var track = await JsonSerializer.DeserializeAsync<Track>(new MemoryStream(Encoding.UTF8.GetBytes(request.Content.ToString())));
-                if (track == null)
-                {
-                    return Results.BadRequest();
-                }
-                var result = await trackService.UpdateTrack(track);
-                if (result == null)
-                {
-                    return Results.NotFound(id);
-                }
-                return Results.Ok(id);
+                return BadRequest();
             }
-            return Results.Problem();
+            var result = await trackService.UpdateTrack(track);
+            if (result == null)
+            {
+                return NotFound(id);
+            }
+            else { 
+                return Ok(id); 
+            }
+            
+            return Problem();
         }
 
 
@@ -97,14 +95,14 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IResult> GetTrackGPX(string id)
+        public async Task<IActionResult> GetTrackGPX(int id)
         {
             var points = await trackService.GetGPX(id);
             if (points == null)
             {
-                return Results.NotFound(id);
+                return NotFound(id);
             }
-            return Results.Ok(points);
+            return Ok(points);
         }
 
     }
