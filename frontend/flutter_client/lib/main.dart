@@ -1,39 +1,196 @@
 import 'package:flutter/material.dart';
 
+import 'logic/destination.dart';
+//import 'screens/raceList_page.dart';
+//import 'screens/raceInfo_page.dart';
+
 void main() {
-  runApp(const MyApp());
+  runApp(const MaterialApp(home: Home()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-  // This widget is the root of your application.
+class Home extends StatefulWidget {
+  const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+/// [!NOTE] This class was made (almost word for word) from [https://api.flutter.dev/flutter/material/NavigationBar-class.html#material.NavigationBar.3]  
+/// [_HomeState] contains the data ([State]) for the root rout 
+class _HomeState extends State<Home> with TickerProviderStateMixin<Home> {
+  // All the destinations accessable through the navigation bar
+  static const List<Destination> allDestinations = <Destination>[
+    Destination(0, 'Info', Icons.home),
+    Destination(1, 'Races', Icons.directions_boat),
+    Destination(2, 'Join', Icons.join_full),
+    Destination(3, 'Profile', Icons.person),
+    Destination(4, 'Settings', Icons.settings_rounded)
+  ];
+
+  // Used for handling and storing data within each of the main pages 
+  late final List<GlobalKey<NavigatorState>> navigatorKeys;
+  late final List<GlobalKey> destinationKeys;
+  late final List<AnimationController> destinationFaders;
+  late final List<Widget> destinationViews;
+  
+  int selectedIndex = 0; // Current main page index
+
+  // Returns a method that manages the speed of a animations, and may request the destination to be rebuilt if it was destroyed
+  AnimationController buildFaderController() {
+    return AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    )..addStatusListener((AnimationStatus status) {
+        if (status.isDismissed) {
+          setState(() {}); // Rebuild unselected destinations offstage.
+        }
+      });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    navigatorKeys = List<GlobalKey<NavigatorState>>.generate(
+      allDestinations.length,
+      (int index) => GlobalKey(),
+    ).toList();
+
+    destinationFaders = List<AnimationController>.generate(
+      allDestinations.length,
+      (int index) => buildFaderController(),
+    ).toList();
+    destinationFaders[selectedIndex].value = 1.0;
+
+    final CurveTween tween = CurveTween(curve: Curves.fastOutSlowIn);
+    destinationViews = allDestinations.map<Widget>(
+      (Destination destination) {
+        return FadeTransition(
+          opacity: destinationFaders[destination.index].drive(tween),
+          child: DestinationView(
+            destination: destination,
+            navigatorKey: navigatorKeys[destination.index],
+          ),
+        );
+      },
+    ).toList();
+  }
+
+  @override
+  void dispose() {
+    for (final AnimationController controller in destinationFaders) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Racer Client',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return NavigatorPopHandler(
+      onPop: () {
+        final NavigatorState navigator =
+            navigatorKeys[selectedIndex].currentState!;
+        navigator.pop();
+      },
+      child: Scaffold(
+        body: SafeArea(
+          top: false,
+          child: Stack(
+            fit: StackFit.expand,
+            children: allDestinations.map(
+              (Destination destination) {
+                final int index = destination.index;
+                final Widget view = destinationViews[index];
+                if (index == selectedIndex) {
+                  destinationFaders[index].forward();
+                  return Offstage(offstage: false, child: view);
+                } else {
+                  destinationFaders[index].reverse();
+                  if (destinationFaders[index].isAnimating) {
+                    return IgnorePointer(child: view);
+                  }
+                  return Offstage(child: view);
+                }
+              },
+            ).toList(),
+          ),
+        ),
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: selectedIndex,
+          onDestinationSelected: (int index) {
+            setState(() {
+              selectedIndex = index;
+            });
+          },
+          destinations: allDestinations.map<NavigationDestination>(
+            (Destination destination) {
+              return NavigationDestination(
+                icon: Icon(destination.icon),
+                label: destination.title,
+              );
+            },
+          ).toList(),
+        ),
       ),
-      home: const HomePage(title: 'Racer Client Home'),
     );
   }
 }
+
+/*
+/*
+/// The [Destination] object contains
+/// a [index] for the current page location
+/// a [tile] for the page title
+/// a [icon] for the the page icon
+class Destination {
+  const Destination(this.index, this.title, this.icon);
+  final int index;
+  final String title;
+  final IconData icon;
+}
+
+
+class DestinationView extends StatefulWidget {
+  const DestinationView({
+    super.key,
+    required this.destination,
+    required this.navigatorKey,
+  });
+
+  final Destination destination;
+  final Key navigatorKey;
+
+  @override
+  State<DestinationView> createState() => _DestinationViewState();
+}
+
+/// [!NOTE] This class was made (almost word for word) from [https://api.flutter.dev/flutter/material/NavigationBar-class.html#material.NavigationBar.3]
+class _DestinationViewState extends State<DestinationView> {
+  @override
+  Widget build(BuildContext context) {
+    return Navigator(
+      key: widget.navigatorKey,
+      onGenerateRoute: (RouteSettings settings) {
+        return MaterialPageRoute<void>(
+          settings: settings,
+          builder: (BuildContext context) {
+            switch (settings.name) {
+              case '/':
+                return RootPage(destination: widget.destination);
+              case '/list':
+                return RacePage(destination: widget.destination);
+              case '/text':
+                return TextPage(destination: widget.destination);
+            }
+            assert(false);
+            return const SizedBox();
+          },
+        );
+      },
+    );
+  }
+}*/
+
 
 class PageRaces extends StatelessWidget {
   const PageRaces({super.key});
@@ -98,7 +255,7 @@ class _HomePageState extends State<HomePage> {
         destinations: [
           NavigationDestination(
             icon: Icon(Icons.home),
-            label: 'Home'
+            label: 'Info'
           ),
           NavigationDestination(
             icon: Icon(Icons.directions_boat),
@@ -180,3 +337,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+*/
