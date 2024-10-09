@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SailMapper.Classes;
+using SailMapper.Data;
 using SailMapper.Services;
 using System.Text;
 using System.Text.Json;
-using SailMapper.Data;
 
 namespace SailMapper.Controllers
 {
@@ -43,7 +43,7 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CreateBoat([FromBody] Boat boat)
         {
-            
+
             if (boat == null)
             {
                 return BadRequest();
@@ -53,7 +53,7 @@ namespace SailMapper.Controllers
             {
                 return Created(id, boat);
             }
-            
+
             return Problem();
         }
 
@@ -82,17 +82,17 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateBoat([FromBody] Boat boat)
         {
-            
-                if (boat == null)
-                {
-                    return BadRequest();
-                }
-                bool success = await boatService.UpdateBoat(boat);
-                if (success)
-                {
-                    return Ok();
-                }
-            
+
+            if (boat == null)
+            {
+                return BadRequest();
+            }
+            bool success = await boatService.UpdateBoat(boat);
+            if (success)
+            {
+                return Ok();
+            }
+
             return Problem();
         }
     }

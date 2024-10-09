@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SailMapper.Classes;
+using SailMapper.Data;
 using SailMapper.Services;
 using System.Text;
 using System.Text.Json;
-using SailMapper.Data;
 
 namespace SailMapper.Controllers
 {
@@ -33,7 +33,7 @@ namespace SailMapper.Controllers
             {
                 return CreatedAtAction(nameof(GetTrack), new { id = track.Id }, track);
             }
-        
+
             return Problem();
         }
 
@@ -72,7 +72,7 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateTrack(int id, [FromBody] Track track)
         {
-                
+
             if (track == null)
             {
                 return BadRequest();
@@ -82,10 +82,11 @@ namespace SailMapper.Controllers
             {
                 return NotFound(id);
             }
-            else { 
-                return Ok(id); 
+            else
+            {
+                return Ok(id);
             }
-            
+
             return Problem();
         }
 

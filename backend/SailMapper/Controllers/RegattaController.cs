@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SailMapper.Classes;
+using SailMapper.Data;
 using SailMapper.Services;
 using System.Text;
 using System.Text.Json;
-using SailMapper.Data;
 
 namespace SailMapper.Controllers
 {

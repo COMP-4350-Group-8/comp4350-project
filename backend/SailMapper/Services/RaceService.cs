@@ -17,20 +17,27 @@ namespace SailMapper.Services
         private readonly SailDBContext _dbContext;
         public RaceService(SailDBContext dbContext)
         {
-            _dbContext = dbContext;        
+            _dbContext = dbContext;
         }
 
         public async Task<int> AddRace(Race race)
         {
-            await _dbContext.Races.AddAsync(race);
-            await _dbContext.SaveChangesAsync();
-            return race.Id;
+            try
+            {
+                await _dbContext.Races.AddAsync(race);
+                await _dbContext.SaveChangesAsync();
+                return race.Id;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
         }
 
         public async Task<List<Race>> GetRaces()
         {
-            List<Race> races  = _dbContext.Races.ToList();
-            
+            List<Race> races = _dbContext.Races.ToList();
+
             return races;
         }
 
@@ -129,6 +136,11 @@ namespace SailMapper.Services
         public async Task<List<Result>> CalculateResults(int id, int averageBoat = -1, int B = 550)
         {
             List<Track> tracks = _dbContext.Tracks.Where(c => c.Race != null && c.Race.Id == id).ToList();
+
+            if (tracks.Count == 0)
+            {
+                return new List<Result>();
+            }
 
             if (averageBoat == -1 || averageBoat >= tracks.Count)
             {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SailMapper.Classes;
+using SailMapper.Data;
 using SailMapper.Services;
 using System.Text;
 using System.Text.Json;
-using SailMapper.Data;
 
 namespace SailMapper.Controllers
 {
@@ -30,16 +30,16 @@ namespace SailMapper.Controllers
         public async Task<IActionResult> CreateCourse([FromBody] Course course)
         {
 
-             if (course == null)
-             {
-                 return BadRequest();
-             }
-             var id = await courseService.AddCourse(course);
-             if (id != null)
-             {
+            if (course == null)
+            {
+                return BadRequest();
+            }
+            var id = await courseService.AddCourse(course);
+            if (id != null)
+            {
                 return CreatedAtAction(nameof(GetCourse), new { id = course.Id }, course);
             }
-            
+
             return Problem();
         }
 
@@ -108,7 +108,7 @@ namespace SailMapper.Controllers
             {
                 return Ok(id);
             }
-            
+
             return Problem();
         }
 
@@ -148,7 +148,7 @@ namespace SailMapper.Controllers
             {
                 return CreatedAtAction(nameof(GetCourseMarks), new { id = mark.Id }, mark);
             }
-            
+
             return Problem();
         }
 
@@ -174,7 +174,7 @@ namespace SailMapper.Controllers
             {
                 return Ok(id);
             }
-            
+
             return Problem();
         }
 

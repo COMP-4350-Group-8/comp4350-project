@@ -2,8 +2,6 @@
 using SailMapper.Classes;
 using SailMapper.Data;
 using SailMapper.Services;
-using System.Text;
-using System.Text.Json;
 
 namespace SailMapper.Controllers
 {
@@ -77,6 +75,10 @@ namespace SailMapper.Controllers
         public async Task<IActionResult> GetRace(int id)
         {
             var race = await raceService.GetRace(id);
+            if (race == null)
+            {
+                return NotFound();
+            }
             return Ok(race);
         }
 
@@ -110,13 +112,13 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> UpdateRace(int id, [FromBody] Race race)
         {
-            
+
             bool success = await raceService.UpdateRace(race);
             if (id != null)
             {
                 return Ok(id);
             }
-            
+
             return Problem();
         }
 
