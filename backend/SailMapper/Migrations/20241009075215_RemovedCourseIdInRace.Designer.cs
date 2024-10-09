@@ -12,8 +12,8 @@ using SailMapper.Data;
 namespace SailMapper.Migrations
 {
     [DbContext(typeof(SailDBContext))]
-    [Migration("20241007034755_AddCourseIdToRace")]
-    partial class AddCourseIdToRace
+    [Migration("20241009075215_RemovedCourseIdInRace")]
+    partial class RemovedCourseIdInRace
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -144,9 +144,6 @@ namespace SailMapper.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime(6)");
 
@@ -161,8 +158,6 @@ namespace SailMapper.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
 
                     b.HasIndex("RegattaId");
 
@@ -341,17 +336,9 @@ namespace SailMapper.Migrations
 
             modelBuilder.Entity("SailMapper.Classes.Race", b =>
                 {
-                    b.HasOne("SailMapper.Classes.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SailMapper.Classes.Regatta", "Regatta")
                         .WithMany("Races")
                         .HasForeignKey("RegattaId");
-
-                    b.Navigation("Course");
 
                     b.Navigation("Regatta");
                 });

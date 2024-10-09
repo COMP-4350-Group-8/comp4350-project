@@ -141,9 +141,6 @@ namespace SailMapper.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime(6)");
 
@@ -158,8 +155,6 @@ namespace SailMapper.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CourseId");
 
                     b.HasIndex("RegattaId");
 
@@ -338,17 +333,9 @@ namespace SailMapper.Migrations
 
             modelBuilder.Entity("SailMapper.Classes.Race", b =>
                 {
-                    b.HasOne("SailMapper.Classes.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SailMapper.Classes.Regatta", "Regatta")
                         .WithMany("Races")
                         .HasForeignKey("RegattaId");
-
-                    b.Navigation("Course");
 
                     b.Navigation("Regatta");
                 });
