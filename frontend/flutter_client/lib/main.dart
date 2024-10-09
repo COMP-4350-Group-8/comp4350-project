@@ -36,6 +36,9 @@ final GoRouter _router = GoRouter(
           parentNavigatorKey: _shellNavigatorKey,
           path: '/home',
           name: 'home',
+          builder: (context, state){
+            return const Text('place a list here');
+          }
         ),
         GoRoute(
           parentNavigatorKey: _shellNavigatorKey,
@@ -49,11 +52,17 @@ final GoRouter _router = GoRouter(
           parentNavigatorKey: _shellNavigatorKey,
           path: '/join',
           name: 'join',
+          builder: (context, state){
+            return const Text('place temp here');
+          }
         ),
         GoRoute(
           parentNavigatorKey: _shellNavigatorKey,
           path: '/profile',
           name: 'profile',
+          builder: (context, state){
+            return const Text('place temp here');
+          }
         )
       ]
     )
