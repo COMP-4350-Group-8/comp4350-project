@@ -59,7 +59,7 @@ namespace Tests
             Race race = new Race();
             var id = await _service.AddRace(race);
 
-            Assert.True(id > 0);
+            Assert.Equal(-1, id);
         }
 
         [Fact]
@@ -86,6 +86,7 @@ namespace Tests
             Assert.NotNull(results);
         }
 
+        // [Fact]
         [Fact]
         public async Task Calculate_Result_Full()
         {
@@ -112,7 +113,7 @@ namespace Tests
 
             Assert.IsType<List<Result>>(results);
             Assert.True(results.Count > 0, $"Result count is {results.Count}");
-            //Assert.Equal(10, results.Count); TODO: FIX
+            Assert.Equal(10, results.Count); //TODO: FIX
             Assert.True(results[0].CorrectedTime < results[1].CorrectedTime);
             Assert.True(results[1].CorrectedTime < results[2].CorrectedTime);
             Assert.True(results[0].CorrectedTime < results[9].CorrectedTime);
