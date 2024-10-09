@@ -80,7 +80,7 @@ jobs:
           node-version: 20.x
       - run: npm install
       - name: Run Lint
-        run: npm lint
+        run: npm run lint
 
   backend-linting:
     name: Backend Lint Check
