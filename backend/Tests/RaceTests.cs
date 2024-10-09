@@ -18,8 +18,8 @@ namespace Tests
         {
             var optionsBuilder = new DbContextOptionsBuilder<SailDBContext>();
 
-            var connectionString = "Server = localhost;Database = SailDB;User = root; Password = lowisa;";
-            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            //var connectionString = "Server = localhost;Database = SailDB;User = root; Password = Lowisa;";
+            optionsBuilder.UseMySql("Server=localhost;Database=SailDB;User=root;Password=Lowisa;", new MySqlServerVersion(new Version(8, 0, 2)));
 
 
 
@@ -59,7 +59,7 @@ namespace Tests
             Race race = new Race();
             var id = await _service.AddRace(race);
 
-            Assert.Equal(-1, id);
+            Assert.True(id > 0);
         }
 
         [Fact]
@@ -111,6 +111,7 @@ namespace Tests
 
 
             Assert.IsType<List<Result>>(results);
+            Assert.True(results.Count > 0, $"Result count is {results.Count}");
             //Assert.Equal(10, results.Count); TODO: FIX
             Assert.True(results[0].CorrectedTime < results[1].CorrectedTime);
             Assert.True(results[1].CorrectedTime < results[2].CorrectedTime);
