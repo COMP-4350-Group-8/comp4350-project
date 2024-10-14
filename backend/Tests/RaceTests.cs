@@ -19,6 +19,7 @@ namespace Tests
             var optionsBuilder = new DbContextOptionsBuilder<SailDBContext>();
 
             //var connectionString = "Server = localhost;Database = SailDB;User = root; Password = Lowisa;";
+            //Connect to dev DB
             optionsBuilder.UseMySql("Server=localhost;Database=SailDB;User=root;Password=Lowisa;", new MySqlServerVersion(new Version(8, 0, 2)));
 
 
