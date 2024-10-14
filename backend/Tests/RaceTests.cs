@@ -53,6 +53,7 @@ namespace Tests
             Assert.IsType<List<Race>>(result);
         }
 
+        // test adding a race
         [Fact]
         public async Task Add_Race()
         {
