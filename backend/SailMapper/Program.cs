@@ -38,7 +38,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddDbContext<SailDBContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("MySqlConn"), new MySqlServerVersion(new Version(8, 0, 2))));
+    options.UseMySql(builder.Configuration.GetConnectionString("DevMySqlConn"), new MySqlServerVersion(new Version(8, 0, 2))));
 
 var app = builder.Build();
 
