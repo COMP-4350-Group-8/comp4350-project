@@ -12,8 +12,8 @@ using SailMapper.Data;
 namespace SailMapper.Migrations
 {
     [DbContext(typeof(SailDBContext))]
-    [Migration("20241009075215_RemovedCourseIdInRace")]
-    partial class RemovedCourseIdInRace
+    [Migration("20241018210432_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
