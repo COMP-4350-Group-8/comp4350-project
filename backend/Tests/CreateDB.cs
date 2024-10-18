@@ -16,6 +16,7 @@ namespace Tests
                 connection.Open();
                 using (var command = connection.CreateCommand())
                 {
+                    command.CommandText = $"DROP DATABASE IF EXISTS `{testDBName}`";
                     command.CommandText = $"CREATE DATABASE `{testDBName}`";
                     command.ExecuteNonQuery();
                 }
