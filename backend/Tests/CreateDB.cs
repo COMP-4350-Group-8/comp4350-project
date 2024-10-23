@@ -17,8 +17,7 @@ namespace Tests
                 connection.Open();
                 using (var command = connection.CreateCommand())
                 {
-                    command.CommandText = $"DROP DATABASE IF EXISTS `{testDBName}`";
-                    command.CommandText = $"CREATE DATABASE `{testDBName}`";
+                    command.CommandText = $"DROP DATABASE IF EXISTS `{testDBName}`; CREATE DATABASE `{testDBName}`";
                     command.ExecuteNonQuery();
                 }
             }
@@ -45,6 +44,7 @@ namespace Tests
                     command.CommandText = $"DROP DATABASE IF EXISTS `{dbName}`";
                     command.ExecuteNonQuery();
                 }
+
             }
         }
 
@@ -249,6 +249,7 @@ namespace Tests
                 new Boat { Name = "Seas the Moment", Class = "Deck Boat", SailNumber = "DEC123", Skipper = "Isabella Moore", RatingId = 20 }
             };
 
+
             var ratings = new List<Rating>
             {
                 new Rating { Id = 1, BaseRating = 100, SpinnakerAdjustment = -3, Adjustment = 2, CurrentRating = 99 },
@@ -297,7 +298,6 @@ namespace Tests
                     Courses = new List<Course> { courses[0] }, // Harbor Loop
                     Results = new List<Result>(),
                     Tracks = new List<Track>(),
-                    RegattaId = 1
                 },
                 new Race
                 {
@@ -309,7 +309,6 @@ namespace Tests
                     Courses = new List<Course> { courses[1] }, // Offshore Challenge
                     Results = new List<Result>(),
                     Tracks = new List<Track>(),
-                    RegattaId = 1
                 },
                 new Race
                 {
@@ -321,7 +320,6 @@ namespace Tests
                     Courses = new List<Course> { courses[2] }, // Island Circuit
                     Results = new List<Result>(),
                     Tracks = new List<Track>(),
-                    RegattaId = 1
                 },
                 new Race
                 {
@@ -333,7 +331,6 @@ namespace Tests
                     Courses = new List<Course> { courses[0], courses[2], courses[1] }, // Combining all courses
                     Results = new List<Result>(),
                     Tracks = new List<Track>(),
-                    RegattaId = 1
                 }
             };
 

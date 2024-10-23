@@ -24,7 +24,6 @@ namespace SailMapper.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //optionsBuilder.UseMySql("Server=localhost;Database=SailDB;User=root;Password=Lowisa;", new MySqlServerVersion(new Version(8, 0, 2)));
                 optionsBuilder.UseMySql(Environment.GetEnvironmentVariable("DevMySqlConn"), new MySqlServerVersion(new Version(8, 0, 2)));
             }
         }

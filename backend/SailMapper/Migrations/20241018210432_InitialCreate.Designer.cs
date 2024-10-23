@@ -12,7 +12,7 @@ using SailMapper.Data;
 namespace SailMapper.Migrations
 {
     [DbContext(typeof(SailDBContext))]
-    [Migration("20241006075511_InitialCreate")]
+    [Migration("20241018210432_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -52,6 +52,7 @@ namespace SailMapper.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int?>("RatingId")
@@ -79,9 +80,11 @@ namespace SailMapper.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int?>("RaceId")
@@ -106,6 +109,7 @@ namespace SailMapper.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int?>("GateId")
@@ -114,10 +118,10 @@ namespace SailMapper.Migrations
                     b.Property<bool?>("IsStartLine")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<float?>("Latitude")
+                    b.Property<float>("Latitude")
                         .HasColumnType("float");
 
-                    b.Property<float?>("Longitude")
+                    b.Property<float>("Longitude")
                         .HasColumnType("float");
 
                     b.Property<bool?>("Rounding")
@@ -140,16 +144,17 @@ namespace SailMapper.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("EndTime")
+                    b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int?>("RegattaId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("StartTime")
+                    b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
@@ -167,13 +172,16 @@ namespace SailMapper.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("Adjustment")
+                    b.Property<int>("Adjustment")
                         .HasColumnType("int");
 
-                    b.Property<int?>("BaseRating")
+                    b.Property<int>("BaseRating")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SpinnakerAdjustment")
+                    b.Property<int>("CurrentRating")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SpinnakerAdjustment")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -190,9 +198,11 @@ namespace SailMapper.Migrations
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
@@ -208,28 +218,29 @@ namespace SailMapper.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("BoatId")
+                    b.Property<int>("BoatId")
                         .HasColumnType("int");
 
-                    b.Property<TimeOnly?>("CorrectedTime")
+                    b.Property<TimeSpan>("CorrectedTime")
                         .HasColumnType("time(6)");
 
-                    b.Property<TimeOnly?>("ElapsedTime")
+                    b.Property<TimeSpan>("ElapsedTime")
                         .HasColumnType("time(6)");
 
-                    b.Property<int?>("FinishPosition")
+                    b.Property<int>("FinishPosition")
                         .HasColumnType("int");
 
                     b.Property<string>("FinishType")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("Points")
+                    b.Property<int>("Points")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RaceId")
+                    b.Property<int>("RaceId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Rating")
+                    b.Property<int>("Rating")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -249,22 +260,23 @@ namespace SailMapper.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("BoatId")
+                    b.Property<int>("BoatId")
                         .HasColumnType("int");
 
-                    b.Property<float?>("Distance")
+                    b.Property<float>("Distance")
                         .HasColumnType("float");
 
-                    b.Property<DateTime?>("Finished")
+                    b.Property<DateTime>("Finished")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("GpxData")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("RaceId")
+                    b.Property<int>("RaceId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("Started")
+                    b.Property<DateTime>("Started")
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
@@ -302,11 +314,9 @@ namespace SailMapper.Migrations
 
             modelBuilder.Entity("SailMapper.Classes.Course", b =>
                 {
-                    b.HasOne("SailMapper.Classes.Race", "Race")
+                    b.HasOne("SailMapper.Classes.Race", null)
                         .WithMany("Courses")
                         .HasForeignKey("RaceId");
-
-                    b.Navigation("Race");
                 });
 
             modelBuilder.Entity("SailMapper.Classes.CourseMark", b =>
@@ -337,11 +347,15 @@ namespace SailMapper.Migrations
                 {
                     b.HasOne("SailMapper.Classes.Boat", "Boat")
                         .WithMany("Results")
-                        .HasForeignKey("BoatId");
+                        .HasForeignKey("BoatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SailMapper.Classes.Race", "Race")
                         .WithMany("Results")
-                        .HasForeignKey("RaceId");
+                        .HasForeignKey("RaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Boat");
 
@@ -352,11 +366,15 @@ namespace SailMapper.Migrations
                 {
                     b.HasOne("SailMapper.Classes.Boat", "Boat")
                         .WithMany("Tracks")
-                        .HasForeignKey("BoatId");
+                        .HasForeignKey("BoatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("SailMapper.Classes.Race", "Race")
                         .WithMany("Tracks")
-                        .HasForeignKey("RaceId");
+                        .HasForeignKey("RaceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Boat");
 
