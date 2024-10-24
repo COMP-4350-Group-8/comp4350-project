@@ -1,5 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Reflection.Metadata;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SailMapper.Classes
 {
@@ -16,5 +16,7 @@ namespace SailMapper.Classes
         public DateTime Finished { get; set; }
         public float Distance { get; set; }
         public required string GpxData { get; set; }
+        [NotMapped]
+        public int? CurrentRating { get; set; }
     }
 }

@@ -284,7 +284,18 @@ namespace Tests
             List<Boat> boats = context.Boats.ToList();
             List<Course> courses = context.Courses.ToList();
 
-            // Assuming we have access to the previously defined 'courses' and 'boats' lists
+            if (boats.Count == 0)
+            {
+                AddBoats(context);
+                boats = context.Boats.ToList();
+            }
+
+            if (courses.Count == 0)
+            {
+                AddCourses(context);
+                courses = context.Courses.ToList();
+            }
+
 
             var races = new List<Race>
             {
@@ -337,6 +348,7 @@ namespace Tests
             context.Races.AddRange(races);
             context.SaveChanges();
         }
+
         public static void AddRegattas(SailDBContext context)
         {
 
