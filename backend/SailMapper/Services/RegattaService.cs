@@ -16,9 +16,13 @@ namespace SailMapper.Services
 
         public async Task<int> AddRegatta(Regatta regatta)
         {
-            await _dbContext.Regattas.AddAsync(regatta);
-            await _dbContext.SaveChangesAsync();
-            return regatta.Id;
+            if (regatta != null && regatta.Name.Replace(" ", "").Length > 0)
+            {
+                var entry = await _dbContext.Regattas.AddAsync(regatta);
+                await _dbContext.SaveChangesAsync();
+                return entry.Entity.Id;
+            }
+            return -1;
         }
 
         //Implement
