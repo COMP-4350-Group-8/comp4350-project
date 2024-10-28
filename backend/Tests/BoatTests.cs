@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SailMapper.Classes;
-using SailMapper.Controllers;
 using SailMapper.Data;
 using SailMapper.Services;
 
@@ -9,14 +8,12 @@ namespace Tests
     //Tests created with the help of Claude
     public class BoatTests : IDisposable
     {
-        private readonly BoatController _controller;
         private readonly BoatService _service;
         private readonly SailDBContext _dbContext;
 
         public BoatTests()
         {
             _dbContext = CreateDB.InitalizeDB();
-            _controller = new BoatController(_dbContext);
             _service = new BoatService(_dbContext);
         }
 

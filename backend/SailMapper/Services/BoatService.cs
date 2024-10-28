@@ -14,7 +14,7 @@ namespace SailMapper.Services
 
         public async Task<string> AddBoat(Boat boat)
         {
-            if (boat != null && boat.Name.Replace(" ", "").Length > 0)
+            if (boat != null && boat.Name != null && boat.Name.Replace(" ", "").Length > 0)
             {
                 var entry = await _dbContext.Boats.AddAsync(boat);
                 await _dbContext.SaveChangesAsync();

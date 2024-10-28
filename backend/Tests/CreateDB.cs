@@ -10,7 +10,8 @@ namespace Tests
 
         public static SailDBContext InitalizeDB()
         {
-            string testDBName = "temp_test_sail_mapper";
+            int random = new Random().Next();
+            string testDBName = "temp_test_sail_mapper" + random.ToString();
             string connectionString = $"Server=localhost;Database={testDBName};User=root;Password=potato;";
             using (var connection = new MySqlConnection("Server=localhost;User=root;Password=potato"))
             {
