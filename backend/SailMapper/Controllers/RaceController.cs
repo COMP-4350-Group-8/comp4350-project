@@ -17,20 +17,28 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// Add a Race by sending a race object
+        /// Creates a new Race by sending a Race object.
         /// </summary>
         /// <remarks>
         /// Sample request:
-        /// Post /race
-        /// {
-        ///     "Course Id": string
-        ///     "Start Time": DateTime
-        ///     "End Time": DateTime
-        ///     "Name": string
+        /// 
+        /// POST /race
+        /// 
+        /// {  
+        /// 
+        ///     "courseId": int,   // ID of the course where the race takes place
+        ///     
+        ///     "startTime": dateTime,   // UTC start time of the race
+        ///     
+        ///     "endTime": dateTime,     // UTC end time of the race
+        ///     
+        ///     "name": string         // Name of the race
+        /// 
         /// }
         /// </remarks>
-        /// <param name="request"></param>
-        /// <returns>Id of created race</returns>
+        /// <response code="201">Race created successfully with the new race ID.</response>
+        /// <response code="400">If any of the required fields are missing or invalid.</response>
+        /// <response code="500">If there is an internal server error.</response>
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -51,9 +59,10 @@ namespace SailMapper.Controllers
             return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while creating the race.");
         }
         /// <summary>
-        /// 
+        /// Returns a list of all races
         /// </summary>
-        /// <returns>List of all races</returns>
+        /// <response code="200">list of all races returned successfully.</response>
+        /// <response code="500">If there is an internal server error.</response>
         [HttpGet("")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -64,10 +73,12 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Returns a specific Race 
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>Data for specified race</returns>
+        /// <response code="200">Race returned successfully.</response>
+        /// <response code="404">Race not found.</response>
+        /// <response code="500">If there is an internal server error.</response>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -83,10 +94,12 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Deletes a specific Race 
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>Http codes</returns>
+        /// <response code="200">Race deleted successfully.</response>
+        /// <response code="404">Race not found.</response>
+        /// <response code="500">If there is an internal server error.</response>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -98,14 +111,30 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Update a Race by sending a Race object.
         /// </summary>
-        ///<remarks>
-        /// send a partially populated Race object, all populated fields will be updated to the given data
+        /// <remarks>
+        /// Sample request:
+        /// 
+        /// PUT /race/{id}
+        /// 
+        /// {  
+        /// 
+        ///     "courseId": int,   // ID of the course where the race takes place
+        ///     
+        ///     "startTime": dateTime,   // UTC start time of the race
+        ///     
+        ///     "endTime": dateTime,     // UTC end time of the race
+        ///     
+        ///     "name": string         // Name of the race
+        /// 
+        /// }
+        /// 
+        /// <response code="200">Race updated successfully.</response>
+        /// <response code="404">Race not found.</response>
+        /// <response code="500">If there is an internal server error.</response>
         /// </remarks>
         /// <param name="id"></param>
-        /// <param name="request"></param>
-        /// <returns>Http codes</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -123,10 +152,12 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Returns a list of all Boat objects in the specific race 
         /// </summary>
+        /// <response code="200">list of Boat objects returned successfully.</response>
+        /// <response code="404">Race not found.</response>
+        /// <response code="500">If there is an internal server error.</response>
         /// <param name="id"></param>
-        /// <returns>List of all boat objects in the specified race</returns>
         [HttpGet("{id}/participants")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -142,11 +173,13 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Add a participant (Boat) id to a race id
         /// </summary>
+        /// <response code="202">The request was successfull.</response>
+        /// <response code="404">Race or Boat not found.</response>
+        /// <response code="500">If there is an internal server error.</response>
         /// <param name="id"></param>
         /// <param name="boat"></param>
-        /// <returns>Http codes</returns>
         [HttpPut("{id}/participant/{boat}")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -162,11 +195,13 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Delete a participant (Boat) id from a race id
         /// </summary>
+        /// <response code="202">The request was successfull.</response>
+        /// <response code="404">Race or Boat not found.</response>
+        /// <response code="500">If there is an internal server error.</response>
         /// <param name="id"></param>
         /// <param name="boat"></param>
-        /// <returns>Http codes</returns>
         [HttpDelete("{id}/participant/{boat}")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -182,10 +217,12 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Returns a Result object from a specific race
         /// </summary>
+        /// <response code="202">The request was successfull.</response>
+        /// <response code="404">Race not found.</response>
+        /// <response code="500">If there is an internal server error.</response>
         /// <param name="id"></param>
-        /// <returns>Result object for each boat in the race</returns>
         [HttpGet("{id}/results")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -199,10 +236,12 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Returns a Result difference for a boat(B) based on boat(baseBoat) from a specific race(id)  
         /// </summary>
+        /// <response code="202">The request was successfull.</response>
+        /// <response code="404">Race or Boat not found.</response>
+        /// <response code="500">If there is an internal server error.</response>
         /// <param name="id"></param>
-        /// <returns>Result object for each boat in the race</returns>
         [HttpGet("{id}/calculate/{baseBoat}/{B}")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
