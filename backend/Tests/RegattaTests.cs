@@ -39,7 +39,6 @@ namespace Tests
             int result = await _service.AddRegatta(newRegatta);
 
             // Assert
-            Assert.NotNull(result);
             Assert.NotEqual(-1, result);
             Assert.Equal(1, result);
         }
@@ -210,7 +209,7 @@ namespace Tests
             var result = await _service.GetRegattaResults(1);
 
             // Assert
-            Assert.Equal(1, result.Count());
+            Assert.Single(result);
             Assert.Equal(2, result[0].Count());
             Assert.Equal(1, result[0][0].Points);
             Assert.Equal(2, result[0][1].Points);
@@ -221,7 +220,7 @@ namespace Tests
         [InlineData("")]
         [InlineData(null)]
         [InlineData("   ")]
-        public async Task CreateRegatta_InvalidName_ThrowsArgumentException(string invalidName)
+        public async Task CreateRegatta_InvalidName_ThrowsArgumentException(string? invalidName)
         {
             // Arrange
             var invalidRegatta = new Regatta

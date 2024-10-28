@@ -122,7 +122,7 @@ namespace Tests
         [InlineData("")]
         [InlineData(null)]
         [InlineData("   ")]
-        public async Task CreateBoat_InvalidName(string invalidName)
+        public async Task CreateBoat_InvalidName(string? invalidName)
         {
             // Arrange
             var invalidBoat = new Boat

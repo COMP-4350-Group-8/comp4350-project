@@ -42,7 +42,6 @@ namespace Tests
             var result = await _service.AddTrack(newTrack);
 
             // Assert
-            Assert.NotNull(result);
             Assert.Equal(1, result);
         }
 
@@ -252,7 +251,7 @@ namespace Tests
             //    _service.AddTrack(newTrack));
             var result = await _service.AddTrack(newTrack);
 
-            Assert.Equal(result, 2);
+            Assert.Equal(2, result);
         }
     }
 }
