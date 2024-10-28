@@ -20,9 +20,10 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Returns a list of all boats
         /// </summary>
-        /// <returns>List of all boats</returns>
+        /// <response code="200">The request was successfull.</response>
+        /// <response code="500">If there is an internal server error.</response>
         [HttpGet("")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -33,10 +34,24 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Creates a new Boat by sending a Boat object
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns>Id of created boat</returns>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        /// POST /boat
+        /// 
+        /// {  
+        /// 
+        ///     "id": int,              // ID of the boat (put any number, since Database will assign the id automatically)
+        ///        
+        ///     "name": string         // Name of the boat
+        /// 
+        /// }
+        /// </remarks>
+        /// <response code="201">Boat created successfully.</response>
+        /// <response code="400">If any of the required fields are missing or invalid.</response>
+        /// <response code="500">If there is an internal server error.</response>
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -58,10 +73,11 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Returns a specific boat
         /// </summary>
+        /// <response code="200">Boat returned successfully.</response>
+        /// <response code="500">If there is an internal server error.</response>
         /// <param name="id"></param>
-        /// <returns>data of specified boat</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -72,10 +88,24 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Updates a specific Boat
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns>Http codes</returns>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        /// PUT /boat/{id}
+        /// 
+        /// {  
+        /// 
+        ///     "id": int,              // ID of the boat (put any number, since Database will assign the id automatically)
+        ///        
+        ///     "name": string         // Name of the boat
+        /// 
+        /// }
+        /// </remarks>
+        /// <response code="201">Boat updated successfully.</response>
+        /// <response code="400">If any of the required fields are missing or invalid.</response>
+        /// <response code="500">If there is an internal server error.</response>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

@@ -17,7 +17,7 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// Creates a new Race by sending a Race object.
+        /// Creates a new Race by sending a Race object
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -26,17 +26,17 @@ namespace SailMapper.Controllers
         /// 
         /// {  
         /// 
-        ///     "courseId": int,   // ID of the course where the race takes place
+        ///     "id": int,               // ID of the race (put any number, since Database will assign the id automatically)
         ///     
         ///     "startTime": dateTime,   // UTC start time of the race
         ///     
         ///     "endTime": dateTime,     // UTC end time of the race
         ///     
-        ///     "name": string         // Name of the race
+        ///     "name": string           // Name of the race
         /// 
         /// }
         /// </remarks>
-        /// <response code="201">Race created successfully with the new race ID.</response>
+        /// <response code="201">Race created successfully.</response>
         /// <response code="400">If any of the required fields are missing or invalid.</response>
         /// <response code="500">If there is an internal server error.</response>
         [HttpPost("")]
@@ -111,7 +111,7 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// Update a Race by sending a Race object.
+        /// Update a Race by sending a Race object
         /// </summary>
         /// <remarks>
         /// Sample request:
