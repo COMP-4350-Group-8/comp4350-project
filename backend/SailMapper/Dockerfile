@@ -11,12 +11,14 @@ EXPOSE 8081
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
+WORKDIR /src/SailMapper
 COPY ["SailMapper.csproj", "."]
 RUN dotnet restore "./SailMapper.csproj"
 COPY . .
-WORKDIR "/src/."
+#COPY ["./SailMapper.csproj", "SailMapper/"] 
+# WORKDIR "/src/SailMapper"
 RUN dotnet build "./SailMapper.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet ef database update
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
