@@ -43,9 +43,63 @@ namespace SailMapper.Controllers
         /// 
         /// {  
         /// 
-        ///     "id": int,              // ID of the boat (put any number, since Database will assign the id automatically)
+        ///     "id": int,                      // id of the Boat (put any number, since Database will assign the id automatically)
         ///        
-        ///     "name": string         // Name of the boat
+        ///     "name": string,                 // name of the boat
+        ///         
+        ///     "class": string,                // in what class boat competes
+        ///     
+        ///     "sailNimber": string,           // Sail number
+        ///     
+        ///     "skipper": string,              // name of the skipper
+        ///     
+        ///     "ratingId": int,                // id of the Rating
+        ///     
+        ///     "rating": {                     // can be one rating per boat 
+        ///     
+        ///         "id": int,                  // id of the Rating
+        ///         
+        ///         "baseRating": int,          // rating of the boat
+        ///         
+        ///         "spinnakerAdjustment": int, // spinnaker adjustment configurations
+        ///         
+        ///         "adjustment": int,          
+        ///         
+        ///         "currentRating": int,       // current rating
+        ///         
+        ///         "boats": [ Boat ]           // can be many Boats
+        ///         
+        ///     },
+        ///     
+        ///     "results": [                    // can be many Results
+        ///         
+        ///         {
+        ///         
+        ///         "id": int,                  // id of the Result
+        /// 
+        ///         "boatId": int,              // id of the Boat it is attached to
+        ///
+        ///         "raceId": int,              // id of the Race it is attached to
+        ///         
+        ///         "finishPosition": int,      // at what place did the boat finish the race
+        ///
+        ///         "elapsedTime": string,      // time it took to complete the race
+        ///         
+        ///         "correctedTime": string,    // time after the penalties
+        ///         
+        ///         "rating": int,              // rating of the boat
+        ///         
+        ///         "points": int,              // how many points did the boat get
+        ///         
+        ///         "finishType": string        // disqualification (DQ), do not finish (DNF), normal 
+        ///         
+        ///         } 
+        ///         
+        ///     ],
+        ///     
+        ///     "tracks": [ Track ],            // can be many Tracks. Please refer to POST Track
+        ///     
+        ///     "races": [ Race ]               // can be many Races. Please refer to POST Race
         /// 
         /// }
         /// </remarks>
@@ -97,9 +151,63 @@ namespace SailMapper.Controllers
         /// 
         /// {  
         /// 
-        ///     "id": int,              // ID of the boat (put any number, since Database will assign the id automatically)
+        ///     "id": int,                      // id of the Boat (put any number, since Database will assign the id automatically)
         ///        
-        ///     "name": string         // Name of the boat
+        ///     "name": string,                 // name of the boat
+        ///         
+        ///     "class": string,                // in what class boat competes
+        ///     
+        ///     "sailNimber": string,           // Sail number
+        ///     
+        ///     "skipper": string,              // name of the skipper
+        ///     
+        ///     "ratingId": int,                // id of the Rating
+        ///     
+        ///     "rating": {                     // can be one rating per boat 
+        ///     
+        ///         "id": int,                  // id of the Rating
+        ///         
+        ///         "baseRating": int,          // rating of the boat
+        ///         
+        ///         "spinnakerAdjustment": int, // spinnaker adjustment configurations
+        ///         
+        ///         "adjustment": int,          
+        ///         
+        ///         "currentRating": int,       // current rating
+        ///         
+        ///         "boats": [ Boat ]           // can be many Boats
+        ///         
+        ///     },
+        ///     
+        ///     "results": [                    // can be many Results
+        ///         
+        ///         {
+        ///         
+        ///         "id": int,                  // id of the Result
+        /// 
+        ///         "boatId": int,              // id of the Boat it is attached to
+        ///
+        ///         "raceId": int,              // id of the Race it is attached to
+        ///         
+        ///         "finishPosition": int,      // at what place did the boat finish the race
+        ///
+        ///         "elapsedTime": string,      // time it took to complete the race
+        ///         
+        ///         "correctedTime": string,    // time after the penalties
+        ///         
+        ///         "rating": int,              // rating of the boat
+        ///         
+        ///         "points": int,              // how many points did the boat get
+        ///         
+        ///         "finishType": string        // disqualification (DQ), do not finish (DNF), normal 
+        ///         
+        ///         } 
+        ///         
+        ///     ],
+        ///     
+        ///     "tracks": [ Track ],            // can be many Tracks. Please refer to POST Track
+        ///     
+        ///     "races": [ Race ]               // can be many Races. Please refer to POST Race
         /// 
         /// }
         /// </remarks>

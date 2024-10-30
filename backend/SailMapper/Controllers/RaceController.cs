@@ -26,14 +26,48 @@ namespace SailMapper.Controllers
         /// 
         /// {  
         /// 
-        ///     "id": int,               // ID of the race (put any number, since Database will assign the id automatically)
+        ///     "id": int,                  // id of the race
         ///     
-        ///     "startTime": dateTime,   // UTC start time of the race
+        ///     "startTime": dateTime,      // UTC start time of the race
         ///     
-        ///     "endTime": dateTime,     // UTC end time of the race
+        ///     "endTime": dateTime,        // UTC end time of the race
         ///     
-        ///     "name": string           // Name of the race
-        /// 
+        ///     "name": string,              // Name of the race
+        ///     
+        ///     "participants": [ Boat ],    // can be many Boats. Please refer to POST Boat
+        ///     
+        ///     "courses": [ Course ],       // can be many Courses. Please refer to POST Course
+        ///     
+        ///     "results": [                // can be many Results
+        ///         
+        ///         {
+        ///         
+        ///         "id": int,              // id of the Result
+        ///
+        ///         "boatId": int,          // id of the Boat it is attached to
+        ///
+        ///         "raceId": int,          // id of the Race it is attached to
+        ///         
+        ///         "finishPosition": int,  // at what place did the boat finish the race
+        ///
+        ///         "elapsedTime": string,  // time it took to complete the race
+        ///         
+        ///         "correctedTime": string,// time after the penalties
+        ///         
+        ///         "rating": int,          // rating of the boat
+        ///         
+        ///         "points": int,          // how many points did the boat get
+        ///         
+        ///         "finishType": string    // disqualification (DQ), do not finish (DNF), normal 
+        ///         
+        ///         } 
+        ///         
+        ///     ],
+        ///     
+        ///     "tracks": [ Track ],         // can be many Tracks. Please refer to POST Track
+        ///     
+        ///     "regattaId": int            // id of the Regatta the race belongs to
+        ///     
         /// }
         /// </remarks>
         /// <response code="201">Race created successfully.</response>
@@ -120,20 +154,53 @@ namespace SailMapper.Controllers
         /// 
         /// {  
         /// 
-        ///     "courseId": int,   // ID of the course where the race takes place
+        ///     "id": int,                  // id of the race
         ///     
-        ///     "startTime": dateTime,   // UTC start time of the race
+        ///     "startTime": dateTime,      // UTC start time of the race
         ///     
-        ///     "endTime": dateTime,     // UTC end time of the race
+        ///     "endTime": dateTime,        // UTC end time of the race
         ///     
-        ///     "name": string         // Name of the race
-        /// 
+        ///     "name": string,              // Name of the race
+        ///     
+        ///     "participants": [ Boat ],    // can be many Boats. Please refer to POST Boat
+        ///     
+        ///     "courses": [ Course ],       // can be many Courses. Please refer to POST Course
+        ///     
+        ///     "results": [                // can be many Results
+        ///         
+        ///         {
+        ///         
+        ///         "id": int,              // id of the Result
+        ///
+        ///         "boatId": int,          // id of the Boat it is attached to
+        ///
+        ///         "raceId": int,          // id of the Race it is attached to
+        ///         
+        ///         "finishPosition": int,  // at what place did the boat finish the race
+        ///
+        ///         "elapsedTime": string,  // time it took to complete the race
+        ///         
+        ///         "correctedTime": string,// time after the penalties
+        ///         
+        ///         "rating": int,          // rating of the boat
+        ///         
+        ///         "points": int,          // how many points did the boat get
+        ///         
+        ///         "finishType": string    // disqualification (DQ), do not finish (DNF), normal 
+        ///         
+        ///         } 
+        ///         
+        ///     ],
+        ///     
+        ///     "tracks": [ Track ],         // can be many Tracks. Please refer to POST Track
+        ///     
+        ///     "regattaId": int            // id of the Regatta the race belongs to
+        ///     
         /// }
-        /// 
+        /// </remarks>
         /// <response code="200">Race updated successfully.</response>
         /// <response code="404">Race not found.</response>
         /// <response code="500">If there is an internal server error.</response>
-        /// </remarks>
         /// <param name="id"></param>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
