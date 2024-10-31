@@ -12,13 +12,6 @@
     <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="docker-compose.yml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="docker-compose.yml" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.8" />

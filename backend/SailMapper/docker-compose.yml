@@ -7,7 +7,7 @@ services:
       - "5000:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__DefaultConnection: Server=db;Port=3306;Database=yourdatabase;User=youruser;Password=yourpassword;
+      ConnectionStrings__DefaultConnection: Server=db;Port=3306;Database = SailDB;User = root; Password = Lowisa;"
     depends_on:
       - db
     networks:
@@ -15,13 +15,13 @@ services:
 
   db:
     image: mysql:8.0
-    command: --default-authentication-plugin=mysql_native_password
+    #command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: yourdatabase
-      MYSQL_USER: youruser
-      MYSQL_PASSWORD: yourpassword
+      MYSQL_ROOT_PASSWORD: Lowisa 
+      MYSQL_DATABASE: SailDB 
+      MYSQL_USER: root 
+      MYSQL_PASSWORD: Lowisa 
     ports:
       - "3306:3306"
     volumes:
