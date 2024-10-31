@@ -43,7 +43,7 @@ namespace SailMapper.Controllers
         /// 
         /// {  
         /// 
-        ///     "id": int,                      // id of the Boat (put any number, since Database will assign the id automatically)
+        ///     "id": int,                      // id of the Boat 
         ///        
         ///     "name": string,                 // name of the boat
         ///         
@@ -70,32 +70,6 @@ namespace SailMapper.Controllers
         ///         "boats": [ Boat ]           // can be many Boats
         ///         
         ///     },
-        ///     
-        ///     "results": [                    // can be many Results
-        ///         
-        ///         {
-        ///         
-        ///         "id": int,                  // id of the Result
-        /// 
-        ///         "boatId": int,              // id of the Boat it is attached to
-        ///
-        ///         "raceId": int,              // id of the Race it is attached to
-        ///         
-        ///         "finishPosition": int,      // at what place did the boat finish the race
-        ///
-        ///         "elapsedTime": string,      // time it took to complete the race
-        ///         
-        ///         "correctedTime": string,    // time after the penalties
-        ///         
-        ///         "rating": int,              // rating of the boat
-        ///         
-        ///         "points": int,              // how many points did the boat get
-        ///         
-        ///         "finishType": string        // disqualification (DQ), do not finish (DNF), normal 
-        ///         
-        ///         } 
-        ///         
-        ///     ],
         ///     
         ///     "tracks": [ Track ],            // can be many Tracks. Please refer to POST Track
         ///     
@@ -151,7 +125,7 @@ namespace SailMapper.Controllers
         /// 
         /// {  
         /// 
-        ///     "id": int,                      // id of the Boat (put any number, since Database will assign the id automatically)
+        ///     "id": int,                      // id of the Boat
         ///        
         ///     "name": string,                 // name of the boat
         ///         
@@ -178,32 +152,6 @@ namespace SailMapper.Controllers
         ///         "boats": [ Boat ]           // can be many Boats
         ///         
         ///     },
-        ///     
-        ///     "results": [                    // can be many Results
-        ///         
-        ///         {
-        ///         
-        ///         "id": int,                  // id of the Result
-        /// 
-        ///         "boatId": int,              // id of the Boat it is attached to
-        ///
-        ///         "raceId": int,              // id of the Race it is attached to
-        ///         
-        ///         "finishPosition": int,      // at what place did the boat finish the race
-        ///
-        ///         "elapsedTime": string,      // time it took to complete the race
-        ///         
-        ///         "correctedTime": string,    // time after the penalties
-        ///         
-        ///         "rating": int,              // rating of the boat
-        ///         
-        ///         "points": int,              // how many points did the boat get
-        ///         
-        ///         "finishType": string        // disqualification (DQ), do not finish (DNF), normal 
-        ///         
-        ///         } 
-        ///         
-        ///     ],
         ///     
         ///     "tracks": [ Track ],            // can be many Tracks. Please refer to POST Track
         ///     

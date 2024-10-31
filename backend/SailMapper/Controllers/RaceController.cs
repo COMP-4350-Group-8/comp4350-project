@@ -38,32 +38,6 @@ namespace SailMapper.Controllers
         ///     
         ///     "courses": [ Course ],       // can be many Courses. Please refer to POST Course
         ///     
-        ///     "results": [                // can be many Results
-        ///         
-        ///         {
-        ///         
-        ///         "id": int,              // id of the Result
-        ///
-        ///         "boatId": int,          // id of the Boat it is attached to
-        ///
-        ///         "raceId": int,          // id of the Race it is attached to
-        ///         
-        ///         "finishPosition": int,  // at what place did the boat finish the race
-        ///
-        ///         "elapsedTime": string,  // time it took to complete the race
-        ///         
-        ///         "correctedTime": string,// time after the penalties
-        ///         
-        ///         "rating": int,          // rating of the boat
-        ///         
-        ///         "points": int,          // how many points did the boat get
-        ///         
-        ///         "finishType": string    // disqualification (DQ), do not finish (DNF), normal 
-        ///         
-        ///         } 
-        ///         
-        ///     ],
-        ///     
         ///     "tracks": [ Track ],         // can be many Tracks. Please refer to POST Track
         ///     
         ///     "regattaId": int            // id of the Regatta the race belongs to
@@ -165,32 +139,6 @@ namespace SailMapper.Controllers
         ///     "participants": [ Boat ],    // can be many Boats. Please refer to POST Boat
         ///     
         ///     "courses": [ Course ],       // can be many Courses. Please refer to POST Course
-        ///     
-        ///     "results": [                // can be many Results
-        ///         
-        ///         {
-        ///         
-        ///         "id": int,              // id of the Result
-        ///
-        ///         "boatId": int,          // id of the Boat it is attached to
-        ///
-        ///         "raceId": int,          // id of the Race it is attached to
-        ///         
-        ///         "finishPosition": int,  // at what place did the boat finish the race
-        ///
-        ///         "elapsedTime": string,  // time it took to complete the race
-        ///         
-        ///         "correctedTime": string,// time after the penalties
-        ///         
-        ///         "rating": int,          // rating of the boat
-        ///         
-        ///         "points": int,          // how many points did the boat get
-        ///         
-        ///         "finishType": string    // disqualification (DQ), do not finish (DNF), normal 
-        ///         
-        ///         } 
-        ///         
-        ///     ],
         ///     
         ///     "tracks": [ Track ],         // can be many Tracks. Please refer to POST Track
         ///     
