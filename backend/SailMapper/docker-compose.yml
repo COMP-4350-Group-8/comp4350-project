@@ -7,9 +7,10 @@ services:
       - "5000:80"
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__DefaultConnection: Server=db;Port=3306;Database = SailDB;User = root; Password = Lowisa;"
+      ConnectionStrings__DefaultConnection: Server=db;Port=3306;Database =SailDB;User =root; Password =Lowisa;AllowPublicKeyRetrieval=true"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - app-network
 
@@ -20,7 +21,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: Lowisa 
       MYSQL_DATABASE: SailDB 
-      MYSQL_USER: root 
+      MYSQL_USER: user 
       MYSQL_PASSWORD: Lowisa 
     ports:
       - "3306:3306"
@@ -28,6 +29,11 @@ services:
       - mysql-data:/var/lib/mysql
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$MYSQL_ROOT_PASSWORD"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
 
 volumes:
   mysql-data:

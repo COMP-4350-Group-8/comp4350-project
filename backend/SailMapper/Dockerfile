@@ -18,7 +18,6 @@ COPY . .
 #COPY ["./SailMapper.csproj", "SailMapper/"] 
 # WORKDIR "/src/SailMapper"
 RUN dotnet build "./SailMapper.csproj" -c $BUILD_CONFIGURATION -o /app/build
-#RUN dotnet ef database update
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish

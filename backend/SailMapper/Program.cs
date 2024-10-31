@@ -68,6 +68,10 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
 
     var context = services.GetRequiredService<SailDBContext>();
+    if (!context.Database.CanConnect())
+    {
+        throw new Exception("cannot connect to database " + context.Database.GetConnectionString());
+    }
     if (context.Database.GetPendingMigrations().Any())
     {
         context.Database.Migrate();
