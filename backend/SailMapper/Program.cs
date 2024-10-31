@@ -5,6 +5,12 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(80);
+});
+
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -38,24 +44,26 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddDbContext<SailDBContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("DevMySqlConn"), new MySqlServerVersion(new Version(8, 0, 2))));
+    options.UseMySql(builder.Configuration.GetConnectionString("MySqlConn"), new MySqlServerVersion(new Version(8, 0, 2))));
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger(u =>
-            {
-                u.RouteTemplate = "swagger/{documentName}/swagger.json";
-            });
-
-    app.UseSwaggerUI(c =>
+//if (app.Environment.IsDevelopment())
+//{
+app.UseSwagger(u =>
         {
-            c.RoutePrefix = "swagger";
-            c.SwaggerEndpoint(url: "/swagger/v1/swagger.json", name: "Your API Title or Version");
+            u.RouteTemplate = "swagger/{documentName}/swagger.json";
         });
-}
+
+app.UseSwaggerUI(c =>
+    {
+        c.RoutePrefix = "swagger";
+        c.SwaggerEndpoint(url: "/swagger/v1/swagger.json", name: "Your API Title or Version");
+    });
+//}
+
+app.UseRouting();
 
 app.UseHttpsRedirection();
 
@@ -70,7 +78,7 @@ using (var scope = app.Services.CreateScope())
     var context = services.GetRequiredService<SailDBContext>();
     if (!context.Database.CanConnect())
     {
-        throw new Exception("cannot connect to database " + context.Database.GetConnectionString());
+        //throw new Exception("cannot connect to database " + context.Database.GetConnectionString());
     }
     if (context.Database.GetPendingMigrations().Any())
     {
