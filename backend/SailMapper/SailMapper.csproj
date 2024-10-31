@@ -32,8 +32,4 @@
     <PackageReference Include="xunit.extensibility.core" Version="2.5.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>

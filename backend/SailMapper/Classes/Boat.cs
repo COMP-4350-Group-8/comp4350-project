@@ -12,6 +12,8 @@ namespace SailMapper.Classes
         public required int Id { get; set; }
         public required string Name { get; set; }
         public string? Class { get; set; }
+
+        //Should change to int
         public string? SailNumber { get; set; }
         public string? Skipper { get; set; }
 

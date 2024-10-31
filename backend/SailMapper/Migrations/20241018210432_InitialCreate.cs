@@ -21,9 +21,10 @@ namespace SailMapper.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    BaseRating = table.Column<int>(type: "int", nullable: true),
-                    SpinnakerAdjustment = table.Column<int>(type: "int", nullable: true),
-                    Adjustment = table.Column<int>(type: "int", nullable: true)
+                    BaseRating = table.Column<int>(type: "int", nullable: false),
+                    SpinnakerAdjustment = table.Column<int>(type: "int", nullable: false),
+                    Adjustment = table.Column<int>(type: "int", nullable: false),
+                    CurrentRating = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -37,9 +38,9 @@ namespace SailMapper.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: true)
+                    Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "longtext", nullable: true)
+                    Description = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -54,7 +55,7 @@ namespace SailMapper.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: true)
+                    Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Class = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -81,9 +82,9 @@ namespace SailMapper.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    StartTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    EndTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    Name = table.Column<string>(type: "longtext", nullable: true)
+                    StartTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     RegattaId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -129,9 +130,9 @@ namespace SailMapper.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: true)
+                    Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "longtext", nullable: true)
+                    Description = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     RaceId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -152,14 +153,14 @@ namespace SailMapper.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    BoatId = table.Column<int>(type: "int", nullable: true),
-                    RaceId = table.Column<int>(type: "int", nullable: true),
-                    FinishPosition = table.Column<int>(type: "int", nullable: true),
-                    ElapsedTime = table.Column<TimeOnly>(type: "time(6)", nullable: true),
-                    CorrectedTime = table.Column<TimeOnly>(type: "time(6)", nullable: true),
-                    Rating = table.Column<int>(type: "int", nullable: true),
-                    Points = table.Column<int>(type: "int", nullable: true),
-                    FinishType = table.Column<string>(type: "longtext", nullable: true)
+                    BoatId = table.Column<int>(type: "int", nullable: false),
+                    RaceId = table.Column<int>(type: "int", nullable: false),
+                    FinishPosition = table.Column<int>(type: "int", nullable: false),
+                    ElapsedTime = table.Column<TimeSpan>(type: "time(6)", nullable: false),
+                    CorrectedTime = table.Column<TimeSpan>(type: "time(6)", nullable: false),
+                    Rating = table.Column<int>(type: "int", nullable: false),
+                    Points = table.Column<int>(type: "int", nullable: false),
+                    FinishType = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -169,12 +170,14 @@ namespace SailMapper.Migrations
                         name: "FK_Results_Boats_BoatId",
                         column: x => x.BoatId,
                         principalTable: "Boats",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Results_Races_RaceId",
                         column: x => x.RaceId,
                         principalTable: "Races",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -184,12 +187,12 @@ namespace SailMapper.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    BoatId = table.Column<int>(type: "int", nullable: true),
-                    RaceId = table.Column<int>(type: "int", nullable: true),
-                    Started = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    Finished = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    Distance = table.Column<float>(type: "float", nullable: true),
-                    GpxData = table.Column<string>(type: "longtext", nullable: true)
+                    BoatId = table.Column<int>(type: "int", nullable: false),
+                    RaceId = table.Column<int>(type: "int", nullable: false),
+                    Started = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Finished = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Distance = table.Column<float>(type: "float", nullable: false),
+                    GpxData = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -199,12 +202,14 @@ namespace SailMapper.Migrations
                         name: "FK_Tracks_Boats_BoatId",
                         column: x => x.BoatId,
                         principalTable: "Boats",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Tracks_Races_RaceId",
                         column: x => x.RaceId,
                         principalTable: "Races",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -214,9 +219,9 @@ namespace SailMapper.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Latitude = table.Column<float>(type: "float", nullable: true),
-                    Longitude = table.Column<float>(type: "float", nullable: true),
-                    Description = table.Column<string>(type: "longtext", nullable: true)
+                    Latitude = table.Column<float>(type: "float", nullable: false),
+                    Longitude = table.Column<float>(type: "float", nullable: false),
+                    Description = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Rounding = table.Column<bool>(type: "tinyint(1)", nullable: true),
                     IsStartLine = table.Column<bool>(type: "tinyint(1)", nullable: true),
