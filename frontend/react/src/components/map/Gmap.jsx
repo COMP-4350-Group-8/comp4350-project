@@ -1,5 +1,4 @@
 import React from "react";
-import Card from "../ui/Card.jsx"
 
 export default  function Gmap(props)  {
 
