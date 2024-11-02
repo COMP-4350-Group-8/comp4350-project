@@ -1,0 +1,34 @@
+name: CD Workflow
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run tests against'
+        type: environment
+        required: false
+
+jobs:
+
+#======================================================
+# docker hub push
+#======================================================
+
+  api-push:
+    name: Api Push
+    runs-on: ubuntu-latest
+    defaults: 
+      run: 
+        shell: bash
+        working-directory: backend/Sailmapper
+    timeout-minutes: 10
+    steps:
+      - name: Clone respository
+        uses: actions/checkout@v4
+      - run: sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+      - run: sudo apt-get install -y dotnet-sdk-8.0
+      - run: docker-compose build
+      - run: docker push owenhny/sailmapper_backend
+      - run: docker push owenhny/sailmapper_database
