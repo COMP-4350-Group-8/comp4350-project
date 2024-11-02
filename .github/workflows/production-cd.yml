@@ -24,5 +24,7 @@ jobs:
       - run: sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
       - run: sudo apt-get install -y dotnet-sdk-8.0
       - run: docker-compose build
-      - run: docker push owenhny/sailmapper_backend
-      - run: docker push owenhny/sailmapper_database
+      - run: docker image tag owenhny/sailmapper-api owenhny/sailmapper_backend:latest
+      - run: docker image tag owenhny/mysql owenhny/sailmapper_backend:db
+      - run: docker push owenhny/sailmapper_backend:latest
+      - run: docker push owenhny/sailmapper_backend:db
