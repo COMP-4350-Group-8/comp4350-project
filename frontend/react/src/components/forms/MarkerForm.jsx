@@ -1,5 +1,5 @@
 import Gmap from "../map/Gmap.jsx";
-import {useState, useRef} from "react";
+import React, {useState, useRef} from "react";
 import classes from "./RaceForm.module.css";
 
 // Coordinates for the UofM as starting coordinates
