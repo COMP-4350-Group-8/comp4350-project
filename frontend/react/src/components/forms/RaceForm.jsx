@@ -2,8 +2,13 @@ import React, {useState, useRef} from "react";
 import { useNavigate } from 'react-router-dom';
 import Card from '../ui/Card';
 import {v4 as uuid} from"uuid";
+import PropTypes from "prop-types";
 import MarkerForm from './MarkerForm.jsx';
 import classes from "./RaceForm.module.css";
+
+RaceForm.propTypes = {
+    onAddCourse: PropTypes.func,
+}
 
 export default function RaceForm({onAddCourse}) {
     const navigate = useNavigate();
