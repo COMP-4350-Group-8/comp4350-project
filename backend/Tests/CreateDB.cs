@@ -12,8 +12,8 @@ namespace Tests
         {
             int random = new Random().Next();
             string testDBName = "temp_test_sail_mapper" + random.ToString();
-            string connectionString = $"Server=localhost;Database={testDBName};User=root;Password=potato;";
-            using (var connection = new MySqlConnection("Server=localhost;User=root;Password=potato"))
+            string connectionString = $"Server=localhost;Database={testDBName};User= root;Password= Lowisa;";
+            using (var connection = new MySqlConnection("Server=localhost;User= root;Password= Lowisa"))
             {
                 connection.Open();
                 using (var command = connection.CreateCommand())
@@ -37,7 +37,7 @@ namespace Tests
             string dbName = context.Database.GetDbConnection().Database;
             context.Dispose();
 
-            using (var connection = new MySqlConnection("Server=localhost;User=root;Password=potato"))
+            using (var connection = new MySqlConnection("Server=localhost;User=root;Password=Lowisa"))
             {
                 connection.Open();
                 using (var command = connection.CreateCommand())
