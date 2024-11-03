@@ -7,12 +7,14 @@ import { MemoryRouter } from "react-router-dom";
 
 describe("RaceForm", () => {
     it("should render the main form inputs", () => {
+        // Render the component in a router so navigation between pages works
         render(
             <MemoryRouter>
                 <RaceForm/>
             </MemoryRouter>
         );
 
+        // Confirm that the core race form elements are being rendered
         const courseTitle = screen.getByText(/course title/i);
         expect(courseTitle).toBeInTheDocument();
 
@@ -30,12 +32,14 @@ describe("RaceForm", () => {
     });
 
     it("should render the initial 2 marker forms", () => {
+        // Render the component in a router so navigation between pages works
         render(
             <MemoryRouter>
                 <RaceForm/>
             </MemoryRouter>
         );
 
+        // Confirm the titles for the 2 initial markers are being rendered
         const startMarker = screen.getByText(/start marker/i);
         expect(startMarker).toBeInTheDocument();
 
@@ -44,8 +48,10 @@ describe("RaceForm", () => {
     });
 
     it("should add a new marker when Add Marker is clicked", async () => {
+        // Used to simulate user inputs
         const user = userEvent.setup();
         
+        // Render the component in a router so navigation between pages works
         render(
             <MemoryRouter>
                 <RaceForm/>
@@ -67,17 +73,21 @@ describe("RaceForm", () => {
     });
 
     it("should not create a new race when not all form inputs have been filled in", async () => {
+        // Used to simulate user inputs
         const user = userEvent.setup();
 
         // Mocked function for checking if the form can be submitted
         const addCourseClick = vi.fn();
         
+        // Render the component in a router so navigation between pages works.
+        // Pass the mocked function as the callback to see if it gets called
         render(
             <MemoryRouter>
                 <RaceForm onAddCourse={addCourseClick}/>
             </MemoryRouter>
         );
 
+        // Click the Create button without inputting any data
         const button = screen.getByRole("button", { name: /create/i });
         await user.click(button);
 
@@ -86,17 +96,21 @@ describe("RaceForm", () => {
     });
 
     it("should create a new race when all form inputs have been filled in", async () => {
+        // Used to simulate user inputs
         const user = userEvent.setup();
 
         // Mocked function for checking if the form can be submitted
         const addCourseClick = vi.fn();
         
+        // Render the component in a router so navigation between pages works.
+        // Pass the mocked function as the callback to see if it gets called
         render(
             <MemoryRouter>
                 <RaceForm onAddCourse={addCourseClick}/>
             </MemoryRouter>
         );
 
+        // Fill in each text input with "Hello"
         let inputs = screen.getAllByRole("textbox");
         expect(inputs).toHaveLength(7);
         inputs.forEach((input) => {
@@ -116,25 +130,30 @@ describe("RaceForm", () => {
         fireEvent.change(latLngInputs[0], {target: {value: "90"}});
         fireEvent.change(latLngInputs[1], {target: {value: "90"}});
 
+        // Create a race with the inputted data
         const button = screen.getByRole("button", { name: /create/i });
         await user.click(button);
 
-        // Make sure the form got submitted
+        // Make sure the form got submitted successfully by seeing if the callback was called
         expect(addCourseClick).toHaveBeenCalledOnce();
     });
 
     it("should create a new race when all form inputs have been filled in with special characters", async () => {
+        // Used to simulate user inputs
         const user = userEvent.setup();
 
         // Mocked function for checking if the form can be submitted
         const addCourseClick = vi.fn();
         
+        // Render the component in a router so navigation between pages works.
+        // Pass the mocked function as the callback to see if it gets called
         render(
             <MemoryRouter>
                 <RaceForm onAddCourse={addCourseClick}/>
             </MemoryRouter>
         );
 
+        // Fill in each text input with special characters: "蟲誤,修正!"
         let inputs = screen.getAllByRole("textbox");
         expect(inputs).toHaveLength(7);
         inputs.forEach((input) => {
@@ -142,6 +161,7 @@ describe("RaceForm", () => {
             user.keyboard("蟲誤,修正!");
         });
 
+        // Create a race with the inputted data
         const button = screen.getByRole("button", { name: /create/i });
         await user.click(button);
 
@@ -150,11 +170,14 @@ describe("RaceForm", () => {
     });
 
     it("should create a new race when all form inputs have been filled in and there are extra markers", async () => {
+        // Used to simulate user inputs
         const user = userEvent.setup();
 
         // Mocked function for checking if the form can be submitted
         const addCourseClick = vi.fn();
         
+        // Render the component in a router so navigation between pages works.
+        // Pass the mocked function as the callback to see if it gets called
         render(
             <MemoryRouter>
                 <RaceForm onAddCourse={addCourseClick}/>
@@ -166,6 +189,7 @@ describe("RaceForm", () => {
         expect(buttons[0]).toBeInTheDocument();
         await user.click(buttons[0]);
 
+        // Fill in each text input with "Hello"
         let inputs = screen.getAllByRole("textbox");
         expect(inputs).toHaveLength(9);
         inputs.forEach((input) => {
@@ -173,6 +197,7 @@ describe("RaceForm", () => {
             user.keyboard("Hello");
         });
 
+        // Create a race with the inputted data
         const button = screen.getByRole("button", { name: /create/i });
         await user.click(button);
 

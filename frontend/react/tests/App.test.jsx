@@ -12,8 +12,10 @@ vi.mock("../src/pages/AddCourse",  () => ({
 
 describe("App", () => {
     it("should navigate to the Create Race page when the Start Race button is clicked", async () => {
+        // Used to simulate user inputs
         const user = userEvent.setup();
 
+        // Render the component in a router so navigation between pages works
         render(<MemoryRouter>
             (<App/>);
         </MemoryRouter>)
@@ -31,8 +33,10 @@ describe("App", () => {
     });
 
     it("should return to the Home page after creating a race", async () => {
+        // Used to simulate user inputs
         const user = userEvent.setup();
 
+        // Render the component in a router so navigation between pages works
         render(<MemoryRouter>
             (<App/>);
         </MemoryRouter>)
@@ -45,6 +49,7 @@ describe("App", () => {
         expect(button).toBeInTheDocument();
         await user.click(button);
 
+        // Fill in each text input with "Hello"
         let inputs = screen.getAllByRole("textbox");
         expect(inputs).toHaveLength(7);
         inputs.forEach((input) => {
@@ -52,6 +57,7 @@ describe("App", () => {
             user.keyboard("Hello");
         });
 
+        // Create a race with the inputted data
         const createButton = screen.getByRole("button", { name: /create/i });
         await user.click(createButton);
 
@@ -60,8 +66,10 @@ describe("App", () => {
     });
 
     it("should not return to the Home page if there are any unfilled inputs", async () => {
+        // Used to simulate user inputs
         const user = userEvent.setup();
 
+        // Render the component in a router so navigation between pages works
         render(<MemoryRouter>
             (<App/>);
         </MemoryRouter>)
@@ -77,6 +85,7 @@ describe("App", () => {
         // Assert that the page changed to the Create Race page
         expect(screen.getByText(/course title/i)).toBeInTheDocument();
 
+        // Create a race without inputting data
         const createButton = screen.getByRole("button", { name: /create/i });
         await user.click(createButton);
 

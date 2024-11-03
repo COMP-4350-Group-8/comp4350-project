@@ -7,13 +7,16 @@ import classes from "./RaceForm.module.css";
 const STARTING_LATITUDE = 49.808561283776484;
 const STARTING_LONGITUDE = -97.13406385382287;
 
+// Define the props that should be passed to this component
 MarkerForm.propTypes = {
     index: PropTypes.number,
     markerTitle: PropTypes.string,
     onDataChanged: PropTypes.func,
 }
 
+// Renders a form for a single race course Marker
 export default function MarkerForm({index, markerTitle, onDataChanged}) {
+    // References to the input fields to get their values
     const descriptionInputRef = useRef();
     const gateInputRef = useRef();
 
@@ -38,6 +41,7 @@ export default function MarkerForm({index, markerTitle, onDataChanged}) {
 
     // Handler to update the data and pass it up to the parent component
     const dataHandler = () => {
+        // Call the passed data changed callback function and pass the relevant data
         onDataChanged(index, {
             latitude: coordinates.lat,
             longitude: coordinates.lng,
