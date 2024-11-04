@@ -72,7 +72,7 @@ jobs:
       - run: sudo apt-get install -y dotnet-sdk-8.0
       - run: docker-compose build
       - run: docker image tag sailmapper-api owenhny/sailmapper_backend:latest
-      - run: docker image tag mysql owenhny/sailmapper_backend:db
+      - run: docker image tag mysql:8.0 owenhny/sailmapper_backend:db
       - run: docker push owenhny/sailmapper_backend:latest
       - run: docker push owenhny/sailmapper_backend:db
 
