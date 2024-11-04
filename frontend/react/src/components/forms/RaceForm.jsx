@@ -29,7 +29,8 @@ export default function RaceForm({onAddCourse}) {
         event.preventDefault();
 
         // Get the course data
-        const courseId = uuid();
+        //const courseId = uuid();
+        const courseId = Math.floor(Math.random() * (99999999)); 
         const courseTitle = raceTitleInputRef.current.value;
         const courseDesc = raceDescriptionInputRef.current.value;
         
@@ -37,14 +38,15 @@ export default function RaceForm({onAddCourse}) {
         let markers = [];
         markerData.map((rawMarker, index) => {
             let processedMarker = {
-                id: uuid(),
+                //id: uuid(),
+                id: Math.floor(Math.random() * (99999999)),
                 latitude: rawMarker.latitude,
                 longitude: rawMarker.longitude,
                 description: rawMarker.description,
                 rounding: rawMarker.round,
                 isStartLine: index === 0,
-                gate: rawMarker.gate,
-                course: courseTitle,
+                //gate: rawMarker.gate,
+                //course: courseTitle,
                 courseId: courseId
             };
             markers.push(processedMarker);

@@ -4,7 +4,7 @@
 export default function addCourseHandler(courseData) {
     // Will create a 404 error until a backend can be used
     fetch(
-        '',
+        'http://localhost:5000/course',
         {
             method: 'POST',
             body: JSON.stringify(courseData),
