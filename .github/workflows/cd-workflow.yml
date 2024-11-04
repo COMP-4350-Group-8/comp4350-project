@@ -68,9 +68,13 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
-      - name: Print
-        run: |
-          echo Backend: No Containerization Implimented
+      - run: sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+      - run: sudo apt-get install -y dotnet-sdk-8.0
+      - run: docker-compose build
+      - run: docker image tag sailmapper-api owenhny/sailmapper_backend:latest
+      - run: docker image tag mysql owenhny/sailmapper_backend:db
+      - run: docker push owenhny/sailmapper_backend:latest
+      - run: docker push owenhny/sailmapper_backend:db
 
   containerization-results:
     if: ${{ !(vars.DO_BACKEND_CONTAINERIZATION != 'true' && vars.DO_FLUTTER_CONTAINERIZATION != 'true' && vars.DO_REACT_CONTAINERIZATION != 'true') && always() }}
