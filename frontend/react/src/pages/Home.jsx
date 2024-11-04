@@ -5,6 +5,7 @@ import "./Home.css"
 export default  function Home()  {
     const navigate = useNavigate()
 
+    // onClick function for the start race button that sends the user to the CreateRace page
     const handleCreateClick = () => {
         navigate('/create')
     }
