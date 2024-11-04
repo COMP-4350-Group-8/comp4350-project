@@ -267,3 +267,4 @@ __pycache__/
 # Cake - Uncomment if you are using it
 # tools/
 /backend/SailMapper/.vs
+backend/SailMapper/appsettings.json

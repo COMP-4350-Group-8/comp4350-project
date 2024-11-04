@@ -14,9 +14,13 @@ namespace SailMapper.Services
 
         public async Task<string> AddBoat(Boat boat)
         {
-            var id = await _dbContext.Boats.AddAsync(boat);
-            await _dbContext.SaveChangesAsync();
-            return id.ToString();
+            if (boat != null && boat.Name != null && boat.Name.Replace(" ", "").Length > 0)
+            {
+                var entry = await _dbContext.Boats.AddAsync(boat);
+                await _dbContext.SaveChangesAsync();
+                return entry.Entity.Id.ToString();
+            }
+            return null;
         }
 
         public async Task<List<Boat>> GetBoats()
