@@ -1,0 +1,121 @@
+name: CD Workflow
+
+on:
+  # One of the following may be the correct trigger event:
+  # <pull_request>
+  # <release>
+  # <tag>
+  # <deployment>
+  # <milestone>
+  # (not including workflow_dispatch)
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to run containerization'
+        type: environment
+        required: false
+
+env:
+  # Containerization Results
+  FLUTTER_CONTAINERIZATION_RESULTS: null
+  REACT_CONTAINERIZATION_RESULTS: null
+  BACKEND_CONTAINERIZATION_RESULTS: null
+
+
+jobs:
+
+#======================================================
+# Containerization
+#======================================================
+
+  flutter-containerization-results:
+    name: Flutter Containerization
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: frontend/flutter_client
+    timeout-minutes: 5
+    if: ${{ vars.DO_FLUTTER_CONTAINERIZATION == 'true' }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Flutter: No Containerization Implimented
+
+  react-containerization-results:
+    name: REACT Containerization
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: frontend/react
+    timeout-minutes: 5
+    if: ${{ vars.DO_REACT_CONTAINERIZATION == 'true' }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo REACT: No Containerization Implimented
+
+  backend-containerization-results:
+    name: Backend Containerization
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: ${{ vars.DO_BACKEND_CONTAINERIZATION == 'true' }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - run: sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+      - run: sudo apt-get install -y dotnet-sdk-8.0
+      - run: docker-compose build
+      - run: docker image tag sailmapper-api owenhny/sailmapper_backend:latest
+      - run: docker image tag mysql:8.0 owenhny/sailmapper_backend:db
+      - run: docker push owenhny/sailmapper_backend:latest
+      - run: docker push owenhny/sailmapper_backend:db
+
+  containerization-results:
+    if: ${{ !(vars.DO_BACKEND_CONTAINERIZATION != 'true' && vars.DO_FLUTTER_CONTAINERIZATION != 'true' && vars.DO_REACT_CONTAINERIZATION != 'true') && always() }}
+    needs: [flutter-containerization-results, react-containerization-results, backend-containerization-results]
+    name:  Containerization Check Results
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print
+        run: |
+          echo Unit Test Results
+
+#======================================================
+# Results
+#======================================================
+    
+
+  cd-results:
+    if: ${{ always() }}
+    needs: [flutter-containerization-results, react-containerization-results, backend-containerization-results]
+    name: Results
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Print results
+        run: |
+          echo "# CD Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Run Config:" >> $GITHUB_STEP_SUMMARY
+          echo "true = run __|__ false = did not run __|__ n/a = not applicable" >> $GITHUB_STEP_SUMMARY
+          echo "| item | Flutter | REACT | Backend |" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :----: | :----: | :----: |" >> $GITHUB_STEP_SUMMARY
+          echo "| Containerize | ${{ vars.DO_FLUTTER_CONTAINERIZATION }} | ${{ vars.DO_REACT_CONTAINERIZATION }} | ${{ vars.DO_BACKEND_CONTAINERIZATION}} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Run Results:" >> $GITHUB_STEP_SUMMARY
+          echo "x/y = x out of y were a successful __|__ n/a = not applicable" >> $GITHUB_STEP_SUMMARY
+          echo "| item | Flutter | REACT | Backend |" >> $GITHUB_STEP_SUMMARY
+          echo "| :--- | :----: | :----: | :----: |" >> $GITHUB_STEP_SUMMARY
+          echo "| Containerize | ${{ env.FLUTTER_CONTAINERIZATION_RESULTS }} | ${{ env.REACT_CONTAINERIZATION_RESULTS }} | ${{ env.BACKEND_CONTAINERIZATION_RESULTS }} |" >> $GITHUB_STEP_SUMMARY
+  
