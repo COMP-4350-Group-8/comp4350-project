@@ -6,6 +6,7 @@ import Home from  '../../src/pages/Home';
 
 describe("Home", () => {
     it("should render the header", () => {
+        // Render the component in a router so navigation between pages works
         render(<MemoryRouter>
             (<Home/>);
         </MemoryRouter>)
@@ -16,6 +17,7 @@ describe("Home", () => {
     });
 
     it("should render the Start Race button", () => {
+        // Render the component in a router so navigation between pages works
         render(<MemoryRouter>
             (<Home/>);
         </MemoryRouter>)
