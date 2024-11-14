@@ -71,17 +71,18 @@ namespace SailMapper.Services
 
             List<CourseMark> line = _dbContext.CourseMarks.Where(m => m.CourseId == track.Race.CourseId && m.IsStartLine == false).ToList();
 
-            DateTime finish = CalcFinish(track.GpxData, line);
+            //TODO check that there are only two points
+            DateTime finish = CalcFinish(track.GpxData, line[0], line[0]);
 
             return true;
         }
 
 
-        private DateTime CalcFinish(string gpx, List<CourseMark> marks)
+        public DateTime CalcFinish(string gpx, CourseMark one, CourseMark two)
         {
             DateTime finish = new DateTime();
 
-            if (gpx == null || marks != null || marks.Count < 2 || marks.Count > 2)
+            if (gpx == null || one == null || two == null)
             {
                 throw new ArgumentException("invalid arguments");
             }
@@ -92,21 +93,46 @@ namespace SailMapper.Services
 
             // find points before and after finish line
             DateTime closestPPoint = new DateTime();
-            float closestP = 0;
+            double closestP = 0;
             DateTime closestNPoint = new DateTime();
-            float closestN = 0;
+            double closestN = 0;
 
             var earthRadius = 6371;
 
             foreach (XmlNode wpt in track.DocumentElement.ChildNodes)
             {
-                var lat = wpt.Attributes["lat"];
-                var lon = wpt.Attributes["lon"];
+                double lat = Convert.ToDouble(wpt.Attributes["lat"].Value);
+                double lon = Convert.ToDouble(wpt.Attributes["lon"].Value);
 
                 if (lat != null && lon != null)
                 {
                     // calculate distance to finish line
 
+                    //find bearing from point to ends of line
+
+                    double bering1 = Bearing(one.Latitude, one.Longitude, lat, lon);
+                    double bering2 = Bearing(two.Latitude, two.Longitude, lat, lon);
+
+
+                    //find distance from point to one end (spherical cosines)
+                    //distanceAC = acos( sin(φ₁)*sin(φ₂) + cos(φ₁)*cos(φ₂)*cos(Δλ) )*R
+                    double distace = Math.Acos(Math.Sin(one.Latitude) * Math.Sin(lat) + Math.Cos(one.Latitude) * Math.Cos(lat) * Math.Cos(lon - one.Longitude)) * earthRadius;
+
+
+                    //find cross track diffrence
+                    //distance = asin(sin(distanceAC/ R) * sin(bearing1 − bearing2)) * R
+                    double min_distance = Math.Asin(Math.Sin(distace / earthRadius) * Math.Sin(bering1 - bering2)) * earthRadius;
+
+                    if (min_distance > 0 && (closestP == 0 || min_distance < closestP))
+                    {
+                        closestP = min_distance;
+                        closestPPoint = DateTime.Parse(wpt.Attributes["time"].Value);
+                    }
+                    else if (min_distance < 0 && (closestN == 0 || min_distance < closestN))
+                    {
+                        closestN = min_distance;
+                        closestNPoint = DateTime.Parse(wpt.Attributes["time"].Value);
+                    }
                 }
 
             }
@@ -120,8 +146,23 @@ namespace SailMapper.Services
 
             var finishSeconds = pWeighted + nWeighted;
 
-
             return finish;
+        }
+
+        private double Bearing(double lat1, double lon1, double lat2, double lon2)
+        {
+
+            //bearingAC = atan2( sin(Δλ)*cos(φ₂), cos(φ₁)*sin(φ₂) − sin(φ₁)*cos(φ₂)*cos(Δλ) )  
+            double y = Math.Sin(lon2 - lon1) * Math.Cos(lat2);
+            double x = Math.Cos(lat1) * Math.Sin(lat2) - Math.Sin(lat1) * Math.Cos(lat2) * Math.Cos(lat2 - lat1);
+
+            double bearing = Math.Atan2(y, x);
+            bearing = 360 - ((bearing + 360) % 360);
+
+            return bearing;
+
+
+
         }
 
         public async Task<string> GetGPX(int id)
