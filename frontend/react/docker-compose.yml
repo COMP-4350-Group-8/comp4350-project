@@ -1,11 +1,11 @@
 version: "3.8"
 
 services:
-    sampleproject:
+    frontend:
         build:
             context: .
             dockerfile: ./Dockerfile
         environment:
-            NODE_ENV: production
+            NODE_ENV: development
         ports:
             - 4173:4173
