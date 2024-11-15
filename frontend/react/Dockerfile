@@ -11,8 +11,11 @@ RUN npm install
 # Copy the remaining project files into the container
 COPY ./ ./
 
+# Make a build of the project
+RUN npm run build
+
 # Expose the port Vite will run on
-EXPOSE 5173
+EXPOSE 4173
 
 # Default command
-CMD ["npm", "run", "dev", "--", "--host"]
+CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0"]
