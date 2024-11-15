@@ -1,4 +1,5 @@
-﻿using SailMapper.Classes;
+﻿using Microsoft.EntityFrameworkCore;
+using SailMapper.Classes;
 using SailMapper.Data;
 
 namespace SailMapper.Services
@@ -23,14 +24,18 @@ namespace SailMapper.Services
         //return list of courses, not full info
         public async Task<List<Course>> GetCourses()
         {
-            List<Course> courses = _dbContext.Courses.ToList();
+            List<Course> courses = await _dbContext.Courses
+                .Include(o => o.courseMarks)
+                .ToListAsync();
 
             return courses;
         }
 
         public async Task<Course> GetCourse(int id)
         {
-            return await GetCourseEntity(id);
+            return await _dbContext.Courses
+                .Include(o => o.courseMarks)
+                .FirstOrDefaultAsync(o => o.Id == id);
         }
 
         public async Task<bool> DeleteCourse(int id)

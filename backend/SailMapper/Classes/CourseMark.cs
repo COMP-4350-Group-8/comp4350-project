@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace SailMapper.Classes
 {
@@ -16,6 +17,7 @@ namespace SailMapper.Classes
         public bool? Rounding { get; set; }
         public bool? IsStartLine { get; set; }
         public CourseMark? Gate { get; set; }
+        [JsonIgnore]
         public Course? Course { get; set; }
         public int? CourseId { get; set; }
 

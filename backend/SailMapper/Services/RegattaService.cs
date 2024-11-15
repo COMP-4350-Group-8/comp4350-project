@@ -1,4 +1,5 @@
-﻿using SailMapper.Classes;
+﻿using Microsoft.EntityFrameworkCore;
+using SailMapper.Classes;
 using SailMapper.Data;
 
 namespace SailMapper.Services
@@ -29,14 +30,18 @@ namespace SailMapper.Services
         //return list of regattas, not full info
         public async Task<List<Regatta>> GetRegattas()
         {
-            List<Regatta> regattas = _dbContext.Regattas.ToList();
+            List<Regatta> regattas = await _dbContext.Regattas
+                .Include(r => r.Races)
+                .ToListAsync();
 
             return regattas;
         }
 
-        public Task<Regatta> GetRegatta(int id)
+        public async Task<Regatta> GetRegatta(int id)
         {
-            return GetRegattaEntity(id);
+            return await _dbContext.Regattas
+                .Include(r => r.Races)
+                .FirstOrDefaultAsync(r => r.Id == id);
         }
 
         public async Task<bool> DeleteRegatta(int id)
