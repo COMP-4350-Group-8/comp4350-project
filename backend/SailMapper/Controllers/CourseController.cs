@@ -50,7 +50,7 @@ namespace SailMapper.Controllers
         ///             
         ///             "isStartLine": boolean, // true id the courseMark is one of the points of start line
         ///             
-        ///             "gate": string,         // what kind of gate it is
+        ///             "courseMarkId": id,     // a reference to another CourseMark that makes up a gate, if not gate - skip
         ///             
         ///             "courseId": int         // id of the Course the courseMark belongs to (omit this line, since MySql detects it)
         ///             
@@ -161,7 +161,7 @@ namespace SailMapper.Controllers
         ///             
         ///             "isStartLine": boolean, // true id the courseMark is one of the points of start line
         ///             
-        ///             "gate": string,         // what kind of gate it is
+        ///             "courseMarkId": id,     // a reference to another CourseMark that makes up a gate, if not gate - skip
         ///             
         ///             "courseId": int         // id of the Course the courseMark belongs to (omit this line, since MySql detects it)
         ///             
@@ -232,7 +232,7 @@ namespace SailMapper.Controllers
         ///             
         ///     "isStartLine": boolean, // true id the courseMark is one of the points of start line
         ///             
-        ///     "gate": string,         // what kind of gate it is
+        ///     "courseMarkId": id,     // a reference to another CourseMark that makes up a gate, if not gate - skip
         ///             
         ///     "courseId": int         // id of the Course the courseMark belongs to (omit this line, since MySql detects it)
         ///     
@@ -284,7 +284,7 @@ namespace SailMapper.Controllers
         ///             
         ///     "isStartLine": boolean, // true id the courseMark is one of the points of start line
         ///             
-        ///     "gate": string,         // what kind of gate it is
+        ///     "courseMarkId": id,     // a reference to another CourseMark that makes up a gate, if not gate - skip
         ///             
         ///     "courseId": int         // id of the Course the courseMark belongs to (omit this line, since MySql detects it)
         ///     
@@ -295,7 +295,7 @@ namespace SailMapper.Controllers
         /// <response code="404">Course not found.</response>
         /// <response code="500">If there is an internal server error.</response>
         /// <param name="id"></param>
-        [HttpPut("marks/{markId}")]
+        [HttpPut("marks/{id}")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -24,11 +24,9 @@ namespace SailMapper.Services
         //return list of courses, not full info
         public async Task<List<Course>> GetCourses()
         {
-            List<Course> courses = await _dbContext.Courses
+            return await _dbContext.Courses
                 .Include(o => o.courseMarks)
                 .ToListAsync();
-
-            return courses;
         }
 
         public async Task<Course> GetCourse(int id)
@@ -63,13 +61,9 @@ namespace SailMapper.Services
 
         public async Task<List<CourseMark>> GetCourseMarks(int id)
         {
-            Course course = await GetCourseEntity(id);
-
-            if (course != null && course.courseMarks != null)
-            {
-                return course.courseMarks.ToList();
-            }
-            return null;
+            return await _dbContext.CourseMarks
+                .Where(c => c.CourseId == id)
+                .ToListAsync();
         }
 
         public async Task<int> AddMark(CourseMark mark)
