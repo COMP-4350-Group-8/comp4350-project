@@ -22,28 +22,46 @@ body {
     color: hsl(216, 84%, 19%);
 }
 
-.start-race-button{
-    position: relative;
+.card-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid hsl(216, 84%, 19%);
+    padding: 0px 20px;
+    height: 70px;
+    /* margin: 10px 0px 0px; */
+}
+
+.card-header {
+    /* display: flex; */
+    align-content: center;
+    height: 50px;
+    line-height: 36px;
+    font-size: 36px;
+    color: hsl(216, 84%, 19%);
+}
+
+.create-button {
+    /* display: flex; */
+    /* position: relative; */
     background-color: rgb(2, 158, 255);
     color: white;
     border: none;
-    top:300px;
-    left: 35px;
+    /* top: 300px; */
+    /* left: 35px; */
     height: 50px;
-    width: 300px;
+    width: 200px;
     border-radius: 18px;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 20px;
     cursor: pointer;
-    margin-left: 8px;
-    margin-right: 8px;
-    transition: box-shadow 0.15s,
-    opacity 0.15s;
+    /* margin-left: 8px;
+    margin-right: 8px; */
+    transition: box-shadow 0.15s, opacity 0.15s;
 }
-.start-race-button:hover{
+.create-button:hover {
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
 }
-
-.start-race-button:active{
+.create-button:active {
     opacity: 0.5;
 }

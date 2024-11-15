@@ -4,9 +4,9 @@ import React from "react";
 // import "./CreateRace.css";
 
 // Render the RaceForm and pass it a function to call when creating the race course
-export default function CreateRace()  {
+export default function CreateRegatta()  {
     return (
         // <RaceForm onAddCourse={addCourseHandler}/>
-        <p>Race</p>
+        <p>Regatta</p>
     );
 }

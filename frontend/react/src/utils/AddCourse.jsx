@@ -2,7 +2,6 @@
 
 // Called by CreateRace when a race form is submitted and sends the data to the backend
 export default function addCourseHandler(courseData) {
-    // Will create a 404 error until a backend can be used
     fetch(
         'http://localhost:5000/course',
         {
