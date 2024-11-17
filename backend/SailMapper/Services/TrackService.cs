@@ -97,7 +97,6 @@ namespace SailMapper.Services
             DateTime closestNPoint = new DateTime();
             double closestN = 0;
 
-            var earthRadius = 6371;
 
             foreach (XmlNode wpt in track.DocumentElement.ChildNodes)
             {
@@ -107,21 +106,7 @@ namespace SailMapper.Services
                 if (lat != null && lon != null)
                 {
                     // calculate distance to finish line
-
-                    //find bearing from point to ends of line
-
-                    double bering1 = Bearing(one.Latitude, one.Longitude, lat, lon);
-                    double bering2 = Bearing(two.Latitude, two.Longitude, lat, lon);
-
-
-                    //find distance from point to one end (spherical cosines)
-                    //distanceAC = acos( sin(φ₁)*sin(φ₂) + cos(φ₁)*cos(φ₂)*cos(Δλ) )*R
-                    double distace = Math.Acos(Math.Sin(one.Latitude) * Math.Sin(lat) + Math.Cos(one.Latitude) * Math.Cos(lat) * Math.Cos(lon - one.Longitude)) * earthRadius;
-
-
-                    //find cross track diffrence
-                    //distance = asin(sin(distanceAC/ R) * sin(bearing1 − bearing2)) * R
-                    double min_distance = Math.Asin(Math.Sin(distace / earthRadius) * Math.Sin(bering1 - bering2)) * earthRadius;
+                    double min_distance = Calc_distance(one, two, lat, lon);
 
                     if (min_distance > 0 && (closestP == 0 || min_distance < closestP))
                     {
@@ -147,6 +132,28 @@ namespace SailMapper.Services
             var finishSeconds = pWeighted + nWeighted;
 
             return finish;
+        }
+
+        public double Calc_distance(CourseMark one, CourseMark two, double lat, double lon)
+        {
+            var earthRadius = 6371;
+
+            //find bearing from point to ends of line
+
+            double bering1 = Bearing(one.Latitude, one.Longitude, lat, lon);
+            double bering2 = Bearing(two.Latitude, two.Longitude, lat, lon);
+
+
+            //find distance from point to one end (spherical cosines)
+            //distanceAC = acos( sin(φ₁)*sin(φ₂) + cos(φ₁)*cos(φ₂)*cos(Δλ) )*R
+            double distace = Math.Acos(Math.Sin(one.Latitude) * Math.Sin(lat) + Math.Cos(one.Latitude) * Math.Cos(lat) * Math.Cos(lon - one.Longitude)) * earthRadius;
+
+
+            //find cross track diffrence
+            //distance = asin(sin(distanceAC/ R) * sin(bearing1 − bearing2)) * R
+            double min_distance = Math.Asin(Math.Sin(distace / earthRadius) * Math.Sin(bering1 - bering2)) * earthRadius;
+
+            return min_distance;
         }
 
         private double Bearing(double lat1, double lon1, double lat2, double lon2)
