@@ -12,8 +12,8 @@ namespace Tests
         {
             int random = new Random().Next();
             string testDBName = "temp_test_sail_mapper" + random.ToString();
-            string connectionString = $"Server=localhost;Database={testDBName};User= root;Password= Lowisa;";
-            using (var connection = new MySqlConnection("Server=localhost;User= root;Password= Lowisa"))
+            string connectionString = $"Server=localhost;Database={testDBName};User=root;Password=Lowisa;";
+            using (var connection = new MySqlConnection("Server=localhost;User=root;Password=Lowisa"))
             {
                 connection.Open();
                 using (var command = connection.CreateCommand())
@@ -307,7 +307,8 @@ namespace Tests
                     EndTime = new DateTime(2024, 7, 15, 14, 0, 0),   // July 15, 2024, 2:00 PM
                     Name = "Summer Harbor Sprint",
                     Participants = new List<Boat> { boats[0], boats[1], boats[2], boats[3], boats[4] },
-                    Courses = new List<Course> { courses[0] }, // Harbor Loop
+                    Course = courses[0],// Harbor Loop
+                    CourseId = courses[0].Id,
                     Results = new List<Result>(),
                     Tracks = new List<Track>(),
                 },
@@ -318,7 +319,8 @@ namespace Tests
                     EndTime = new DateTime(2024, 7, 16, 17, 0, 0),   // July 16, 2024, 5:00 PM
                     Name = "Offshore Endurance Challenge",
                     Participants = new List<Boat> { boats[5], boats[6], boats[7], boats[8], boats[9], boats[10] },
-                    Courses = new List<Course> { courses[1] }, // Offshore Challenge
+                    Course = courses[1],
+                    CourseId = courses[1].Id,
                     Results = new List<Result>(),
                     Tracks = new List<Track>(),
                 },
@@ -329,7 +331,8 @@ namespace Tests
                     EndTime = new DateTime(2024, 7, 17, 16, 0, 0),   // July 17, 2024, 4:00 PM
                     Name = "Island Hopper Race",
                     Participants = new List<Boat> { boats[11], boats[12], boats[13], boats[14], boats[15] },
-                    Courses = new List<Course> { courses[2] }, // Island Circuit
+                    Course = courses[2],
+                    CourseId = courses[2].Id,
                     Results = new List<Result>(),
                     Tracks = new List<Track>(),
                 },
@@ -340,7 +343,8 @@ namespace Tests
                     EndTime = new DateTime(2024, 7, 18, 18, 0, 0),   // July 18, 2024, 6:00 PM
                     Name = "Grand Sailing Marathon",
                     Participants = new List<Boat> { boats[16], boats[17], boats[18], boats[19], boats[0], boats[1], boats[2] },
-                    Courses = new List<Course> { courses[0], courses[2], courses[1] }, // Combining all courses
+                    Course= courses[0],
+                    CourseId = courses[0].Id,
                     Results = new List<Result>(),
                     Tracks = new List<Track>(),
                 }
