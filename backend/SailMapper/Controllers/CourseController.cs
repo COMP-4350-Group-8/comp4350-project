@@ -46,11 +46,11 @@ namespace SailMapper.Controllers
         ///             
         ///             "description": string,  // some info about the courseMark
         ///             
-        ///             "rounding": boolean,    // true if Sailers need to go around the courseMark
+        ///             "rounding": boolean,    // true if Sailers need to go clockwise around the courseMark and false is counter-clockwise
         ///             
         ///             "isStartLine": boolean, // true id the courseMark is one of the points of start line
         ///             
-        ///             "courseMarkId": id,     // a reference to another CourseMark that makes up a gate, if not gate - skip
+        ///             "gateId": id,           // a reference to another CourseMark that makes up a gate, if not gate - skip
         ///             
         ///             "courseId": int         // id of the Course the courseMark belongs to (omit this line, since MySql detects it)
         ///             
@@ -157,11 +157,11 @@ namespace SailMapper.Controllers
         ///             
         ///             "description": string,  // some info about the courseMark
         ///             
-        ///             "rounding": boolean,    // true if Sailers need to go around the courseMark
+        ///             "rounding": boolean,    // true if Sailers need to go clockwise around the courseMark and false is counter-clockwise
         ///             
         ///             "isStartLine": boolean, // true id the courseMark is one of the points of start line
         ///             
-        ///             "courseMarkId": id,     // a reference to another CourseMark that makes up a gate, if not gate - skip
+        ///             "gateId": id,           // a reference to another CourseMark that makes up a gate, if not gate - skip
         ///             
         ///             "courseId": int         // id of the Course the courseMark belongs to (omit this line, since MySql detects it)
         ///             
@@ -228,11 +228,11 @@ namespace SailMapper.Controllers
         ///             
         ///     "description": string,  // some info about the courseMark
         ///             
-        ///     "rounding": boolean,    // true if Sailers need to go around the courseMark
+        ///     "rounding": boolean,    // true if Sailers need to go clockwise around the courseMark and false is counter-clockwise
         ///             
         ///     "isStartLine": boolean, // true id the courseMark is one of the points of start line
         ///             
-        ///     "courseMarkId": id,     // a reference to another CourseMark that makes up a gate, if not gate - skip
+        ///     "gateId": id,           // a reference to another CourseMark that makes up a gate, if not gate - skip
         ///             
         ///     "courseId": int         // id of the Course the courseMark belongs to (omit this line, since MySql detects it)
         ///     
@@ -280,11 +280,11 @@ namespace SailMapper.Controllers
         ///             
         ///     "description": string,  // some info about the courseMark
         ///             
-        ///     "rounding": boolean,    // true if Sailers need to go around the courseMark
+        ///     "rounding": boolean,    // true if Sailers need to go clockwise around the courseMark and false is counter-clockwise
         ///             
         ///     "isStartLine": boolean, // true id the courseMark is one of the points of start line
         ///             
-        ///     "courseMarkId": id,     // a reference to another CourseMark that makes up a gate, if not gate - skip
+        ///     "gateId": id,           // a reference to another CourseMark that makes up a gate, if not gate - skip
         ///             
         ///     "courseId": int         // id of the Course the courseMark belongs to (omit this line, since MySql detects it)
         ///     
