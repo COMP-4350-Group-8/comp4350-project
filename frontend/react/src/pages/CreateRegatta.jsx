@@ -1,12 +1,14 @@
 import React from "react";
-// import RaceForm from "../components/forms/RaceForm.jsx";
-// import addCourseHandler from "../utils/AddCourse.jsx";
-// import "./CreateRace.css";
+import RegattaForm from "../components/forms/RegattaForm.jsx";
+import addRegattaHandler from "../utils/AddRegatta.jsx";
+import "./Create.css";
 
-// Render the RaceForm and pass it a function to call when creating the race course
+// Render the RegattaForm and pass it a function to call when creating the regatta
 export default function CreateRegatta()  {
     return (
-        // <RaceForm onAddCourse={addCourseHandler}/>
-        <p>Regatta</p>
+        <>
+            <h1 className="create-header">Create Regatta</h1>
+            <RegattaForm onAddRegatta={addRegattaHandler}/>
+        </>
     );
 }

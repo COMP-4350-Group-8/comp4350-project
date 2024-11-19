@@ -1,7 +1,7 @@
 import Gmap from "../map/Gmap.jsx";
 import React, {useState, useRef} from "react";
 import PropTypes from "prop-types";
-import classes from "./RaceForm.module.css";
+import classes from "./Form.module.css";
 
 // Coordinates for the UofM as starting coordinates
 const STARTING_LATITUDE = 49.808561283776484;
