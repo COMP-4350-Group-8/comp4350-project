@@ -2,5 +2,5 @@
 
 // Called by Home to get all of the courses from the backend
 export default function getCourses() {
-    return [{name: "Course1"}, {name: "Course2"}];
+    return [{id: 1, name: "Course1"}, {id: 2, name: "Course2"}];
 };

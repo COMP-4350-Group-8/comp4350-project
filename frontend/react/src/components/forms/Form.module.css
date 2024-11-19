@@ -24,7 +24,8 @@
 }
 
 .control input,
-.control textarea {
+.control textarea,
+.control select {
     display: block;
     font: inherit;
     border-radius: 4px;

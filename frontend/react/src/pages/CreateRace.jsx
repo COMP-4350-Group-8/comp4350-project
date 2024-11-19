@@ -8,7 +8,7 @@ export default function CreateRace()  {
     return (
         <>
             <h1 className="create-header">Create Race</h1>
-            <RaceForm onAddrace={addRaceHandler}/>
+            <RaceForm onAddRace={addRaceHandler}/>
         </>
     );
 }
