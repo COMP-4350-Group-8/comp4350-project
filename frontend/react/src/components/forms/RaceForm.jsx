@@ -69,16 +69,12 @@ export default function RaceForm({onAddCourse}) {
 
     // Callback passed to the course markers so they can update the data when it changes
     const markerDataHandler = (index, data) => {
-        console.log(`Marker ${index} changed, ${JSON.stringify(data, null, 4)}`);
-
         // Update the marker data state with the new data, making sure to add new elements for new markers
         setMarkerData(prevMarkerData => {
             const updatedMarkerData = [...prevMarkerData];
             updatedMarkerData[index] = data;
             return updatedMarkerData;
         });
-
-        console.log(`Markers: ${JSON.stringify(markerData, null, 4)}`);
     };
 
     // Function used to update state so a new marker will be rendered in the form

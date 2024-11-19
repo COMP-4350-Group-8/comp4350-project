@@ -5,10 +5,11 @@ import Home from './pages/Home';
 import CreateRegatta from './pages/CreateRegatta.jsx';
 import CreateRace from './pages/CreateRace.jsx';
 import CreateCourse from './pages/CreateCourse.jsx';
+import "./App.css";
 
 export default function App() {
     return (
-        <div >
+        <div className="app">
             <Routes>
 
                 <Route path="/" element={<Home/>}/>
