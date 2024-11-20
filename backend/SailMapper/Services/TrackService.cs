@@ -98,6 +98,7 @@ namespace SailMapper.Services
             double closestN = 0;
 
 
+            // check that points are first close and consecutive
             foreach (XmlNode wpt in track.DocumentElement.ChildNodes)
             {
                 double lat = Convert.ToDouble(wpt.Attributes["lat"].Value);
@@ -138,38 +139,62 @@ namespace SailMapper.Services
         {
             var earthRadius = 6371;
 
+            double oneLat = DegToRad(one.Latitude);
+            double oneLon = DegToRad(one.Longitude);
+            double twoLat = DegToRad(two.Latitude);
+            double twoLon = DegToRad(two.Longitude);
+            double pLat = DegToRad(lat);
+            double pLon = DegToRad(lon);
+
             //find bearing from point to ends of line
 
-            double bering1 = Bearing(one.Latitude, one.Longitude, lat, lon);
-            double bering2 = Bearing(two.Latitude, two.Longitude, lat, lon);
+            double bering1 = Bearing(oneLat, oneLon, pLat, pLon);
+            double bering2 = Bearing(twoLat, twoLon, pLat, pLon);
 
 
             //find distance from point to one end (spherical cosines)
             //distanceAC = acos( sin(φ₁)*sin(φ₂) + cos(φ₁)*cos(φ₂)*cos(Δλ) )*R
-            double distace = Math.Acos(Math.Sin(one.Latitude) * Math.Sin(lat) + Math.Cos(one.Latitude) * Math.Cos(lat) * Math.Cos(lon - one.Longitude)) * earthRadius;
 
+            //double dlon = DegToRad(lon - one.Longitude);
+            double dlon = pLon - oneLon;
+
+            double distace = Math.Acos(Math.Sin(oneLat) * Math.Sin(pLat) + Math.Cos(oneLat) * Math.Cos(pLat) * Math.Cos(dlon)) * earthRadius;
+
+            //double angularDistance = Math.Atan2();
+            //double angularDistance = 2 * Math.Asin(Math.Sqrt(Math.Pow(Math.Sin((lat - one.Latitude) / 2), 2) + Math.Cos(lat) * Math.Cos(one.Latitude) * Math.Pow(Math.Sin((lon - one.Longitude) / 2), 2)));
+            double angularDistance = 2 * Math.Asin(Math.Sqrt(Math.Pow(Math.Sin((pLat - oneLat) / 2), 2) + Math.Cos(pLat) * Math.Cos(oneLat) * Math.Pow(Math.Sin((pLon - oneLon) / 2), 2)));
 
             //find cross track diffrence
             //distance = asin(sin(distanceAC/ R) * sin(bearing1 − bearing2)) * R
-            double min_distance = Math.Asin(Math.Sin(distace / earthRadius) * Math.Sin(bering1 - bering2)) * earthRadius;
+            //double min_distance = Math.Asin(Math.Sin(distace / earthRadius) * Math.Sin(DegToRad(bering1) - DegToRad(bering2))) * earthRadius;
+            double min_distance = Math.Asin(Math.Sin(angularDistance) * Math.Sin(DegToRad(bering1) - DegToRad(bering2))) * earthRadius;
+            // double min_distance = Math.Asin(Math.Sin(distace / earthRadius) * Math.Sin((bering1) - (bering2))) * earthRadius;
 
             return min_distance;
+            //return distace;
         }
 
-        private double Bearing(double lat1, double lon1, double lat2, double lon2)
+        public double Bearing(double lat1, double lon1, double lat2, double lon2)
         {
 
             //bearingAC = atan2( sin(Δλ)*cos(φ₂), cos(φ₁)*sin(φ₂) − sin(φ₁)*cos(φ₂)*cos(Δλ) )  
             double y = Math.Sin(lon2 - lon1) * Math.Cos(lat2);
             double x = Math.Cos(lat1) * Math.Sin(lat2) - Math.Sin(lat1) * Math.Cos(lat2) * Math.Cos(lat2 - lat1);
 
-            double bearing = Math.Atan2(y, x);
+            double bearing = RadToDeg(Math.Atan2(y, x));
             bearing = 360 - ((bearing + 360) % 360);
 
             return bearing;
+        }
 
+        private double RadToDeg(double rad)
+        {
+            return rad * 180 / Math.PI;
+        }
 
-
+        private double DegToRad(double deg)
+        {
+            return deg * Math.PI / 180;
         }
 
         public async Task<string> GetGPX(int id)
