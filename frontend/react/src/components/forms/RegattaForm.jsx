@@ -128,7 +128,10 @@ export default function RegattaForm({onAddRegatta}) {
                     races.length > 0 &&
                     <div className={classes.actions}>
                         <button type="button" onClick={addRace}>Add Race</button>
-                        <button>Create</button>
+                        { /* Only render the submit button if at least one race has been added to the regatta */
+                            raceCount > 0 &&
+                            <button>Create</button>
+                        }
                     </div>
                 }
             </form>

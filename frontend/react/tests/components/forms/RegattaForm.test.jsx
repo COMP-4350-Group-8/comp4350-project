@@ -3,86 +3,83 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import React from "react";
-import RaceForm from "../../../src/components/forms/RaceForm";
+import RegattaForm from "../../../src/components/forms/RegattaForm";
 
-describe("RaceForm", () => {
+describe("RegattaForm", () => {
     it("should render the main form inputs", () => {
         // Render the component in a router so navigation between pages works
         render(
             <MemoryRouter>
-                <RaceForm/>
+                <RegattaForm/>
             </MemoryRouter>
         );
 
-        // Confirm that the core race form elements are being rendered
-        const raceTitle = screen.getByText(/race title/i);
-        expect(raceTitle).toBeInTheDocument();
-
-        const raceDropdown = screen.getByRole("combobox");
-        expect(raceDropdown).toBeInTheDocument();
+        // Confirm that the core regatta form elements are being rendered
+        const regattaTitle = screen.getByText(/regatta title/i);
+        expect(regattaTitle).toBeInTheDocument();
 
         const button = screen.getByRole("button");
         expect(button).toBeInTheDocument();
-        expect(button).toHaveTextContent(/create/i);
+        expect(button).toHaveTextContent(/add race/i);
     });
 
-    it("should not create a new race when not all the inputs have been filled in", async () => {
+    it("should not create a new regatta when not all the inputs have been filled in", async () => {
         // Used to simulate user inputs
         const user = userEvent.setup();
 
         // Mocked function for checking if the form can be submitted
-        const addRaceClick = vi.fn();
+        const addRegattaClick = vi.fn();
         
         // Render the component in a router so navigation between pages works
         render(
             <MemoryRouter>
-                <RaceForm onAddRace={addRaceClick}/>
+                <RegattaForm onAddRegatta={addRegattaClick}/>
             </MemoryRouter>
         );
 
         // Test logic
 
         // Make sure the form did not get submitted (no inputs -> not submission)
-        expect(addRaceClick).toHaveBeenCalledTimes(0);
+        expect(addRegattaClick).toHaveBeenCalledTimes(0);
     });
 
-    it("create a new race when all the inputs are filled in but the dropdown has not been touched", async () => {
+    it("create a new regatta when all the inputs are filled in but the dropdown has not been touched", async () => {
         // Used to simulate user inputs
         const user = userEvent.setup();
 
         // Mocked function for checking if the form can be submitted
-        const addRaceClick = vi.fn();
+        const addRegattaClick = vi.fn();
         
         // Render the component in a router so navigation between pages works
         render(
             <MemoryRouter>
-                <RaceForm onAddRace={addRaceClick}/>
+                <RegattaForm onAddRegatta={addRegattaClick}/>
             </MemoryRouter>
         );
 
         // Test logic
 
         // Make sure the form did not get submitted (no inputs -> not submission)
-        expect(addRaceClick).toHaveBeenCalledTimes(0);
+        expect(addRegattaClick).toHaveBeenCalledTimes(0);
     });
 
-    it("create a new race when all the inputs are filled and the dropdown has been changed", async () => {
+    it("create a new regatta when all the inputs are filled and the dropdown has been changed", async () => {
         // Used to simulate user inputs
         const user = userEvent.setup();
 
         // Mocked function for checking if the form can be submitted
-        const addRaceClick = vi.fn();
+        const addRegattaClick = vi.fn();
         
         // Render the component in a router so navigation between pages works
         render(
             <MemoryRouter>
-                <RaceForm onAddRace={addRaceClick}/>
+                <RegattaForm onAddRegatta={addRegattaClick}/>
             </MemoryRouter>
         );
 
         // Test logic
 
         // Make sure the form did not get submitted (no inputs -> not submission)
-        expect(addRaceClick).toHaveBeenCalledTimes(0);
+        expect(addRegattaClick).toHaveBeenCalledTimes(0);
     });
 });

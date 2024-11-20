@@ -22,8 +22,8 @@ describe("Home", () => {
             (<Home/>);
         </MemoryRouter>)
 
-        const button = screen.getByRole("button");
+        const button = screen.getByRole("button", {name: /create course/i});
         expect(button).toBeInTheDocument();
-        expect(button).toHaveTextContent(/start race/i);
+        expect(button).toHaveTextContent(/create course/i);
     });
 });

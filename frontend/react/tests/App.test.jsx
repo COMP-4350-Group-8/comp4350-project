@@ -5,13 +5,13 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import App from "../src/App";
 
-// Mock for the addCourseHandler method from AddCourse that is used in CreateRace
-vi.mock("../src/pages/AddCourse",  () => ({
+// Mock for the addCourseHandler method from AddCourse that is used in CreateCourse
+vi.mock("../src/utils/AddCourse",  () => ({
     default: vi.fn()
 }))
 
 describe("App", () => {
-    it("should navigate to the Create Race page when the Start Race button is clicked", async () => {
+    it("should navigate to the Create Course page when the Create Course button is clicked", async () => {
         // Used to simulate user inputs
         const user = userEvent.setup();
 
@@ -23,16 +23,16 @@ describe("App", () => {
         // Check that we're on the Home page initially
         expect(screen.getByText(/sail mapper/i)).toBeInTheDocument();
 
-        // Find the Start Race button and click it (and wait for the click to finish)
-        const button = screen.getByRole("button", { name: /start race/i });
+        // Find the Start Course button and click it (and wait for the click to finish)
+        const button = screen.getByRole("button", { name: /create course/i });
         expect(button).toBeInTheDocument();
         await user.click(button);
 
-        // Assert that the page changed to the Create Race page
+        // Assert that the page changed to the Create Course page
         expect(screen.getByText(/course title/i)).toBeInTheDocument();
     });
 
-    it("should return to the Home page after creating a race", async () => {
+    it("should return to the Home page after creating a course", async () => {
         // Used to simulate user inputs
         const user = userEvent.setup();
 
@@ -44,8 +44,8 @@ describe("App", () => {
         // Check that we're on the Home page initially
         expect(screen.getByText(/sail mapper/i)).toBeInTheDocument();
 
-        // Find the Start Race button and click it (and wait for the click to finish)
-        const button = screen.getByRole("button", { name: /start race/i });
+        // Find the Create Course button and click it (and wait for the click to finish)
+        const button = screen.getByRole("button", { name: /create course/i });
         expect(button).toBeInTheDocument();
         await user.click(button);
 
@@ -57,7 +57,7 @@ describe("App", () => {
             user.keyboard("Hello");
         });
 
-        // Create a race with the inputted data
+        // Create a course with the inputted data
         const createButton = screen.getByRole("button", { name: /create/i });
         await user.click(createButton);
 
@@ -77,19 +77,19 @@ describe("App", () => {
         // Check that we're on the Home page initially
         expect(screen.getByText(/sail mapper/i)).toBeInTheDocument();
 
-        // Find the Start Race button and click it (and wait for the click to finish)
-        const startButton = screen.getByRole("button", { name: /start race/i });
+        // Find the Start Course button and click it (and wait for the click to finish)
+        const startButton = screen.getByRole("button", { name: /create course/i });
         expect(startButton).toBeInTheDocument();
         await user.click(startButton);
 
-        // Assert that the page changed to the Create Race page
+        // Assert that the page changed to the Create Course page
         expect(screen.getByText(/course title/i)).toBeInTheDocument();
 
-        // Create a race without inputting data
+        // Create a course without inputting data
         const createButton = screen.getByRole("button", { name: /create/i });
         await user.click(createButton);
 
-        // Assert that the active page is still the Create Race page
+        // Assert that the active page is still the Create Course page
         expect(screen.getByText(/course title/i)).toBeInTheDocument();
     });
 });
