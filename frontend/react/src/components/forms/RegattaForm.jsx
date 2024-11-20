@@ -21,14 +21,13 @@ export default function RegattaForm({onAddRegatta}) {
     // References to the input fields to get their values
     const regattaTitleInputRef = useRef();
 
-    const [raceCount, setRaceCount] = useState(1);
+    const [raceCount, setRaceCount] = useState(0);
     const [raceChoices, setRaceChoices] = useState([]);
 
     const handleRaceSelection = (index) => (event) => {
         // Update the race choices state with the new data
         setRaceChoices(prevRaceChoices => {
             const updatedRaceChoices = [...prevRaceChoices];
-            console.log(index);
             updatedRaceChoices[index] = event.target.value;
             return updatedRaceChoices;
         });
@@ -82,7 +81,7 @@ export default function RegattaForm({onAddRegatta}) {
         // Set the new race choice's value
         setRaceChoices(prevRaceChoices => {
             const updatedRaceChoices = [...prevRaceChoices];
-            updatedRaceChoices[curRaceCount] = 0;
+            updatedRaceChoices[curRaceCount] = races[0].id;
             return updatedRaceChoices;
         });
     };
@@ -98,11 +97,16 @@ export default function RegattaForm({onAddRegatta}) {
 
         const regattaTitle = regattaTitleInputRef.current.value;
 
+        const raceIds = [];
+        raceChoices.map((raceChoice) => {
+            raceIds.push(parseInt(raceChoice, 10));
+        });
+
         // Combine the data into a single object so it can be sent to the parent class
         const data = {
             id: Math.floor(Math.random() * (99999999)),
             name: regattaTitle,
-            courseId: ""
+            courseId: raceIds
         }
 
         // Send the regatta data to the parent class
