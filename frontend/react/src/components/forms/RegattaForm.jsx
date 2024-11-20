@@ -24,25 +24,40 @@ export default function RegattaForm({onAddRegatta}) {
     const [raceCount, setRaceCount] = useState(1);
     const [raceChoices, setRaceChoices] = useState([]);
 
-    const handleRaceSelection = (event) => {
-        console.log(event.target.value);
+    const handleRaceSelection = (index) => (event) => {
+        // Update the race choices state with the new data
+        setRaceChoices(prevRaceChoices => {
+            const updatedRaceChoices = [...prevRaceChoices];
+            console.log(index);
+            updatedRaceChoices[index] = event.target.value;
+            return updatedRaceChoices;
+        });
     }
 
+    // Create the necessary elements so the user can select the races they want in the regatta
     const raceDropdowns = [];
+    // If no races are available, don't allow the user to create a regatta
     if (races.length === 0) {
         raceDropdowns.push(<p>Sorry, you haven't created any races yet</p>);
-    } else {
+    } 
+    // If there are races available, show a race selection dropdown for each race the user has added to the regatta
+    else {
+        // Create the options for the dropdown based on the available races
+        const raceOptions = [];
+        races.map((race) => {
+            raceOptions.push(<option key={race.id} value={race.id}>{race.name}</option>)
+        });
+
+        // Create an array of cards for each race the user has added to the regatta using the dropdown created above
         for(let i = 0; i < raceCount; i++) {
-            // Create a dropdown with all the courses as options, or just text if there are no courses available
-            const courseOptions = [];
-            races.map((race) => {
-                courseOptions.push(<option key={race.id} value={race.id}>{race.name}</option>)
-            });
+            // Create a dropdown with all race options
             const dropdown = (
-                    <select value={2} onChange={handleRaceSelection}>
-                        {courseOptions}
-                    </select>);
-    
+                <select key={i} value={raceChoices[i]} onChange={handleRaceSelection(i)}>
+                    {raceOptions}
+                </select>
+            );
+
+            // Create the card with the dropdown
             raceDropdowns.push(
                 <Card key={i}>
                     <div className={classes.control}>
@@ -58,7 +73,18 @@ export default function RegattaForm({onAddRegatta}) {
 
     // Function used to update state so a new marker will be rendered in the form
     function addRace() {
-        setRaceCount(raceCount + 1)
+        // Store the race count state (so we don't have to worry about getting the updated state value later)
+        const curRaceCount = raceCount;
+
+        // Update the state tracking how many races the user has added to the regatta
+        setRaceCount(raceCount + 1);
+
+        // Set the new race choice's value
+        setRaceChoices(prevRaceChoices => {
+            const updatedRaceChoices = [...prevRaceChoices];
+            updatedRaceChoices[curRaceCount] = 0;
+            return updatedRaceChoices;
+        });
     };
 
     // Pass (after formatting) the data from the form to the parent component
@@ -94,7 +120,7 @@ export default function RegattaForm({onAddRegatta}) {
                     <input type='text' required id='title' ref={regattaTitleInputRef}/>
                 </div>
                 {raceDropdowns}
-                { /* Only render the submit button if there are available races */
+                { /* Only render the submit and add race buttons if there are available races */
                     races.length > 0 &&
                     <div className={classes.actions}>
                         <button type="button" onClick={addRace}>Add Race</button>
