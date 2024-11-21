@@ -81,6 +81,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _points.add(position);
       });
+      print(position);
     });
   }
 
@@ -108,6 +109,37 @@ class _HomePageState extends State<HomePage> {
       final file = File('${directory.path}/track_$timestamp.gpx');
 
       final builder = XmlBuilder();
+      builder.processing('xml', 'version="1.0" encoding="UTF-8"');
+      builder.element('gpx', attributes: {
+        'version': '1.1',
+        'creator': 'Flutter GPS Tracker',
+        'xmlns': 'http://www.topografix.com/GPX/1/1',
+        'xmlns:xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+        'xsi:schemaLocation':
+            'http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd'
+      }, nest: () {
+        builder.element('trk', nest: () {
+          builder.element('name', nest: () {
+            builder.text('Track $timestamp');
+          });
+          builder.element('trkseg', nest: () {
+            for (var point in _points) {
+              builder.element('trkpt', attributes: {
+                'lat': point.latitude.toString(),
+                'lon': point.longitude.toString()
+              }, nest: () {
+                // Optional: Add elevation and timestamp
+                builder.element('ele', nest: () {
+                  builder.text(point.altitude.toString());
+                });
+                builder.element('time', nest: () {
+                  builder.text(DateTime.now().toIso8601String());
+                });
+              });
+            }
+          });
+        });
+      });
 
       await file.writeAsString(builder.buildDocument().toString());
 
