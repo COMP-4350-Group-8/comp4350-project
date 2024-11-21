@@ -1,9 +1,16 @@
 import { it, expect, describe, vi } from "vitest";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import React from "react";
 import RaceForm from "../../../src/components/forms/RaceForm";
+
+// Mock for the getCourses method from GetCourses that is used in RaceForm
+vi.mock("../../../src/utils/GetCourses",  () => ({
+    default: vi.fn(() => {
+        return [{id: 1, name: "Course1"}, {id: 2, name: "Course2"}];
+    })
+}));
 
 describe("RaceForm", () => {
     it("should render the main form inputs", () => {
@@ -40,7 +47,11 @@ describe("RaceForm", () => {
             </MemoryRouter>
         );
 
-        // Test logic
+        // Click the Create button without filling in the title field
+        const button = screen.getByRole("button");
+        expect(button).toBeInTheDocument();
+        expect(button).toHaveTextContent(/create/i);
+        await user.click(button);
 
         // Make sure the form did not get submitted (no inputs -> not submission)
         expect(addRaceClick).toHaveBeenCalledTimes(0);
@@ -60,10 +71,20 @@ describe("RaceForm", () => {
             </MemoryRouter>
         );
 
-        // Test logic
+        // Fill in the race title
+        const input = screen.getByRole("textbox");
+        expect(input).toBeInTheDocument();
+        user.click(input);
+        user.keyboard("Hello");
 
-        // Make sure the form did not get submitted (no inputs -> not submission)
-        expect(addRaceClick).toHaveBeenCalledTimes(0);
+        // Click the Create button
+        const button = screen.getByRole("button");
+        expect(button).toBeInTheDocument();
+        expect(button).toHaveTextContent(/create/i);
+        await user.click(button);
+
+        // Make sure the form got submitted
+        expect(addRaceClick).toHaveBeenCalledTimes(1);
     });
 
     it("create a new race when all the inputs are filled and the dropdown has been changed", async () => {
@@ -80,9 +101,27 @@ describe("RaceForm", () => {
             </MemoryRouter>
         );
 
-        // Test logic
+        // Fill in the race title
+        const input = screen.getByRole("textbox");
+        expect(input).toBeInTheDocument();
+        user.click(input);
+        user.keyboard("Hello");
 
-        // Make sure the form did not get submitted (no inputs -> not submission)
-        expect(addRaceClick).toHaveBeenCalledTimes(0);
+        // Select the second race from the dropdown
+        const dropdown = screen.getByRole("combobox");
+        expect(dropdown).toBeInTheDocument();
+        user.click(dropdown);
+        const options = screen.getAllByRole("option");
+        expect(options).toHaveLength(2);
+        user.click(options[1]);
+
+        // Click the Create button
+        const button = screen.getByRole("button");
+        expect(button).toBeInTheDocument();
+        expect(button).toHaveTextContent(/create/i);
+        await user.click(button);
+
+        // Make sure the form got submitted
+        expect(addRaceClick).toHaveBeenCalledTimes(1);
     });
 });

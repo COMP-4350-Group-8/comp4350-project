@@ -8,7 +8,7 @@ import App from "../src/App";
 // Mock for the addCourseHandler method from AddCourse that is used in CreateCourse
 vi.mock("../src/utils/AddCourse",  () => ({
     default: vi.fn()
-}))
+}));
 
 describe("App", () => {
     it("should navigate to the Create Course page when the Create Course button is clicked", async () => {
