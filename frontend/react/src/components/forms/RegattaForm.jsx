@@ -37,7 +37,7 @@ export default function RegattaForm({onAddRegatta}) {
     const raceDropdowns = [];
     // If no races are available, don't allow the user to create a regatta
     if (races.length === 0) {
-        raceDropdowns.push(<p>Sorry, you haven't created any races yet</p>);
+        raceDropdowns.push(<p>Sorry, you haven&apos;t created any races yet</p>);
     } 
     // If there are races available, show a race selection dropdown for each race the user has added to the regatta
     else {

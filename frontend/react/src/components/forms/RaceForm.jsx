@@ -30,7 +30,7 @@ export default function RaceForm({onAddRace}) {
     // Create a dropdown with all the courses as options, or just text if there are no courses available
     let courseDropdown = <></>;
     if (courses.length === 0) {
-        courseDropdown = <p>Sorry, you haven't created any courses yet</p>
+        courseDropdown = <p>Sorry, you haven&apos;t created any courses yet</p>
     } else {
         const courseOptions = [];
         courses.map((course) => {
