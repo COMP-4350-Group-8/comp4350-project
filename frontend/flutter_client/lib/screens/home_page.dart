@@ -37,10 +37,11 @@ class _HomePageState extends State<HomePage> {
                   child: Text("Start Tracking")),
               TextButton(
                   onPressed: _isTracking ? _stopTracking : null,
-                  child: Text(
-                    _status,
-                    textAlign: TextAlign.center,
-                  )),
+                  child: Text("Stop Tracking")),
+              Text(
+                _status,
+                textAlign: TextAlign.center,
+              )
             ],
           ),
         ));
