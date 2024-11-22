@@ -27,9 +27,6 @@ namespace SailMapper.Services
         public async Task<List<Boat>> GetBoats()
         {
             List<Boat> boats = await _dbContext.Boats
-                .Include(b => b.Results)
-                .Include(b => b.Tracks)
-                .Include(b => b.Races)
                 .ToListAsync();
             return boats;
         }

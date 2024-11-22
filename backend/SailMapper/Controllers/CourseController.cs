@@ -46,7 +46,7 @@ namespace SailMapper.Controllers
         ///             
         ///             "description": string,  // some info about the courseMark
         ///             
-        ///             "rounding": boolean,    // true if Sailers need to go clockwise around the courseMark and false is counter-clockwise
+        ///             "rounding": boolean,    // true if Sailers need to go clockwise around the courseMark and false is counter-clockwise (port for counter-clockwise, starboard for clockwise)
         ///             
         ///             "isStartLine": boolean, // true id the courseMark is one of the points of start line
         ///             
@@ -157,7 +157,7 @@ namespace SailMapper.Controllers
         ///             
         ///             "description": string,  // some info about the courseMark
         ///             
-        ///             "rounding": boolean,    // true if Sailers need to go clockwise around the courseMark and false is counter-clockwise
+        ///             "rounding": boolean,    // true if Sailers need to go clockwise around the courseMark and false is counter-clockwise (port for counter-clockwise, starboard for clockwise)
         ///             
         ///             "isStartLine": boolean, // true id the courseMark is one of the points of start line
         ///             
@@ -228,7 +228,7 @@ namespace SailMapper.Controllers
         ///             
         ///     "description": string,  // some info about the courseMark
         ///             
-        ///     "rounding": boolean,    // true if Sailers need to go clockwise around the courseMark and false is counter-clockwise
+        ///     "rounding": boolean,    // true if Sailers need to go clockwise around the courseMark and false is counter-clockwise (port for counter-clockwise, starboard for clockwise)
         ///             
         ///     "isStartLine": boolean, // true id the courseMark is one of the points of start line
         ///             
@@ -280,7 +280,7 @@ namespace SailMapper.Controllers
         ///             
         ///     "description": string,  // some info about the courseMark
         ///             
-        ///     "rounding": boolean,    // true if Sailers need to go clockwise around the courseMark and false is counter-clockwise
+        ///     "rounding": boolean,    // true if Sailers need to go clockwise around the courseMark and false is counter-clockwise (port for counter-clockwise, starboard for clockwise)
         ///             
         ///     "isStartLine": boolean, // true id the courseMark is one of the points of start line
         ///             

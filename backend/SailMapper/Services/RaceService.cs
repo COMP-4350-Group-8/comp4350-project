@@ -37,12 +37,7 @@ namespace SailMapper.Services
 
         public async Task<List<Race>> GetRaces()
         {
-            List<Race> races = await _dbContext.Races
-                .Include(r => r.Participants)
-                .Include(r => r.Courses)
-                .Include(r => r.Results)
-                .Include(r => r.Tracks)
-                .ToListAsync();
+            List<Race> races = await _dbContext.Races.ToListAsync();
 
             return races;
         }

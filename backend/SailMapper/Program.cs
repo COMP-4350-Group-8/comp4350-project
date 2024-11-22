@@ -44,7 +44,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddDbContext<SailDBContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("DevMySqlConn"), new MySqlServerVersion(new Version(8, 0, 2))));
+    options.UseMySql(builder.Configuration.GetConnectionString("MySqlConn"), new MySqlServerVersion(new Version(8, 0, 2))));
 
 // Add CORS service
 builder.Services.AddCors(options =>
@@ -93,7 +93,7 @@ using (var scope = app.Services.CreateScope())
     var context = services.GetRequiredService<SailDBContext>();
     if (!context.Database.CanConnect())
     {
-        //throw new Exception("cannot connect to database " + context.Database.GetConnectionString());
+        throw new Exception("cannot connect to database " + context.Database.GetConnectionString());
     }
     if (context.Database.GetPendingMigrations().Any())
     {
