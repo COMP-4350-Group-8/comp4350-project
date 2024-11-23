@@ -1,11 +1,14 @@
 /// [Home_Page]
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import '../logic/theme.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:xml/xml.dart';
+import 'package:http/http.dart' as http;
 
 /// [HomePage]
 class HomePage extends StatefulWidget {
@@ -19,6 +22,8 @@ class _HomePageState extends State<HomePage> {
   String _status = 'Get Location';
   bool _isTracking = false;
   final List<Position> _points = [];
+  String _api = 'localhost:5000';
+  String _gpx = '';
 
   CustomTheme customTheme = CustomTheme();
   @override
@@ -141,14 +146,38 @@ class _HomePageState extends State<HomePage> {
         });
       });
 
-      await file.writeAsString(builder.buildDocument().toString());
+      final gpx = builder.buildDocument().toString();
+      await file.writeAsString(gpx);
 
       setState(() {
         _status = "GPX file saved: ${file.path}";
+        _gpx = gpx;
       });
+      _sendGPX();
     } catch (e) {
       setState(() {
         _status = "Error: $e";
+      });
+    }
+  }
+
+  Future<void> _sendGPX() async {
+    if (_api.isEmpty) {
+      setState(() {
+        _status = "please enter api url";
+      });
+      return;
+    }
+
+    try {
+      final url = Uri.parse(_api + '/track');
+
+      final responce = await http.put(url,
+          headers: {'Content-Type': 'application/json; charset=UTF-8'},
+          body: jsonEncode(_gpx));
+    } catch (e) {
+      setState(() {
+        _status = "Error sending request: $e";
       });
     }
   }
