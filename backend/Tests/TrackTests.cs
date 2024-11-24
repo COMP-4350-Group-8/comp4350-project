@@ -254,23 +254,5 @@ namespace Tests
             Assert.Equal(2, result);
         }
 
-        [Theory]
-        [InlineData(new float[] { 0, 0 }, new float[] { 0, 30 }, new double[] { 45, 0 }, 5004)]
-        [InlineData(new float[] { 0, 0 }, new float[] { 0, 10 }, new double[] { 5, 5 }, 556)]
-        public async Task Calc_Distance(float[] one, float[] two, double[] point, double distance)
-        {
-
-            CourseMark one_Mark = new CourseMark();
-            one_Mark.Latitude = one[0];
-            one_Mark.Longitude = one[1];
-
-            CourseMark two_Mark = new CourseMark();
-            two_Mark.Latitude = two[0];
-            two_Mark.Longitude = two[1];
-
-            double distance_calc = _service.Calc_distance(one_Mark, two_Mark, point[0], point[1]);
-
-            Assert.Equal(distance, distance_calc, 0);//check equal to three decimal points
-        }
     }
 }

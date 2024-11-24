@@ -92,13 +92,13 @@ namespace SailMapper.Services
             track.LoadXml(gpx);
 
             // find points before and after finish line
-            DateTime closestPPoint = new DateTime();
-            double closestP = 0;
-            DateTime closestNPoint = new DateTime();
-            double closestN = 0;
 
+            double slope = (one.Latitude - two.Latitude) / (one.Longitude - two.Longitude);
+            double intercept = two.Latitude - slope * one.Longitude;
 
-            // check that points are first close and consecutive
+            bool? side = null;
+            XmlNode prev = null;
+
             foreach (XmlNode wpt in track.DocumentElement.ChildNodes)
             {
                 double lat = Convert.ToDouble(wpt.Attributes["lat"].Value);
@@ -106,100 +106,40 @@ namespace SailMapper.Services
 
                 if (lat != null && lon != null)
                 {
-                    // calculate distance to finish line
-                    double min_distance = Calc_distance(one, two, lat, lon);
+                    double expected = lon * slope + intercept;
 
-                    if (min_distance > 0 && (closestP == 0 || min_distance < closestP))
+                    if (side == null)
                     {
-                        closestP = min_distance;
-                        closestPPoint = DateTime.Parse(wpt.Attributes["time"].Value);
+                        side = expected < lat;
                     }
-                    else if (min_distance < 0 && (closestN == 0 || min_distance < closestN))
+                    else if (expected < lat != side)
                     {
-                        closestN = min_distance;
-                        closestNPoint = DateTime.Parse(wpt.Attributes["time"].Value);
+                        // check that the side switching occurs within the two ends
+
+                        if (lat < one.Latitude && lat > two.Latitude || lat > one.Latitude && lat < two.Latitude)
+                        {
+                            if (lon < one.Longitude && lon > two.Longitude || lon > one.Longitude && lon < two.Longitude)
+                            {
+
+                                DateTime currTime = DateTime.Parse(wpt.Attributes["time"].Value);
+                                DateTime prevTime = DateTime.Parse(prev.Attributes["time"].Value);
+
+
+                                long wptSec = ((DateTimeOffset)currTime).ToUnixTimeMilliseconds();
+                                long prevSec = ((DateTimeOffset)prevTime).ToUnixTimeMilliseconds();
+
+                                finish = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds((wptSec - prevSec) / 2 + prevSec);
+
+                                break;
+                            }
+                        }
                     }
                 }
 
+                prev = wpt;
             }
 
-            // take weighted average of those times
-            var pSeconds = ((DateTimeOffset)closestPPoint).ToUnixTimeMilliseconds();
-            var nSeconds = ((DateTimeOffset)closestNPoint).ToUnixTimeMilliseconds();
-
-            var pWeighted = pSeconds * (closestP / (closestP + closestN));
-            var nWeighted = nSeconds * (closestN / (closestP + closestN));
-
-            var finishSeconds = pWeighted + nWeighted;
-
             return finish;
-        }
-
-        public double Calc_distance(CourseMark one, CourseMark two, double lat, double lon)
-        {
-            var earthRadius = 6371;
-
-            double oneLat = DegToRad(one.Latitude);
-            double oneLon = DegToRad(one.Longitude);
-            double twoLat = DegToRad(two.Latitude);
-            double twoLon = DegToRad(two.Longitude);
-            double pLat = DegToRad(lat);
-            double pLon = DegToRad(lon);
-
-            //find bearing from point to ends of line
-
-            double bering1 = Bearing(oneLat, oneLon, pLat, pLon);
-            double bering2 = Bearing(twoLat, twoLon, pLat, pLon);
-
-
-            //find distance from point to one end (spherical cosines)
-            //distanceAC = acos( sin(φ₁)*sin(φ₂) + cos(φ₁)*cos(φ₂)*cos(Δλ) )*R
-
-            //double dlon = DegToRad(lon - one.Longitude);
-            double dlon = pLon - oneLon;
-
-            double distace = Math.Acos(Math.Sin(oneLat) * Math.Sin(pLat) + Math.Cos(oneLat) * Math.Cos(pLat) * Math.Cos(dlon)) * earthRadius;
-
-            //double angularDistance = Math.Atan2();
-            //double angularDistance = 2 * Math.Asin(Math.Sqrt(Math.Pow(Math.Sin((lat - one.Latitude) / 2), 2) + Math.Cos(lat) * Math.Cos(one.Latitude) * Math.Pow(Math.Sin((lon - one.Longitude) / 2), 2)));
-            double angularDistance = 2 * Math.Asin(Math.Sqrt(Math.Pow(Math.Sin((pLat - oneLat) / 2), 2) + Math.Cos(pLat) * Math.Cos(oneLat) * Math.Pow(Math.Sin((pLon - oneLon) / 2), 2)));
-
-            //find cross track diffrence
-            //distance = asin(sin(distanceAC/ R) * sin(bearing1 − bearing2)) * R
-            //double min_distance = Math.Asin(Math.Sin(distace / earthRadius) * Math.Sin(DegToRad(bering1) - DegToRad(bering2))) * earthRadius;
-            double min_distance = Math.Asin(Math.Sin(angularDistance) * Math.Sin(DegToRad(bering1) - DegToRad(bering2))) * earthRadius;
-            // double min_distance = Math.Asin(Math.Sin(distace / earthRadius) * Math.Sin((bering1) - (bering2))) * earthRadius;
-
-            return min_distance;
-            //return distace;
-        }
-
-        public double Bearing(double lat1, double lon1, double lat2, double lon2)
-        {
-
-            //bearingAC = atan2( sin(Δλ)*cos(φ₂), cos(φ₁)*sin(φ₂) − sin(φ₁)*cos(φ₂)*cos(Δλ) )  
-            double y = Math.Sin(lon2 - lon1) * Math.Cos(lat2);
-            double x = Math.Cos(lat1) * Math.Sin(lat2) - Math.Sin(lat1) * Math.Cos(lat2) * Math.Cos(lat2 - lat1);
-
-            double bearing = RadToDeg(Math.Atan2(y, x));
-            bearing = 360 - ((bearing + 360) % 360);
-
-            return bearing;
-        }
-
-        private double RadToDeg(double rad)
-        {
-            return rad * 180 / Math.PI;
-        }
-
-        private double DegToRad(double deg)
-        {
-            return deg * Math.PI / 180;
-        }
-
-        public async Task<string> GetGPX(int id)
-        {
-            return _dbContext.Tracks.FindAsync(id).Result.GpxData;
         }
 
         private async Task<Track> GetTrackEntity(int id)
