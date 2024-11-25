@@ -93,11 +93,18 @@ namespace SailMapper.Services
             return false;
         }
 
-        public async Task<bool> UpdateCourseMark(CourseMark markUpdate)
+        public async Task<bool> UpdateCourseMark(UpdateCourseMarkDTO markUpdate, int id)
         {
-            var mark = _dbContext.CourseMarks.Update(markUpdate);
+            var mark = await _dbContext.CourseMarks.FindAsync(id);
             if (mark != null)
             {
+                if (markUpdate.Latitude != null) { mark.Latitude = (float)markUpdate.Latitude; }
+                if (markUpdate.Longitude != null) { mark.Longitude = (float)markUpdate.Longitude; }
+                if (markUpdate.Description != null) { mark.Description = (string)markUpdate.Description; }
+                if (markUpdate.Rounding != null) { mark.Rounding = (bool)markUpdate.Rounding; }
+                if (markUpdate.IsStartLine != null) { mark.IsStartLine = (bool)markUpdate.IsStartLine; }
+                if (markUpdate.GateId != null) { mark.GateId = (int)markUpdate.GateId; }
+                if (markUpdate.CourseId != null) { mark.CourseId = (int)markUpdate.CourseId; }
                 await _dbContext.SaveChangesAsync();
                 return true;
             }

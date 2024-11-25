@@ -300,13 +300,13 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UpdateCourseMark(int id, [FromBody] CourseMark mark)
+        public async Task<IActionResult> UpdateCourseMark(int id, [FromBody] UpdateCourseMarkDTO mark)
         {
             if (mark == null)
             {
                 return BadRequest();
             }
-            bool success = await courseService.UpdateCourseMark(mark);
+            bool success = await courseService.UpdateCourseMark(mark, id);
             if (id != null)
             {
                 return Ok(id);
