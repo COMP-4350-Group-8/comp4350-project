@@ -1,5 +1,4 @@
-import React, {useState, useRef} from "react";
-import { useNavigate } from 'react-router-dom';
+import React from "react";
 import Card from '../ui/Card';
 import ViewMap from '../map/ViewMap.jsx'
 import classes from './CourseView.module.css'

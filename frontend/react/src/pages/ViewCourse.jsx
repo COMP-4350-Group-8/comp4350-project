@@ -8,10 +8,11 @@ export default function ViewCourse() {
     const [isLoading, setIsLoading] = useState(true);
     const [courseData, setCourseData] = useState(null);
 
+    //get request to get course details
     useEffect(() => {
         setIsLoading(true);
         fetch(
-            'https://react-getting-started-48dec-default-rtdb.firebaseio.com/meetups.json'
+            `${id}`
         )
             .then((response) => {
                 return response.json();
@@ -31,6 +32,7 @@ export default function ViewCourse() {
     }
 
     return(
-        <CourseView courseData={courseData}></CourseView>
+        <CourseView courseData={courseData}>
+        </CourseView>
     )
 }

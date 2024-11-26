@@ -4,7 +4,7 @@
 export default function addCourseHandler(courseData) {
     // Will create a 404 error until a backend can be used
     fetch(
-        'https://react-getting-started-c5732-default-rtdb.firebaseio.com/test',
+        '',
         {
             method: 'POST',
             body: JSON.stringify(courseData),
