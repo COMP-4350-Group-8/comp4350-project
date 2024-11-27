@@ -106,32 +106,28 @@ namespace SailMapper.Services
 
                 if (lat != null && lon != null)
                 {
-                    double expected = lon * slope + intercept;
 
                     if (side == null)
                     {
-                        side = expected < lat;
+                        side = Side(slope, intercept, lon, lat);
                     }
-                    else if (expected < lat != side)
+                    else if (Side(slope, intercept, lon, lat) != side)
                     {
                         // check that the side switching occurs within the two ends
 
-                        if (lat < one.Latitude && lat > two.Latitude || lat > one.Latitude && lat < two.Latitude)
+                        if (WithinBox(lat, lon, one, two))
                         {
-                            if (lon < one.Longitude && lon > two.Longitude || lon > one.Longitude && lon < two.Longitude)
-                            {
 
-                                DateTime currTime = DateTime.Parse(wpt.Attributes["time"].Value);
-                                DateTime prevTime = DateTime.Parse(prev.Attributes["time"].Value);
+                            DateTime currTime = DateTime.Parse(wpt.Attributes["time"].Value);
+                            DateTime prevTime = DateTime.Parse(prev.Attributes["time"].Value);
 
 
-                                long wptSec = ((DateTimeOffset)currTime).ToUnixTimeMilliseconds();
-                                long prevSec = ((DateTimeOffset)prevTime).ToUnixTimeMilliseconds();
+                            long wptSec = ((DateTimeOffset)currTime).ToUnixTimeMilliseconds();
+                            long prevSec = ((DateTimeOffset)prevTime).ToUnixTimeMilliseconds();
 
-                                finish = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds((wptSec - prevSec) / 2 + prevSec);
+                            finish = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc).AddMilliseconds((wptSec - prevSec) / 2 + prevSec);
 
-                                break;
-                            }
+                            break;
                         }
                     }
                 }
@@ -140,6 +136,34 @@ namespace SailMapper.Services
             }
 
             return finish;
+        }
+
+        //true if positive, false if negative
+        public bool Side(double slope, double intercept, double x, double y)
+        {
+
+            double expected = x * slope + intercept;
+
+            return expected < y;
+        }
+
+        public bool WithinBox(double lat, double lon, CourseMark one, CourseMark two)
+        {
+
+            if (lat < one.Latitude && lat > two.Latitude || lat > one.Latitude && lat < two.Latitude)
+            {
+                if (lon < one.Longitude && lon > two.Longitude || lon > one.Longitude && lon < two.Longitude)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+        public async Task<string> GetGPX(int id)
+        {
+            return _dbContext.Tracks.FindAsync(id).Result.GpxData;
         }
 
         private async Task<Track> GetTrackEntity(int id)
