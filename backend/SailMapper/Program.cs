@@ -59,6 +59,12 @@ builder.Services.AddCors(options =>
         });
 });
 
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+});
+
+
 var app = builder.Build();
 
 app.UseCors("AllowAll");
@@ -93,7 +99,7 @@ using (var scope = app.Services.CreateScope())
     var context = services.GetRequiredService<SailDBContext>();
     if (!context.Database.CanConnect())
     {
-        //throw new Exception("cannot connect to database " + context.Database.GetConnectionString());
+        throw new Exception("cannot connect to database " + context.Database.GetConnectionString());
     }
     if (context.Database.GetPendingMigrations().Any())
     {

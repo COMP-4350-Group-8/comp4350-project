@@ -1,4 +1,5 @@
-﻿using SailMapper.Classes;
+﻿using Microsoft.EntityFrameworkCore;
+using SailMapper.Classes;
 using SailMapper.Data;
 
 namespace SailMapper.Services
@@ -23,14 +24,16 @@ namespace SailMapper.Services
         //return list of courses, not full info
         public async Task<List<Course>> GetCourses()
         {
-            List<Course> courses = _dbContext.Courses.ToList();
-
-            return courses;
+            return await _dbContext.Courses
+                .Include(o => o.courseMarks)
+                .ToListAsync();
         }
 
         public async Task<Course> GetCourse(int id)
         {
-            return await GetCourseEntity(id);
+            return await _dbContext.Courses
+                .Include(o => o.courseMarks)
+                .FirstOrDefaultAsync(o => o.Id == id);
         }
 
         public async Task<bool> DeleteCourse(int id)
@@ -58,13 +61,9 @@ namespace SailMapper.Services
 
         public async Task<List<CourseMark>> GetCourseMarks(int id)
         {
-            Course course = await GetCourseEntity(id);
-
-            if (course != null && course.courseMarks != null)
-            {
-                return course.courseMarks.ToList();
-            }
-            return null;
+            return await _dbContext.CourseMarks
+                .Where(c => c.CourseId == id)
+                .ToListAsync();
         }
 
         public async Task<int> AddMark(CourseMark mark)
@@ -94,11 +93,18 @@ namespace SailMapper.Services
             return false;
         }
 
-        public async Task<bool> UpdateCourseMark(CourseMark markUpdate)
+        public async Task<bool> UpdateCourseMark(UpdateCourseMarkDTO markUpdate, int id)
         {
-            var mark = _dbContext.CourseMarks.Update(markUpdate);
+            var mark = await _dbContext.CourseMarks.FindAsync(id);
             if (mark != null)
             {
+                if (markUpdate.Latitude != null) { mark.Latitude = (float)markUpdate.Latitude; }
+                if (markUpdate.Longitude != null) { mark.Longitude = (float)markUpdate.Longitude; }
+                if (markUpdate.Description != null) { mark.Description = (string)markUpdate.Description; }
+                if (markUpdate.Rounding != null) { mark.Rounding = (bool)markUpdate.Rounding; }
+                if (markUpdate.IsStartLine != null) { mark.IsStartLine = (bool)markUpdate.IsStartLine; }
+                if (markUpdate.GateId != null) { mark.GateId = (int)markUpdate.GateId; }
+                if (markUpdate.CourseId != null) { mark.CourseId = (int)markUpdate.CourseId; }
                 await _dbContext.SaveChangesAsync();
                 return true;
             }

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace SailMapper.Classes
 {
@@ -19,7 +20,7 @@ namespace SailMapper.Classes
 
         // Foreign key for Rating
         public int? RatingId { get; set; } // Nullable in case a Boat doesn't have a Rating
-
+        [JsonIgnore]
         public Rating? Rating { get; set; }
 
         public ICollection<Result>? Results { get; set; }
