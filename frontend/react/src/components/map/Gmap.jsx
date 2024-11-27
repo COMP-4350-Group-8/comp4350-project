@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 
 // Define the props that should be passed to this component
 Gmap.propTypes = {
-    latitude: PropTypes.number,
-    longitude: PropTypes.number,
+    latitude: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    longitude: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 }
 
 // Render a google maps iframe at the passed coordinates

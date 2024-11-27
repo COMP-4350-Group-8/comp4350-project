@@ -1,8 +1,7 @@
-// This function is in its own file so it can be easily mocked in tests
+// This function is in its own file so it can be easily mocked in tests and re-used if needed
 
 // Called by CreateRace when a race form is submitted and sends the data to the backend
 export default function addCourseHandler(courseData) {
-    // Will create a 404 error until a backend can be used
     fetch(
         'http://localhost:5000/course',
         {
@@ -14,6 +13,5 @@ export default function addCourseHandler(courseData) {
         }
     );
 
-    // For testing until a local backend can be used instead
     console.log(`Added course ${JSON.stringify(courseData, null, 4)}`);
 };
