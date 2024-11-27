@@ -40,6 +40,8 @@ dependencies:
   path_provider: ^2.0.15
   xml: ^6.2.2
   http: ^1.1.0
+  flutter_polyline_points: ^2.1.0
+  google_maps_flutter: ^2.10.0
 
 
 dev_dependencies:

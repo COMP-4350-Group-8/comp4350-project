@@ -19,10 +19,10 @@ class HomePage extends StatefulWidget {
 
 /// [_HomePageState]
 class _HomePageState extends State<HomePage> {
-  String _status = 'Get Location';
+  String _status = '';
   bool _isTracking = false;
   final List<Position> _points = [];
-  String _api = 'localhost:5000';
+  final String _api = 'localhost:5000';
   String _gpx = '';
 
   CustomTheme customTheme = CustomTheme();
@@ -38,6 +38,8 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               TextButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.amberAccent),
                   onPressed: _isTracking ? null : _startTracking,
                   child: Text("Start Tracking")),
               TextButton(
@@ -170,7 +172,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     try {
-      final url = Uri.parse(_api + '/track');
+      final url = Uri.parse('$_api/track');
 
       final responce = await http.put(url,
           headers: {'Content-Type': 'application/json; charset=UTF-8'},
