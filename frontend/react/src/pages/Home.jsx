@@ -12,13 +12,17 @@ export default  function Home()  {
     // onClick functions that send the user to the CreateRegatta, CreateRace, or CreateCourse page
     const handleCreateRegattaClick = () => {
         navigate('/create/regatta')
-    }
+    };
     const handleCreateRaceClick = () => {
         navigate('/create/race')
-    }
+    };
     const handleCreateCourseClick = () => {
         navigate('/create/course')
-    }
+    };
+
+    const handleViewRegattaClick = (id) => {
+        navigate(`view/regatta/${id}`)
+    };
 
     // State for the regatta, race, and course data
     const [regattaData, setRegattaData] = useState(getRegattas());
@@ -29,7 +33,7 @@ export default  function Home()  {
     const regattas = [];
     regattaData.map(regatta => {
         regattas.push(
-            <button className="item-button" key={regatta.name}>
+            <button className="item-button" key={regatta.name} onClick={() => handleViewRegattaClick(regatta.id)}>
                 <p>{regatta.name}</p>
             </button>
         )

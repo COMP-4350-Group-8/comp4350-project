@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import CreateRegatta from './pages/CreateRegatta.jsx';
 import CreateRace from './pages/CreateRace.jsx';
 import CreateCourse from './pages/CreateCourse.jsx';
+import ViewRegatta from './pages/ViewRegatta.jsx';
 import "./App.css";
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
                 <Route path="create/regatta" element={<CreateRegatta/>}/>
                 <Route path="create/race" element={<CreateRace/>}/>
                 <Route path="create/course" element={<CreateCourse/>}/>
+                <Route path="view/regatta/:id" element={<ViewRegatta/>}/>
             </Routes>
         </div>
     );
