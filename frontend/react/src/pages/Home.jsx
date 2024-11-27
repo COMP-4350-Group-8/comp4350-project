@@ -25,9 +25,9 @@ export default  function Home()  {
     };
 
     // State for the regatta, race, and course data
-    const [regattaData, setRegattaData] = useState(getRegattas());
-    const [raceData, setRaceData] = useState(getRaces());
-    const [courseData, setCourseData] = useState(getCourses());
+    const [regattaData,] = useState(getRegattas());
+    const [raceData,] = useState(getRaces());
+    const [courseData,] = useState(getCourses());
 
     // Functions to convert the data to an array of buttons so they can be easily rendered later
     const regattas = [];

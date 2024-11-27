@@ -1,7 +1,6 @@
 import React, {useState, useRef} from "react";
 import { useNavigate } from 'react-router-dom';
 import Card from '../ui/Card.jsx';
-import {v4 as uuid} from"uuid";
 import PropTypes from "prop-types";
 import MarkerForm from './MarkerForm.jsx';
 import classes from "./Form.module.css";
@@ -29,7 +28,6 @@ export default function CourseForm({onAddCourse}) {
         event.preventDefault();
 
         // Get the course data
-        //const courseId = uuid();
         const courseId = Math.floor(Math.random() * (99999999)); 
         const courseTitle = courseTitleInputRef.current.value;
         const courseDesc = courseDescriptionInputRef.current.value;
@@ -38,7 +36,6 @@ export default function CourseForm({onAddCourse}) {
         let markers = [];
         markerData.map((rawMarker, index) => {
             let processedMarker = {
-                //id: uuid(),
                 id: Math.floor(Math.random() * (99999999)),
                 latitude: rawMarker.latitude,
                 longitude: rawMarker.longitude,
