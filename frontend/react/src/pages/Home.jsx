@@ -21,7 +21,13 @@ export default  function Home()  {
     };
 
     const handleViewRegattaClick = (id) => {
-        navigate(`view/regatta/${id}`)
+        navigate(`/view/regatta/${id}`)
+    };
+    const handleViewRaceClick = (id) => {
+        navigate(`/view/race/${id}`)
+    };
+    const handleViewCourseClick = (id) => {
+        navigate(`/view/course/${id}`)
     };
 
     // State for the regatta, race, and course data
@@ -42,7 +48,7 @@ export default  function Home()  {
     const races = [];
     raceData.map(race => {
         races.push(
-            <button className="item-button" key={race.name}>
+            <button className="item-button" key={race.name} onClick={() => handleViewRaceClick(race.id)}>
                 <p>{race.name}</p>
             </button>
         )
@@ -51,7 +57,7 @@ export default  function Home()  {
     const courses = [];
     courseData.map(course => {
         courses.push(
-            <button className="item-button" key={course.name}>
+            <button className="item-button" key={course.name} onClick={() => handleViewCourseClick(course.id)}>
                 <p>{course.name}</p>
             </button>
         )
