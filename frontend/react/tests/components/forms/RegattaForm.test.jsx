@@ -7,8 +7,8 @@ import RegattaForm from "../../../src/components/forms/RegattaForm";
 
 // Mock for the getRaces method from GetRaces that is used in RegattaForm
 vi.mock("../../../src/utils/GetRaces",  () => ({
-    default: vi.fn(() => {
-        return [{id: 1, name: "Race1"}, {id: 2, name: "Race2"}];
+    default: vi.fn((setRaces) => {
+        setRaces([{id: 1, name: "Race1"}, {id: 2, name: "Race2"}]);
     })
 }));
 

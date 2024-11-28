@@ -34,7 +34,7 @@ export default function CourseForm({onAddCourse}) {
         
         // Process and format the data for the course markers
         let markers = [];
-        markerData.map((rawMarker, index) => {
+        markerData.map((rawMarker) => {
             let processedMarker = {
                 id: Math.floor(Math.random() * (99999999)),
                 latitude: Number(rawMarker.latitude),

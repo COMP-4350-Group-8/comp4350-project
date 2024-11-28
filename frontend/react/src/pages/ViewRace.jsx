@@ -16,7 +16,7 @@ export default function ViewRace()  {
     const [raceData, setRaceData] = useState([]);
     useEffect(() => {
         getRace(id, setRaceData);
-    }, []);
+    }, [id]);
 
     const courses = [];
     if (raceData.courses != null) {

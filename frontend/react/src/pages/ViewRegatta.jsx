@@ -16,7 +16,7 @@ export default function ViewRegatta()  {
     const [regattaData, setRegattaData] = useState([]);
     useEffect(() => {
         getRegatta(id, setRegattaData);
-    }, []);
+    }, [id]);
 
     const races = [];
     if (regattaData.races != null) {
