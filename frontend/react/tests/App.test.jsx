@@ -20,17 +20,24 @@ vi.mock("../src/utils/AddRegatta",  () => ({
     default: vi.fn()
 }));
 
-// Mock for the getCourses method from GetCourses that is used in RaceForm
+// Mock for the getCourses method from GetCourses that is used in Home and RaceForm
 vi.mock("../src/utils/GetCourses",  () => ({
-    default: vi.fn(() => {
-        return [{id: 1, name: "Course1"}, {id: 2, name: "Course2"}];
+    default: vi.fn((setCourses) => {
+        setCourses([{id: 1, name: "Course1"}, {id: 2, name: "Course2"}]);
     })
 }));
 
-// Mock for the getRaces method from GetRaces that is used in RegattaForm
+// Mock for the getRaces method from GetRaces that is used in Home and RegattaForm
 vi.mock("../src/utils/GetRaces",  () => ({
-    default: vi.fn(() => {
-        return [{id: 1, name: "Race1"}, {id: 2, name: "Race2"}];
+    default: vi.fn((setRaces) => {
+        setRaces([{id: 1, name: "Race1"}, {id: 2, name: "Race2"}]);
+    })
+}));
+
+// Mock for the getRegattas method from GetRegattas that is used in Home
+vi.mock("../src/utils/GetRegattas",  () => ({
+    default: vi.fn((setRegattas) => {
+        setRegattas([{id: 1, name: "Regatta1"}, {id: 2, name: "Regatta2"}]);
     })
 }));
 

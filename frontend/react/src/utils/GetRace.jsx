@@ -1,9 +1,9 @@
 // This function is in its own file so it can be easily mocked in tests and re-used if needed
 
-// Called by Home to get all of the races from the backend
-export default async function getRaces(setRaceData) {
+// Called by ViewRace to get the data for the race with the matching id
+export default async function getRace(id, setRaceData) {
     try {
-        const response = await fetch('http://localhost:5000/race');
+        const response = await fetch(`http://localhost:5000/race/${id}`);
 
         if (!response.ok) {
             throw new Error(`HTTP error: ${response.status}`);

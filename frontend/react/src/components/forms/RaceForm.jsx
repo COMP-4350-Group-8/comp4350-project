@@ -1,4 +1,4 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import { useNavigate } from 'react-router-dom';
 import Card from '../ui/Card.jsx';
 import getCourses from "../../utils/GetCourses.jsx";
@@ -13,7 +13,10 @@ RaceForm.propTypes = {
 // Renders a form to create a new race, including all the markers it includes
 export default function RaceForm({onAddRace}) {
     // Get all the available courses
-    const courses = getCourses();
+    const [courses, setCourses] = useState([]);
+    useEffect(() => {
+        getCourses(setCourses);
+    }, []);
 
     // Used to navigate back to the homepage after submitting the race form
     const navigate = useNavigate();
@@ -56,8 +59,8 @@ export default function RaceForm({onAddRace}) {
         // Combine the data into a single object so it can be sent to the parent class
         const data = {
             id: Math.floor(Math.random() * (99999999)),
-            name: raceTitle,
-            courseId: selectedCourse
+            name: raceTitle
+            // courseId: selectedCourse
         }
 
         // Send the race data to the parent class

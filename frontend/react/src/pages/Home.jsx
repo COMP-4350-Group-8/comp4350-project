@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Card from '../components/ui/Card';
 import getRegattas from '../utils/GetRegattas';
@@ -12,24 +12,44 @@ export default  function Home()  {
     // onClick functions that send the user to the CreateRegatta, CreateRace, or CreateCourse page
     const handleCreateRegattaClick = () => {
         navigate('/create/regatta')
-    }
+    };
     const handleCreateRaceClick = () => {
         navigate('/create/race')
-    }
+    };
     const handleCreateCourseClick = () => {
         navigate('/create/course')
-    }
+    };
+
+    const handleViewRegattaClick = (id) => {
+        navigate(`/view/regatta/${id}`)
+    };
+    const handleViewRaceClick = (id) => {
+        navigate(`/view/race/${id}`)
+    };
+    const handleViewCourseClick = (id) => {
+        navigate(`/view/course/${id}`)
+    };
 
     // State for the regatta, race, and course data
-    const [regattaData, setRegattaData] = useState(getRegattas());
-    const [raceData, setRaceData] = useState(getRaces());
-    const [courseData, setCourseData] = useState(getCourses());
+    const [regattaData, setRegattaData] = useState([]);
+    const [raceData, setRaceData] = useState([]);
+    const [courseData, setCourseData] = useState([]);
+
+    useEffect(() => {
+        getRegattas(setRegattaData);
+    }, []);
+    useEffect(() => {
+        getRaces(setRaceData);
+    }, []);
+    useEffect(() => {
+        getCourses(setCourseData);
+    }, []);
 
     // Functions to convert the data to an array of buttons so they can be easily rendered later
     const regattas = [];
     regattaData.map(regatta => {
         regattas.push(
-            <button className="item-button" key={regatta.name}>
+            <button className="item-button" key={regatta.id} onClick={() => handleViewRegattaClick(regatta.id)}>
                 <p>{regatta.name}</p>
             </button>
         )
@@ -38,7 +58,7 @@ export default  function Home()  {
     const races = [];
     raceData.map(race => {
         races.push(
-            <button className="item-button" key={race.name}>
+            <button className="item-button" key={race.id} onClick={() => handleViewRaceClick(race.id)}>
                 <p>{race.name}</p>
             </button>
         )
@@ -47,7 +67,7 @@ export default  function Home()  {
     const courses = [];
     courseData.map(course => {
         courses.push(
-            <button className="item-button" key={course.name}>
+            <button className="item-button" key={course.id} onClick={() => handleViewCourseClick(course.id)}>
                 <p>{course.name}</p>
             </button>
         )
