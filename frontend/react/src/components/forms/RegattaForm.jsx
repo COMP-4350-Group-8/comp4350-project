@@ -1,4 +1,4 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import { useNavigate } from 'react-router-dom';
 import Card from '../ui/Card.jsx';
 import getRaces from "../../utils/GetRaces.jsx";
@@ -13,7 +13,10 @@ RegattaForm.propTypes = {
 // Renders a form to create a new regatta
 export default function RegattaForm({onAddRegatta}) {
     // Get all the available courses
-    const races = getRaces();
+    const [races, setRaces] = useState([]);
+    useEffect(() => {
+        getRaces(setRaces);
+    }, []);
 
     // Used to navigate back to the homepage after submitting the regatta form
     const navigate = useNavigate();
@@ -37,7 +40,7 @@ export default function RegattaForm({onAddRegatta}) {
     const raceDropdowns = [];
     // If no races are available, don't allow the user to create a regatta
     if (races.length === 0) {
-        raceDropdowns.push(<p>Sorry, you haven&apos;t created any races yet</p>);
+        raceDropdowns.push(<p key={0}>Sorry, you haven&apos;t created any races yet</p>);
     } 
     // If there are races available, show a race selection dropdown for each race the user has added to the regatta
     else {
@@ -106,7 +109,7 @@ export default function RegattaForm({onAddRegatta}) {
         const data = {
             id: Math.floor(Math.random() * (99999999)),
             name: regattaTitle,
-            courseId: raceIds
+            description: ""
         }
 
         // Send the regatta data to the parent class

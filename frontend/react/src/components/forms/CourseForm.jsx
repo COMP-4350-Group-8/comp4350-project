@@ -37,11 +37,12 @@ export default function CourseForm({onAddCourse}) {
         markerData.map((rawMarker, index) => {
             let processedMarker = {
                 id: Math.floor(Math.random() * (99999999)),
-                latitude: rawMarker.latitude,
-                longitude: rawMarker.longitude,
+                latitude: Number(rawMarker.latitude),
+                longitude: Number(rawMarker.longitude),
                 description: rawMarker.description,
                 rounding: rawMarker.round,
-                isStartLine: index === 0,
+                // isStartLine: index === 0,
+                isStartLine: false,
                 //gate: rawMarker.gate,
                 //course: courseTitle,
                 courseId: courseId

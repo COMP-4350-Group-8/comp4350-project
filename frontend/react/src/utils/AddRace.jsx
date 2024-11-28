@@ -2,16 +2,14 @@
 
 // Called by CreateRace when a race form is submitted and sends the data to the backend
 export default function addRaceHandler(raceData) {
-    // fetch(
-    //     'http://localhost:5000/course',
-    //     {
-    //         method: 'POST',
-    //         body: JSON.stringify(courseData),
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         }
-    //     }
-    // );
-
-    console.log(`Added race ${JSON.stringify(raceData, null, 4)}`);
+    fetch(
+        'http://localhost:5000/race',
+        {
+            method: 'POST',
+            body: JSON.stringify(raceData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    );
 };

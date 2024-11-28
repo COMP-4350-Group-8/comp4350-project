@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Card from '../components/ui/Card';
 import getRace from '../utils/GetRace';
@@ -7,22 +7,27 @@ import "./Home.css";
 // Render the CourseForm and pass it a function to call when creating the race course
 export default function ViewRace()  {
     const navigate = useNavigate();
-    const { raceId } = useParams();
+    const { id } = useParams();
 
     const handleViewCourseClick = (id) => {
         navigate(`/view/course/${id}`)
     };
 
-    const [raceData,] = useState(getRace(raceId));
+    const [raceData, setRaceData] = useState([]);
+    useEffect(() => {
+        getRace(id, setRaceData);
+    }, []);
 
     const courses = [];
-    raceData.courses.map(course => {
-        courses.push(
-            <button className="item-button" key={course.name} onClick={() => handleViewCourseClick(course.id)}>
-                <p>{course.name}</p>
-            </button>
-        )
-    });
+    if (raceData.courses != null) {
+        raceData.courses.map(course => {
+            courses.push(
+                <button className="item-button" key={course.name} onClick={() => handleViewCourseClick(course.id)}>
+                    <p>{course.name}</p>
+                </button>
+            )
+        });
+    }
 
     return (
         <>

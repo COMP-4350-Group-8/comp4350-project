@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Card from '../components/ui/Card';
 import getRegattas from '../utils/GetRegattas';
@@ -31,15 +31,25 @@ export default  function Home()  {
     };
 
     // State for the regatta, race, and course data
-    const [regattaData,] = useState(getRegattas());
-    const [raceData,] = useState(getRaces());
-    const [courseData,] = useState(getCourses());
+    const [regattaData, setRegattaData] = useState([]);
+    const [raceData, setRaceData] = useState([]);
+    const [courseData, setCourseData] = useState([]);
+
+    useEffect(() => {
+        getRegattas(setRegattaData);
+    }, []);
+    useEffect(() => {
+        getRaces(setRaceData);
+    }, []);
+    useEffect(() => {
+        getCourses(setCourseData);
+    }, []);
 
     // Functions to convert the data to an array of buttons so they can be easily rendered later
     const regattas = [];
     regattaData.map(regatta => {
         regattas.push(
-            <button className="item-button" key={regatta.name} onClick={() => handleViewRegattaClick(regatta.id)}>
+            <button className="item-button" key={regatta.id} onClick={() => handleViewRegattaClick(regatta.id)}>
                 <p>{regatta.name}</p>
             </button>
         )
@@ -48,7 +58,7 @@ export default  function Home()  {
     const races = [];
     raceData.map(race => {
         races.push(
-            <button className="item-button" key={race.name} onClick={() => handleViewRaceClick(race.id)}>
+            <button className="item-button" key={race.id} onClick={() => handleViewRaceClick(race.id)}>
                 <p>{race.name}</p>
             </button>
         )
@@ -57,7 +67,7 @@ export default  function Home()  {
     const courses = [];
     courseData.map(course => {
         courses.push(
-            <button className="item-button" key={course.name} onClick={() => handleViewCourseClick(course.id)}>
+            <button className="item-button" key={course.id} onClick={() => handleViewCourseClick(course.id)}>
                 <p>{course.name}</p>
             </button>
         )

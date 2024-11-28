@@ -1,6 +1,6 @@
 // This function is in its own file so it can be easily mocked in tests and re-used if needed
 
-// Called by CreateRace when a race form is submitted and sends the data to the backend
+// Called by CreateCourse when a course form is submitted and sends the data to the backend
 export default function addCourseHandler(courseData) {
     fetch(
         'http://localhost:5000/course',
@@ -12,6 +12,4 @@ export default function addCourseHandler(courseData) {
             }
         }
     );
-
-    console.log(`Added course ${JSON.stringify(courseData, null, 4)}`);
 };
