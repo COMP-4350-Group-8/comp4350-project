@@ -3,7 +3,7 @@
 // Called by CreateCourse when a course form is submitted and sends the data to the backend
 export default function addCourseHandler(courseData) {
     fetch(
-        '',
+        'http://localhost:5000/course',
         {
             method: 'POST',
             body: JSON.stringify(courseData),
