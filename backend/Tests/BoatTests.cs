@@ -1,4 +1,5 @@
-﻿using SailMapper.Classes;
+﻿using Microsoft.EntityFrameworkCore;
+using SailMapper.Classes;
 using SailMapper.Data;
 using SailMapper.Services;
 

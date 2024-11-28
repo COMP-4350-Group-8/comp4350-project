@@ -19,10 +19,48 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Creates a new Course by sending a Course object with CourseMarks
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        /// POST /course
+        /// 
+        /// {  
+        /// 
+        ///     "id": int,                      // id of the course
+        ///     
+        ///     "name": string,                 // Name of the course
+        ///     
+        ///     "description": string,          // Some notes about the course
+        ///     
+        ///     "courseMarks": [                // can be many CourseMarks
+        ///        
+        ///         {
+        ///         
+        ///             "id": int,              // id of the courseMark
+        ///             
+        ///             "latitude": float,      // latitude of the courseMark
+        ///             
+        ///             "longitude": float,     // longitude of the courseMark
+        ///             
+        ///             "description": string,  // some info about the courseMark
+        ///             
+        ///             "rounding": boolean,    // true if Sailers need to go clockwise around the courseMark and false is counter-clockwise (port for counter-clockwise, starboard for clockwise)
+        ///             
+        ///             "isStartLine": boolean, // true id the courseMark is one of the points of start line
+        ///             
+        ///             "gateId": id,           // a reference to another CourseMark that makes up a gate, if not gate - skip
+        ///             
+        ///             "courseId": int         // id of the Course the courseMark belongs to (omit this line, since MySql detects it)
+        ///             
+        ///         }]
+        ///         
+        /// }
+        /// </remarks>
+        /// <response code="201">Course created successfully.</response>
+        /// <response code="400">If any of the required fields are missing or invalid.</response>
+        /// <response code="500">If there is an internal server error.</response>
         [HttpPost("")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -44,9 +82,10 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Returns a list of all courses and courseMarks
         /// </summary>
-        /// <returns>List of all courses</returns>
+        /// <response code="200">list of all courses returned successfully.</response>
+        /// <response code="500">If there is an internal server error.</response>
         [HttpGet("")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -57,10 +96,12 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Returns a specific course
         /// </summary>
+        /// <response code="200">Course returned successfully.</response>
+        /// <response code="404">Course not found.</response>
+        /// <response code="500">If there is an internal server error.</response>
         /// <param name="id"></param>
-        /// <returns> data for a specific course</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -72,10 +113,12 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Deletes a specific course
         /// </summary>
+        /// <response code="200">Course deleted successfully.</response>
+        /// <response code="404">Course not found.</response>
+        /// <response code="500">If there is an internal server error.</response>
         /// <param name="id"></param>
-        /// <returns> Http codes</returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -87,11 +130,49 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Updates a Course by sending a Course object with CourseMarks
         /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        /// PUT /course/{id}
+        /// 
+        /// {  
+        /// 
+        ///     "id": int,                      // id of the course
+        ///     
+        ///     "name": string,                 // Name of the course
+        ///     
+        ///     "description": string,          // Some notes about the course
+        ///     
+        ///     "courseMarks": [                // can be many CourseMarks
+        ///        
+        ///         {
+        ///         
+        ///             "id": int,              // id of the courseMark
+        ///             
+        ///             "latitude": float,      // latitude of the courseMark
+        ///             
+        ///             "longitude": float,     // longitude of the courseMark
+        ///             
+        ///             "description": string,  // some info about the courseMark
+        ///             
+        ///             "rounding": boolean,    // true if Sailers need to go clockwise around the courseMark and false is counter-clockwise (port for counter-clockwise, starboard for clockwise)
+        ///             
+        ///             "isStartLine": boolean, // true id the courseMark is one of the points of start line
+        ///             
+        ///             "gateId": id,           // a reference to another CourseMark that makes up a gate, if not gate - skip
+        ///             
+        ///             "courseId": int         // id of the Course the courseMark belongs to (omit this line, since MySql detects it)
+        ///             
+        ///         }]
+        ///         
+        /// }
+        /// </remarks>
+        /// <response code="200">Course updated successfully.</response>
+        /// <response code="404">Course not found.</response>
+        /// <response code="500">If there is an internal server error.</response>
         /// <param name="id"></param>
-        /// <param name="request"></param>
-        /// <returns> http codes</returns>
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -113,10 +194,12 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Returns a list of courseMarks from a specific course
         /// </summary>
+        /// <response code="200">Action successfull.</response>
+        /// <response code="404">Course not found.</response>
+        /// <response code="500">If there is an internal server error.</response>
         /// <param name="id"></param>
-        /// <returns>list of course marks</returns>
         [HttpGet("{id}/marks")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -128,11 +211,38 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Creates CourseMarks for a specific Course
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns>Http codes</returns>
-        [HttpPost("{id}/marks")]
+        /// <remarks>
+        /// Sample request:
+        /// 
+        /// POST /marks
+        /// 
+        /// {  
+        ///         
+        ///     "id": int,              // id of the courseMark
+        ///             
+        ///     "latitude": float,      // latitude of the courseMark
+        ///             
+        ///     "longitude": float,     // longitude of the courseMark
+        ///             
+        ///     "description": string,  // some info about the courseMark
+        ///             
+        ///     "rounding": boolean,    // true if Sailers need to go clockwise around the courseMark and false is counter-clockwise (port for counter-clockwise, starboard for clockwise)
+        ///             
+        ///     "isStartLine": boolean, // true id the courseMark is one of the points of start line
+        ///             
+        ///     "gateId": id,           // a reference to another CourseMark that makes up a gate, if not gate - skip
+        ///             
+        ///     "courseId": int         // id of the Course the courseMark belongs to (omit this line, since MySql detects it)
+        ///     
+        /// }
+        /// </remarks>
+        /// <response code="202">CourseMark created successfully.</response>
+        /// <response code="400">If any of the required fields are missing or invalid.</response>
+        /// <response code="404">Course not found.</response>
+        /// <response code="500">If there is an internal server error.</response>
+        [HttpPost("marks")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -153,23 +263,50 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Updates CourseMarks for a specific Course
         /// </summary>
+        /// <remarks>
+        /// Sample request:
+        /// 
+        /// PUT /marks/{id}
+        /// 
+        /// {  
+        ///         
+        ///     "id": int,              // id of the courseMark
+        ///             
+        ///     "latitude": float,      // latitude of the courseMark
+        ///             
+        ///     "longitude": float,     // longitude of the courseMark
+        ///             
+        ///     "description": string,  // some info about the courseMark
+        ///             
+        ///     "rounding": boolean,    // true if Sailers need to go clockwise around the courseMark and false is counter-clockwise (port for counter-clockwise, starboard for clockwise)
+        ///             
+        ///     "isStartLine": boolean, // true id the courseMark is one of the points of start line
+        ///             
+        ///     "gateId": id,           // a reference to another CourseMark that makes up a gate, if not gate - skip
+        ///             
+        ///     "courseId": int         // id of the Course the courseMark belongs to (omit this line, since MySql detects it)
+        ///     
+        /// }
+        /// </remarks>
+        /// <response code="202">CourseMark updated successfully.</response>
+        /// <response code="400">If any of the required fields are missing or invalid.</response>
+        /// <response code="404">Course not found.</response>
+        /// <response code="500">If there is an internal server error.</response>
         /// <param name="id"></param>
-        /// <param name="request"></param>
-        /// <returns>Http codes</returns>
-        [HttpPut("{id}/marks/{markId}")]
+        [HttpPut("marks/{id}")]
         [ProducesResponseType(StatusCodes.Status202Accepted)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UpdateCourseMark(int id, [FromBody] CourseMark mark)
+        public async Task<IActionResult> UpdateCourseMark(int id, [FromBody] UpdateCourseMarkDTO mark)
         {
             if (mark == null)
             {
                 return BadRequest();
             }
-            bool success = await courseService.UpdateCourseMark(mark);
+            bool success = await courseService.UpdateCourseMark(mark, id);
             if (id != null)
             {
                 return Ok(id);
@@ -179,18 +316,19 @@ namespace SailMapper.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Deletes a courseMark
         /// </summary>
+        /// <response code="200">CourseMark deleted successfully.</response>
+        /// <response code="404">CourseMark not found.</response>
+        /// <response code="500">If there is an internal server error.</response>
         /// <param name="id"></param>
-        /// <param name="markId"></param>
-        /// <returns>Http codes</returns>
-        [HttpDelete("{id}/marks/{markId}")]
+        [HttpDelete("marks/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteCourseMark(int id, int markId)
+        public async Task<IActionResult> DeleteCourseMark(int id)
         {
-            bool success = await courseService.DeleteCourseMark(markId);
+            bool success = await courseService.DeleteCourseMark(id);
             return Ok(success);
         }
 

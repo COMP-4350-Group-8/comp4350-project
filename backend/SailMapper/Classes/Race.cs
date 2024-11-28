@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace SailMapper.Classes
 {
@@ -18,6 +19,7 @@ namespace SailMapper.Classes
         public ICollection<Result>? Results { get; set; }
         public ICollection<Track>? Tracks { get; set; }
         public int? RegattaId { get; set; }
+        [JsonIgnore]
         public Regatta? Regatta { get; set; }
 
     }

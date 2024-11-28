@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace SailMapper.Classes
 {
@@ -7,8 +8,10 @@ namespace SailMapper.Classes
         [SetsRequiredMembers]
         public Result() { }
         public int Id { get; set; }
+        [JsonIgnore]
         public required Boat Boat { get; set; }
         public int BoatId { get; set; }
+        [JsonIgnore]
         public required Race Race { get; set; }
         public int RaceId { get; set; }
 
