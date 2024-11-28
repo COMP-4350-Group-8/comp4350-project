@@ -56,9 +56,10 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
-      - name: Print
-        run: |
-          echo REACT: No Containerization Implimented
+      - run: sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+      - run: docker-compose build
+      - run: docker image tag react-frontend brettloewen/sailmapper_react:latest
+      - run: docker push brettloewen/sailmapper_react:latest
 
   backend-containerization-results:
     name: Backend Containerization

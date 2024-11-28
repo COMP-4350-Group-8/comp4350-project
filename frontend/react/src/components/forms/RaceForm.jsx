@@ -1,132 +1,93 @@
-import React, {useState, useRef} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import { useNavigate } from 'react-router-dom';
-import Card from '../ui/Card';
-import {v4 as uuid} from"uuid";
+import Card from '../ui/Card.jsx';
+import getCourses from "../../utils/GetCourses.jsx";
 import PropTypes from "prop-types";
-import MarkerForm from './MarkerForm.jsx';
-import classes from "./RaceForm.module.css";
+import classes from "./Form.module.css";
 
 // Define the props that should be passed to this component
 RaceForm.propTypes = {
-    onAddCourse: PropTypes.func,
+    onAddRace: PropTypes.func,
 }
 
-// Renders a form to create a new race course, including all the markers it includes
-export default function RaceForm({onAddCourse}) {
+// Renders a form to create a new race, including all the markers it includes
+export default function RaceForm({onAddRace}) {
+    // Get all the available courses
+    const [courses, setCourses] = useState([]);
+    useEffect(() => {
+        getCourses(setCourses);
+    }, []);
+
     // Used to navigate back to the homepage after submitting the race form
     const navigate = useNavigate();
 
     // References to the input fields to get their values
     const raceTitleInputRef = useRef();
-    const raceDescriptionInputRef = useRef();
 
-    // State for tracking the marker data, including that the race should start with 2 markers (start and finish)
-    const [markerCount, setMarkerCount] = useState(2);
-    const [markerData, setMarkerData] = useState([]);
+    // Store and update the currently selected course's id
+    const [selectedCourse, setSelectedCourse] = useState(courses.length > 0 ? courses[0].id : -1);
+    const handleCourseSelection = (event) => {
+        setSelectedCourse(event.target.value);
+    }
+
+    // Create a dropdown with all the courses as options, or just text if there are no courses available
+    let courseDropdown = <></>;
+    if (courses.length === 0) {
+        courseDropdown = <p>Sorry, you haven&apos;t created any courses yet</p>
+    } else {
+        const courseOptions = [];
+        courses.map((course) => {
+            courseOptions.push(<option key={course.id} value={course.id}>{course.name}</option>)
+        })
+        courseDropdown =
+            <select value={selectedCourse} onChange={handleCourseSelection}>
+                {courseOptions}
+            </select>
+    }
 
     // Pass (after formatting) the data from the form to the parent component
     function submitHandler(event) {
         event.preventDefault();
 
-        // Get the course data
-        //const courseId = uuid();
-        const courseId = Math.floor(Math.random() * (99999999)); 
-        const courseTitle = raceTitleInputRef.current.value;
-        const courseDesc = raceDescriptionInputRef.current.value;
-        
-        // Process and format the data for the course markers
-        let markers = [];
-        markerData.map((rawMarker, index) => {
-            let processedMarker = {
-                //id: uuid(),
-                id: Math.floor(Math.random() * (99999999)),
-                latitude: rawMarker.latitude,
-                longitude: rawMarker.longitude,
-                description: rawMarker.description,
-                rounding: rawMarker.round,
-                isStartLine: index === 0,
-                //gate: rawMarker.gate,
-                //course: courseTitle,
-                courseId: courseId
-            };
-            markers.push(processedMarker);
-        });
+        // Don't submit the form if there are no courses available
+        if(courses.length === 0) {
+            return;
+        }
+
+        const raceTitle = raceTitleInputRef.current.value;
 
         // Combine the data into a single object so it can be sent to the parent class
         const data = {
-            id: courseId,
-            name: courseTitle,
-            description: courseDesc,
-            courseMarks: markers
+            id: Math.floor(Math.random() * (99999999)),
+            name: raceTitle
+            // courseId: selectedCourse
         }
 
-        // Send the race course data to the parent class
-        onAddCourse(data);
+        // Send the race data to the parent class
+        onAddRace(data);
 
         // Move back to the homepage now that the race creation has finished
         navigate('/');
     };
 
-    // Callback passed to the course markers so they can update the data when it changes
-    const markerDataHandler = (index, data) => {
-        console.log(`Marker ${index} changed, ${JSON.stringify(data, null, 4)}`);
-
-        // Update the marker data state with the new data, making sure to add new elements for new markers
-        setMarkerData(prevMarkerData => {
-            const updatedMarkerData = [...prevMarkerData];
-            updatedMarkerData[index] = data;
-            return updatedMarkerData;
-        });
-
-        console.log(`Markers: ${JSON.stringify(markerData, null, 4)}`);
-    };
-
-    // Function used to update state so a new marker will be rendered in the form
-    function addMarker() {
-        setMarkerCount(markerCount+1)
-    };
-
-    // Create the forms for each course marker. This array is used while rendering to display the marker forms
-    const markerForms = [];
-    for (let i = 0; i < markerCount; i++) {
-        let markerTitle = "";
-        switch(i) {
-            case 0:
-                markerTitle = "Start Marker";
-                break;
-            case markerCount - 1:
-                markerTitle = "Finish Marker";
-                break;
-            default:
-                markerTitle = `Marker ${i}`;
-                break;
-        }
-        markerForms.push(<MarkerForm key={i} index={i} markerTitle={markerTitle} onDataChanged={markerDataHandler}></MarkerForm>);
-    };
-
     return(
         <Card>
             <form className={classes.form} onSubmit={submitHandler}>
-                {/* Render the form elements for the race other than the markers */}
                 <div className={classes.control}>
-                    <label htmlFor='title'>Course Title</label>
+                    <label htmlFor='title'>Race Title</label>
                     <input type='text' required id='title' ref={raceTitleInputRef}/>
                 </div>
+                {/* Render the dropdown to select the course for the race */}
                 <div className={classes.control}>
-                    <label htmlFor='description'>Description</label>
-                    <textarea id='description' required rows='5' ref={raceDescriptionInputRef}></textarea>
+                    <label htmlFor='course'>Course</label>
+                    {courseDropdown}
                 </div>
-                <div className={classes.control}>
-                    <label htmlFor='notes'>Notes</label>
-                    <textarea id='notes' required rows='5'></textarea>
-                </div>
-                {/* Render all the marker forms */}
-                {markerForms}
-                {/* Render the control buttons (Add Marker, Create) at the bottom of the form */}
-                <div className={classes.actions}>
-                    <button type="button" onClick={addMarker}>Add Marker</button>
-                    <button>Create</button>
-                </div>
+                { /* Only render the submit button if there are available courses */
+                    courses.length > 0 &&
+                    <div className={classes.actions}>
+                        <button>Create</button>
+                    </div>
+                }
             </form>
         </Card>
     );
