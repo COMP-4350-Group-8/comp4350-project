@@ -1,10 +1,13 @@
 /// [Join_Page]
 
 import 'dart:async';
+import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 
 /// [TrackPage]
 class TrackPage extends StatefulWidget {
@@ -20,6 +23,7 @@ class _TrackPageState extends State<TrackPage> {
   List<Marker> markers = [];
   PolylinePoints polylinePoints = PolylinePoints();
   Map<PolylineId, Polyline> polylines = {};
+  List<List<String>> tracks = [];
   late GoogleMapController googleMapController;
   final Completer<GoogleMapController> completer = Completer();
 
@@ -28,35 +32,34 @@ class _TrackPageState extends State<TrackPage> {
     if (!completer.isCompleted) {
       completer.complete(controller);
     }
+
+    getAllTracks();
   }
 
-  addMarker(latLng, newSetState) {
-    markers.add(Marker(
-        consumeTapEvents: true,
-        markerId: MarkerId(latLng.toString()),
-        position:
-            latLng, // We adding onTap paramater for when click marker, remove from map
-        onTap: () {
-          markers.removeWhere((element) =>
-              element.markerId ==
-              MarkerId(latLng
-                  .toString())); // markers length must be greater than 1 because polyline needs two // points
-          if (markers.length > 1) {
-            getDirections(markers, newSetState);
-          } // When we added markers then removed all, this time polylines seems //in map because of we should clear polylines
-          else {
-            polylines.clear();
-          } // newState parameter of function, we are openin map in alertDialog, // contexts are different in page and alert dialog because of we use // different setState
-          newSetState(() {});
-        }));
-    if (markers.length > 1) {
-      getDirections(markers, newSetState);
+  getAllTracks() async {
+    final directory = await getApplicationDocumentsDirectory();
+
+    final List<FileSystemEntity> entities = await directory.list().toList();
+
+    for (var file in entities) {
+      //final path =
+      setState(() {
+        if (file.path.contains('.gpx')) {
+          tracks.add([
+            file.path.substring(file.path.indexOf('flutter/track_') + 14,
+                file.path.indexOf('.gpx')),
+            file.path
+          ]);
+        }
+      });
     }
-
-    newSetState(() {});
+    print(tracks);
+    print(tracks[0]);
   }
 
-  getDirections(List<Marker> markers, newSetState) async {
+  selectTrack(int index) {}
+
+  setPolylines(List<Marker> markers, newSetState) async {
     List<LatLng> polylineCoordinates = [];
 
     for (var i = 0; i < markers.length; i++) {
@@ -90,14 +93,31 @@ class _TrackPageState extends State<TrackPage> {
           title: Text('Tracks'),
         ),
         body: SafeArea(
-            child: GoogleMap(
-          mapToolbarEnabled: false,
-          onMapCreated: onMapCreated,
-          polylines: Set<Polyline>.of(polylines.values),
-          initialCameraPosition: CameraPosition(target: start),
-          markers: markers.toSet(),
-          myLocationEnabled: false,
-          myLocationButtonEnabled: false,
-        )));
+            child: Column(children: [
+          SizedBox(
+            height: 100,
+            child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                padding: const EdgeInsets.all(8),
+                itemCount: tracks.length,
+                itemBuilder: (BuildContext context, index) {
+                  return ListTile(
+                    onTap: () => selectTrack(index),
+                    title: Text(tracks[index][0]),
+                  );
+                }),
+          ),
+          SizedBox(
+              height: 600,
+              child: GoogleMap(
+                mapToolbarEnabled: false,
+                onMapCreated: onMapCreated,
+                polylines: Set<Polyline>.of(polylines.values),
+                initialCameraPosition: CameraPosition(target: start, zoom: 10),
+                markers: markers.toSet(),
+                myLocationEnabled: false,
+                myLocationButtonEnabled: false,
+              ))
+        ])));
   }
 }
