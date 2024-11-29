@@ -88,6 +88,12 @@ namespace SailMapper.Services
             CourseMark mark = await GetCourseMarkEntity(markId);
             if (mark != null)
             {
+                if(mark.GateId != null)
+                {
+                    CourseMark gate = await GetCourseMarkEntity((int)mark.GateId);
+                    gate.GateId = null;
+                }
+                
                 _dbContext.CourseMarks.Remove(mark);
                 await _dbContext.SaveChangesAsync();
                 return true;
