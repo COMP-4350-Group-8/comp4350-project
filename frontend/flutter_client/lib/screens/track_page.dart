@@ -69,7 +69,7 @@ class _TrackPageState extends State<TrackPage> {
       final contents = await file.readAsString();
       print(contents);
       final xmlGpx = GpxReader().fromString(contents);
-      if (xmlGpx.trks.length > 0) {
+      if (xmlGpx.trks.isNotEmpty) {
         for (Trk trk in xmlGpx.trks) {
           for (Trkseg seg in trk.trksegs) {
             for (Wpt wpt in seg.trkpts) {
@@ -88,6 +88,12 @@ class _TrackPageState extends State<TrackPage> {
 
   setPolylines(List<LatLng> markers) async {
     List<LatLng> polylineCoordinates = [];
+
+    if (markers.length > 0) {
+      setState(() {
+        start = markers[0];
+      });
+    }
 
     for (var i = 0; i < markers.length; i++) {
       polylineCoordinates
@@ -116,6 +122,7 @@ class _TrackPageState extends State<TrackPage> {
     //newSetState(() {});
   }
 
+  @override
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
     final ThemeData theme = Theme.of(context);

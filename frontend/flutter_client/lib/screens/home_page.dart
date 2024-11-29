@@ -1,8 +1,10 @@
 /// [Home_Page]
 
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../logic/theme.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:path_provider/path_provider.dart';
@@ -24,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   final List<Position> _points = [];
   final String _api = 'localhost:5000';
   String _gpx = '';
-  String _filename = '';
+  final String _filename = '';
 
   CustomTheme customTheme = CustomTheme();
   @override
@@ -70,8 +72,21 @@ class _HomePageState extends State<HomePage> {
     return true;
   }
 
+  Future<bool> _checkBackgroundPermission() async {
+//    final androidConfig = FlutterBackgroundAndroidConfig(
+//      notificationTitle: "Background Task Example",
+//      notificationText: "Running in the background",
+//      notificationImportance: AndroidNotificationImportance.normal,
+//    );
+//
+//    return await FlutterBackground.initialize(androidConfig: androidConfig);
+    return true;
+  }
+
   void _startTracking() async {
     if (!await _checkLocationPermission()) return;
+    if (!await _checkBackgroundPermission()) return;
+//    await FlutterBackground.enableBackgroundExecution();
 
     setState(() {
       _isTracking = true;
@@ -82,7 +97,7 @@ class _HomePageState extends State<HomePage> {
     Geolocator.getPositionStream(
         locationSettings: LocationSettings(
       accuracy: LocationAccuracy.high,
-      distanceFilter: 5, //update every 5m
+      distanceFilter: 2, //update every 2m
     )).listen((Position position) {
       setState(() {
         _points.add(position);
@@ -96,6 +111,7 @@ class _HomePageState extends State<HomePage> {
       _isTracking = false;
       _status = 'tracking stopped saving file';
     });
+    //await FlutterBackground.disableBackgroundExecution();
 
     await _saveToGPX();
   }
