@@ -20,7 +20,7 @@ export default function App() {
                 <Route path="create/course" element={<CreateCourse/>}/>
                 <Route path="view/regatta/:id" element={<ViewRegatta/>}/>
                 <Route path="view/race/:id" element={<ViewRace/>}/>
-                <Route path="view-course/:id" element={<ViewCourse/>}/>
+                <Route path="view/course/:id" element={<ViewCourse/>}/>
             </Routes>
         </div>
     );

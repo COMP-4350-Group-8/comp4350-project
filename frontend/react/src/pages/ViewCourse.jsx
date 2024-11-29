@@ -12,7 +12,7 @@ export default function ViewCourse() {
     useEffect(() => {
         setIsLoading(true);
         fetch(
-            `${id}`
+            `http://localhost:5000/course/${id}`
         )
             .then((response) => {
                 return response.json();
