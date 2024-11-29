@@ -177,14 +177,14 @@ namespace SailMapper.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateCourse(int id, [FromBody] Course course)
+        public async Task<IActionResult> UpdateCourse(int id, [FromBody] UpdateCourseDTO course)
         {
 
             if (course == null)
             {
                 return BadRequest();
             }
-            bool success = await courseService.UpdateCourse(course);
+            bool success = await courseService.UpdateCourse(course, id);
             if (id != null)
             {
                 return Ok(id);

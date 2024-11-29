@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SailMapper.Classes;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace SailMapper.Data
 {
 
@@ -26,6 +27,15 @@ namespace SailMapper.Data
             {
                 optionsBuilder.UseMySql(Environment.GetEnvironmentVariable("MySqlConn"), new MySqlServerVersion(new Version(8, 0, 2)));
             }
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CourseMark>()
+                .HasOne(m => m.Gate)
+                .WithMany()
+                .HasForeignKey(m => m.GateId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

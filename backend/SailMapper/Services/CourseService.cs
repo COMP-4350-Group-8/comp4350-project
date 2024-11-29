@@ -48,11 +48,13 @@ namespace SailMapper.Services
             return false;
         }
 
-        public async Task<bool> UpdateCourse(Course courseUpdate)
+        public async Task<bool> UpdateCourse(UpdateCourseDTO courseUpdate, int id)
         {
-            var course = _dbContext.Courses.Update(courseUpdate);
+            var course = await _dbContext.Courses.FindAsync(id);
             if (course != null)
             {
+                if (courseUpdate.Name != null) { course.Name = (string)courseUpdate.Name; }
+                if (courseUpdate.Description != null) { course.Description = (string)courseUpdate.Description; }
                 await _dbContext.SaveChangesAsync();
                 return true;
             }
