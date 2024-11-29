@@ -24,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   final List<Position> _points = [];
   final String _api = 'localhost:5000';
   String _gpx = '';
+  String _filename = '';
 
   CustomTheme customTheme = CustomTheme();
   @override
@@ -38,8 +39,6 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               TextButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.amberAccent),
                   onPressed: _isTracking ? null : _startTracking,
                   child: Text("Start Tracking")),
               TextButton(

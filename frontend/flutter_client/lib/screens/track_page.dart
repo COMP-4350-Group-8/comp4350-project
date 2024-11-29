@@ -2,12 +2,14 @@
 
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:gpx/gpx.dart';
 
 /// [TrackPage]
 class TrackPage extends StatefulWidget {
@@ -21,6 +23,7 @@ class _TrackPageState extends State<TrackPage> {
   @override
   LatLng start = LatLng(49.763089, -94.493308);
   List<Marker> markers = [];
+  List<LatLng> points = [];
   PolylinePoints polylinePoints = PolylinePoints();
   Map<PolylineId, Polyline> polylines = {};
   List<List<String>> tracks = [];
@@ -42,7 +45,6 @@ class _TrackPageState extends State<TrackPage> {
     final List<FileSystemEntity> entities = await directory.list().toList();
 
     for (var file in entities) {
-      //final path =
       setState(() {
         if (file.path.contains('.gpx')) {
           tracks.add([
@@ -53,26 +55,52 @@ class _TrackPageState extends State<TrackPage> {
         }
       });
     }
-    print(tracks);
-    print(tracks[0]);
   }
 
-  selectTrack(int index) {}
+  selectTrack(int index) async {
+    // read gpx file and extract points
+    try {
+      final file = File(tracks[index][1]);
 
-  setPolylines(List<Marker> markers, newSetState) async {
+      markers = [];
+      polylines = {};
+      points = [];
+
+      final contents = await file.readAsString();
+      print(contents);
+      final xmlGpx = GpxReader().fromString(contents);
+      if (xmlGpx.trks.length > 0) {
+        for (Trk trk in xmlGpx.trks) {
+          for (Trkseg seg in trk.trksegs) {
+            for (Wpt wpt in seg.trkpts) {
+              if (wpt.lat != null && wpt.lon != null) {
+                points.add(LatLng(wpt.lat ?? 0.0, wpt.lon ?? 0.0));
+              }
+            }
+          }
+        }
+      }
+    } catch (e) {
+      print("error with track file");
+    }
+    setPolylines(points);
+  }
+
+  setPolylines(List<LatLng> markers) async {
     List<LatLng> polylineCoordinates = [];
 
     for (var i = 0; i < markers.length; i++) {
-      polylineCoordinates.add(
-          LatLng(markers[i].position.latitude, markers[i].position.longitude));
+      polylineCoordinates
+          .add(LatLng(markers[i].latitude, markers[i].longitude));
     }
 
-    newSetState(() {});
+    //newSetState(() {});
 
-    addPolyLine(polylineCoordinates, newSetState);
+    addPolyLine(polylineCoordinates); //, newSetState);
   }
 
-  addPolyLine(List<LatLng> polylineCoordinates, newSetState) {
+  addPolyLine(List<LatLng> polylineCoordinates) {
+    //, newSetState) {
     PolylineId id = PolylineId("poly");
     Polyline polyline = Polyline(
       polylineId: id,
@@ -80,9 +108,12 @@ class _TrackPageState extends State<TrackPage> {
       points: polylineCoordinates,
       width: 4,
     );
-    polylines[id] = polyline;
+    print(polyline.points);
+    setState(() {
+      polylines[id] = polyline;
+    });
 
-    newSetState(() {});
+    //newSetState(() {});
   }
 
   Widget build(BuildContext context) {
@@ -102,7 +133,7 @@ class _TrackPageState extends State<TrackPage> {
                 itemCount: tracks.length,
                 itemBuilder: (BuildContext context, index) {
                   return ListTile(
-                    onTap: () => selectTrack(index),
+                    onTap: () async => await selectTrack(index),
                     title: Text(tracks[index][0]),
                   );
                 }),
