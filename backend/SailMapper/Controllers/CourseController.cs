@@ -92,6 +92,10 @@ namespace SailMapper.Controllers
         public async Task<IActionResult> GetCourses()
         {
             var courses = await courseService.GetCourses();
+            if(courses == null)
+            {
+                return NotFound();
+            }
             return Ok(courses);
         }
 
@@ -109,6 +113,10 @@ namespace SailMapper.Controllers
         public async Task<IActionResult> GetCourse(int id)
         {
             var course = await courseService.GetCourse(id);
+            if(course == null)
+            {
+                return NotFound();
+            }
             return Ok(course);
         }
 
@@ -207,6 +215,10 @@ namespace SailMapper.Controllers
         public async Task<IActionResult> GetCourseMarks(int id)
         {
             var course = await courseService.GetCourseMarks(id);
+            if (course == null)
+            {
+                return NotFound();
+            }
             return Ok(course);
         }
 
