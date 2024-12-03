@@ -76,7 +76,9 @@ class _TrackPageState extends State<TrackPage> {
           }
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      // error with retriving track
+    }
     setPolylines(points);
   }
 
