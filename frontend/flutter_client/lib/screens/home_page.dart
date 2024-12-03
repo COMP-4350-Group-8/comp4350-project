@@ -1,16 +1,14 @@
 /// [Home_Page]
 
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_client/logic/api.dart';
 import '../logic/theme.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:xml/xml.dart';
-import 'package:http/http.dart' as http;
 
 /// [HomePage]
 class HomePage extends StatefulWidget {
@@ -24,9 +22,7 @@ class _HomePageState extends State<HomePage> {
   String _status = '';
   bool _isTracking = false;
   final List<Position> _points = [];
-  final String _api = 'localhost:5000';
-  String _gpx = '';
-  final String _filename = '';
+  final TextEditingController _apiController = TextEditingController();
 
   CustomTheme customTheme = CustomTheme();
   @override
@@ -49,6 +45,27 @@ class _HomePageState extends State<HomePage> {
               Text(
                 _status,
                 textAlign: TextAlign.center,
+              ),
+              Container(
+                padding: EdgeInsets.all(8.0),
+                child: SafeArea(
+                    child: Row(
+                  children: [
+                    Expanded(
+                        child: TextField(
+                      controller: _apiController,
+                      decoration: InputDecoration(
+                          hintText: "Input Api URL", filled: true),
+                    )),
+                    SizedBox(
+                      width: 8,
+                    ),
+                    FloatingActionButton(
+                      onPressed: _setApi,
+                      child: Text("SET"),
+                    )
+                  ],
+                )),
               )
             ],
           ),
@@ -72,20 +89,8 @@ class _HomePageState extends State<HomePage> {
     return true;
   }
 
-  Future<bool> _checkBackgroundPermission() async {
-//    final androidConfig = FlutterBackgroundAndroidConfig(
-//      notificationTitle: "Background Task Example",
-//      notificationText: "Running in the background",
-//      notificationImportance: AndroidNotificationImportance.normal,
-//    );
-//
-//    return await FlutterBackground.initialize(androidConfig: androidConfig);
-    return true;
-  }
-
   void _startTracking() async {
     if (!await _checkLocationPermission()) return;
-    if (!await _checkBackgroundPermission()) return;
 //    await FlutterBackground.enableBackgroundExecution();
 
     setState(() {
@@ -102,7 +107,6 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _points.add(position);
       });
-      print(position);
     });
   }
 
@@ -111,7 +115,6 @@ class _HomePageState extends State<HomePage> {
       _isTracking = false;
       _status = 'tracking stopped saving file';
     });
-    //await FlutterBackground.disableBackgroundExecution();
 
     await _saveToGPX();
   }
@@ -168,9 +171,9 @@ class _HomePageState extends State<HomePage> {
 
       setState(() {
         _status = "GPX file saved: ${file.path}";
-        _gpx = gpx;
       });
-      _sendGPX();
+
+      await Api().sendGPX(gpx);
     } catch (e) {
       setState(() {
         _status = "Error: $e";
@@ -178,24 +181,8 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> _sendGPX() async {
-    if (_api.isEmpty) {
-      setState(() {
-        _status = "please enter api url";
-      });
-      return;
-    }
-
-    try {
-      final url = Uri.parse('$_api/track');
-
-      final responce = await http.put(url,
-          headers: {'Content-Type': 'application/json; charset=UTF-8'},
-          body: jsonEncode(_gpx));
-    } catch (e) {
-      setState(() {
-        _status = "Error sending request: $e";
-      });
-    }
+  _setApi() {
+    print("here");
+    Api().set_api(_apiController.text);
   }
 }

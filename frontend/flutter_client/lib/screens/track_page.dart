@@ -6,6 +6,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_client/logic/api.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:path_provider/path_provider.dart';
@@ -35,6 +36,8 @@ class _TrackPageState extends State<TrackPage> {
     if (!completer.isCompleted) {
       completer.complete(controller);
     }
+
+    print(Api().get_api());
 
     getAllTracks();
   }
