@@ -25,7 +25,6 @@ namespace SailMapper.Services
         public async Task<List<Course>> GetCourses()
         {
             return await _dbContext.Courses
-                .Include(o => o.courseMarks)
                 .ToListAsync();
         }
 
@@ -33,6 +32,7 @@ namespace SailMapper.Services
         {
             return await _dbContext.Courses
                 .Include(o => o.courseMarks)
+                .Include(o => o.races)
                 .FirstOrDefaultAsync(o => o.Id == id);
         }
 

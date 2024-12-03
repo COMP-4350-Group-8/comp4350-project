@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using System;
 
 #nullable disable
 
@@ -13,6 +13,23 @@ namespace SailMapper.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Courses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Description = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Courses", x => x.Id);
+                })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -46,6 +63,38 @@ namespace SailMapper.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Regattas", x => x.Id);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "CourseMarks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Latitude = table.Column<float>(type: "float", nullable: false),
+                    Longitude = table.Column<float>(type: "float", nullable: false),
+                    Description = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Rounding = table.Column<bool>(type: "tinyint(1)", nullable: true),
+                    IsStartLine = table.Column<bool>(type: "tinyint(1)", nullable: true),
+                    GateId = table.Column<int>(type: "int", nullable: true),
+                    CourseId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CourseMarks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CourseMarks_CourseMarks_GateId",
+                        column: x => x.GateId,
+                        principalTable: "CourseMarks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CourseMarks_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -86,11 +135,17 @@ namespace SailMapper.Migrations
                     EndTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     Name = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    RegattaId = table.Column<int>(type: "int", nullable: true)
+                    RegattaId = table.Column<int>(type: "int", nullable: true),
+                    CourseId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Races", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Races_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Races_Regattas_RegattaId",
                         column: x => x.RegattaId,
@@ -121,29 +176,6 @@ namespace SailMapper.Migrations
                         principalTable: "Races",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Courses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Description = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    RaceId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Courses", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Courses_Races_RaceId",
-                        column: x => x.RaceId,
-                        principalTable: "Races",
-                        principalColumn: "Id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -213,37 +245,6 @@ namespace SailMapper.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
-            migrationBuilder.CreateTable(
-                name: "CourseMarks",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Latitude = table.Column<float>(type: "float", nullable: false),
-                    Longitude = table.Column<float>(type: "float", nullable: false),
-                    Description = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Rounding = table.Column<bool>(type: "tinyint(1)", nullable: true),
-                    IsStartLine = table.Column<bool>(type: "tinyint(1)", nullable: true),
-                    GateId = table.Column<int>(type: "int", nullable: true),
-                    CourseId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CourseMarks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CourseMarks_CourseMarks_GateId",
-                        column: x => x.GateId,
-                        principalTable: "CourseMarks",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_CourseMarks_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "Id");
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
             migrationBuilder.CreateIndex(
                 name: "IX_BoatRace_RacesId",
                 table: "BoatRace",
@@ -265,9 +266,9 @@ namespace SailMapper.Migrations
                 column: "GateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Courses_RaceId",
-                table: "Courses",
-                column: "RaceId");
+                name: "IX_Races_CourseId",
+                table: "Races",
+                column: "CourseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Races_RegattaId",
@@ -311,9 +312,6 @@ namespace SailMapper.Migrations
                 name: "Tracks");
 
             migrationBuilder.DropTable(
-                name: "Courses");
-
-            migrationBuilder.DropTable(
                 name: "Boats");
 
             migrationBuilder.DropTable(
@@ -321,6 +319,9 @@ namespace SailMapper.Migrations
 
             migrationBuilder.DropTable(
                 name: "Ratings");
+
+            migrationBuilder.DropTable(
+                name: "Courses");
 
             migrationBuilder.DropTable(
                 name: "Regattas");

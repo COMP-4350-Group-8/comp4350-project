@@ -46,7 +46,7 @@ namespace SailMapper.Services
         {
             return await _dbContext.Races
                 .Include(r => r.Participants)
-                .Include(r => r.Courses)
+                .Include(r => r.Course)
                 .Include(r => r.Results)
                 .Include(r => r.Tracks)
                 .FirstOrDefaultAsync(r => r.Id == id);
