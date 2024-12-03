@@ -9,11 +9,10 @@ import "./Home.css";
 
 // Define the props that should be passed to this component
 Home.propTypes = {
-    serverUrl: PropTypes.string,
-    setServerUrl: PropTypes.func
+    serverUrl: PropTypes.string
 }
 
-export default  function Home({serverUrl, setServerUrl})  {
+export default  function Home({serverUrl})  {
     const navigate = useNavigate()
 
     // onClick functions that send the user to the CreateRegatta, CreateRace, or CreateCourse page
@@ -44,13 +43,13 @@ export default  function Home({serverUrl, setServerUrl})  {
 
     useEffect(() => {
         getRegattas(serverUrl, setRegattaData);
-    }, []);
+    }, [serverUrl]);
     useEffect(() => {
         getRaces(serverUrl, setRaceData);
-    }, []);
+    }, [serverUrl]);
     useEffect(() => {
         getCourses(serverUrl, setCourseData);
-    }, []);
+    }, [serverUrl]);
 
     // Functions to convert the data to an array of buttons so they can be easily rendered later
     const regattas = [];

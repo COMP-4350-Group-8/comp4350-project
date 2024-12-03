@@ -7,6 +7,7 @@ import classes from "./Form.module.css";
 
 // Define the props that should be passed to this component
 RaceForm.propTypes = {
+    serverUrl: PropTypes.string,
     onAddRace: PropTypes.func,
 }
 
@@ -16,7 +17,7 @@ export default function RaceForm({serverUrl, onAddRace}) {
     const [courses, setCourses] = useState([]);
     useEffect(() => {
         getCourses(serverUrl, setCourses);
-    }, []);
+    }, [serverUrl]);
 
     // Used to navigate back to the homepage after submitting the race form
     const navigate = useNavigate();

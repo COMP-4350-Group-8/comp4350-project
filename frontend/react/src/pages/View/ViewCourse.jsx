@@ -27,7 +27,7 @@ export default function ViewCourse({serverUrl}) {
                 setIsLoading(false);
                 setCourseData(data);
             });
-    }, [])
+    }, [serverUrl, id])
 
     if (isLoading) {
         return (

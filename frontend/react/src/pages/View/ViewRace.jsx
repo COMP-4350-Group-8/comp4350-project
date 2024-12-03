@@ -22,7 +22,7 @@ export default function ViewRace({serverUrl})  {
     const [raceData, setRaceData] = useState([]);
     useEffect(() => {
         getRace(serverUrl, id, setRaceData);
-    }, [id]);
+    }, [serverUrl, id]);
 
     const courses = [];
     if (raceData.courses != null) {
