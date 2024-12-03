@@ -1,9 +1,9 @@
 // This function is in its own file so it can be easily mocked in tests and re-used if needed
 
 // Called by CreateCourse when a course form is submitted and sends the data to the backend
-export default function addCourseHandler(courseData) {
+export default function addCourseHandler(serverUrl, courseData) {
     fetch(
-        'http://localhost:5000/course',
+        `${serverUrl}/course`,
         {
             method: 'POST',
             body: JSON.stringify(courseData),

@@ -7,16 +7,17 @@ import classes from "./Form.module.css";
 
 // Define the props that should be passed to this component
 RegattaForm.propTypes = {
+    serverUrl: PropTypes.string,
     onAddRegatta: PropTypes.func,
 }
 
 // Renders a form to create a new regatta
-export default function RegattaForm({onAddRegatta}) {
+export default function RegattaForm({serverUrl, onAddRegatta}) {
     // Get all the available courses
     const [races, setRaces] = useState([]);
     useEffect(() => {
-        getRaces(setRaces);
-    }, []);
+        getRaces(serverUrl, setRaces);
+    }, [serverUrl]);
 
     // Used to navigate back to the homepage after submitting the regatta form
     const navigate = useNavigate();

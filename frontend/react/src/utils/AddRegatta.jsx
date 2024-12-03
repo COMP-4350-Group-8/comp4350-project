@@ -1,9 +1,9 @@
 // This function is in its own file so it can be easily mocked in tests and re-used if needed
 
 // Called by CreateRegatta when a regatta form is submitted and sends the data to the backend
-export default function addRegattaHandler(regattaData) {
+export default function addRegattaHandler(serverUrl, regattaData) {
     fetch(
-        'http://localhost:5000/regatta',
+        `${serverUrl}/regatta`,
         {
             method: 'POST',
             body: JSON.stringify(regattaData),
