@@ -11,11 +11,11 @@ RaceForm.propTypes = {
 }
 
 // Renders a form to create a new race, including all the markers it includes
-export default function RaceForm({onAddRace}) {
+export default function RaceForm({serverUrl, onAddRace}) {
     // Get all the available courses
     const [courses, setCourses] = useState([]);
     useEffect(() => {
-        getCourses(setCourses);
+        getCourses(serverUrl, setCourses);
     }, []);
 
     // Used to navigate back to the homepage after submitting the race form

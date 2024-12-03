@@ -7,11 +7,12 @@ import classes from "./Form.module.css";
 
 // Define the props that should be passed to this component
 CourseForm.propTypes = {
+    serverUrl: PropTypes.string,
     onAddCourse: PropTypes.func,
 }
 
 // Renders a form to create a new race course, including all the markers it includes
-export default function CourseForm({onAddCourse}) {
+export default function CourseForm({serverUrl, onAddCourse}) {
     // Used to navigate back to the homepage after submitting the course form
     const navigate = useNavigate();
 
@@ -59,7 +60,7 @@ export default function CourseForm({onAddCourse}) {
         }
 
         // Send the course data to the parent class
-        onAddCourse(data);
+        onAddCourse(serverUrl, data);
 
         // Move back to the homepage now that the course creation has finished
         navigate('/');

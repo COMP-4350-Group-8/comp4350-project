@@ -1,8 +1,14 @@
 import React ,{useState, useEffect}from "react";
-import CourseView from "../components/view/CourseView";
 import {useParams} from "react-router-dom";
+import PropTypes from 'prop-types';
+import CourseView from "../../components/view/CourseView";
 
-export default function ViewCourse() {
+// Define the props that should be passed to this component
+ViewCourse.propTypes = {
+    serverUrl: PropTypes.string
+}
+
+export default function ViewCourse({serverUrl}) {
     let {id} = useParams();
     id = parseInt(id);
     const [isLoading, setIsLoading] = useState(true);
@@ -12,7 +18,7 @@ export default function ViewCourse() {
     useEffect(() => {
         setIsLoading(true);
         fetch(
-            `http://localhost:5000/course/${id}`
+            `${serverUrl}/course/${id}`
         )
             .then((response) => {
                 return response.json();
@@ -32,7 +38,7 @@ export default function ViewCourse() {
     }
 
     return(
-        <CourseView courseData={courseData}>
+        <CourseView serverUrl={serverUrl} courseData={courseData}>
         </CourseView>
     )
 }

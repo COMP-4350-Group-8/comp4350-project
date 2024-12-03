@@ -91,3 +91,18 @@ body {
 .item-button:active {
     opacity: 0.5;
 }
+
+.set-server-url-button {
+    background-color: rgb(2, 158, 255);
+    color: white;
+    border: none;
+    height: 50px;
+    width: 200px;
+    border-radius: 18px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: box-shadow 0.15s, opacity 0.15s;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+}

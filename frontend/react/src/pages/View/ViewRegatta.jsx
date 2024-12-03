@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Card from '../components/ui/Card';
-import getRegatta from '../utils/GetRegatta';
-import "./Home.css";
+import PropTypes from 'prop-types';
+import Card from '../../components/ui/Card';
+import getRegatta from '../../utils/GetRegatta';
+import "../Home.css";
+
+// Define the props that should be passed to this component
+ViewRegatta.propTypes = {
+    serverUrl: PropTypes.string
+}
 
 // Render the CourseForm and pass it a function to call when creating the race course
-export default function ViewRegatta()  {
+export default function ViewRegatta({serverUrl})  {
     const navigate = useNavigate();
     const { id } = useParams();
 
@@ -15,7 +21,7 @@ export default function ViewRegatta()  {
 
     const [regattaData, setRegattaData] = useState([]);
     useEffect(() => {
-        getRegatta(id, setRegattaData);
+        getRegatta(serverUrl, id, setRegattaData);
     }, [id]);
 
     const races = [];

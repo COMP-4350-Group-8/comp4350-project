@@ -4,9 +4,16 @@ import Card from '../components/ui/Card';
 import getRegattas from '../utils/GetRegattas';
 import getRaces from '../utils/GetRaces';
 import getCourses from '../utils/GetCourses';
-import "./Home.css"
+import PropTypes from 'prop-types';
+import "./Home.css";
 
-export default  function Home()  {
+// Define the props that should be passed to this component
+Home.propTypes = {
+    serverUrl: PropTypes.string,
+    setServerUrl: PropTypes.func
+}
+
+export default  function Home({serverUrl, setServerUrl})  {
     const navigate = useNavigate()
 
     // onClick functions that send the user to the CreateRegatta, CreateRace, or CreateCourse page
@@ -36,13 +43,13 @@ export default  function Home()  {
     const [courseData, setCourseData] = useState([]);
 
     useEffect(() => {
-        getRegattas(setRegattaData);
+        getRegattas(serverUrl, setRegattaData);
     }, []);
     useEffect(() => {
-        getRaces(setRaceData);
+        getRaces(serverUrl, setRaceData);
     }, []);
     useEffect(() => {
-        getCourses(setCourseData);
+        getCourses(serverUrl, setCourseData);
     }, []);
 
     // Functions to convert the data to an array of buttons so they can be easily rendered later
@@ -72,6 +79,10 @@ export default  function Home()  {
             </button>
         )
     });
+
+    const onClickServerUrl = () => {
+        navigate("/setServerUrl");
+    }
 
     return (
         <>
@@ -115,6 +126,9 @@ export default  function Home()  {
                         </div>
                     </>
                 </Card>
+            </div>
+            <div>
+                <button className="set-server-url-button" onClick={onClickServerUrl}>Set Server URL</button>
             </div>
         </>
     );
