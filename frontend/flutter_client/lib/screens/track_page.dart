@@ -94,13 +94,10 @@ class _TrackPageState extends State<TrackPage> {
           .add(LatLng(markers[i].latitude, markers[i].longitude));
     }
 
-    //newSetState(() {});
-
-    addPolyLine(polylineCoordinates); //, newSetState);
+    addPolyLine(polylineCoordinates);
   }
 
   addPolyLine(List<LatLng> polylineCoordinates) {
-    //, newSetState) {
     PolylineId id = PolylineId("poly");
     Polyline polyline = Polyline(
       polylineId: id,
@@ -112,8 +109,6 @@ class _TrackPageState extends State<TrackPage> {
     setState(() {
       polylines[id] = polyline;
     });
-
-    //newSetState(() {});
   }
 
   @override
