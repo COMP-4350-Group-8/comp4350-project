@@ -2,6 +2,7 @@ import React ,{useState, useEffect}from "react";
 import {useParams} from "react-router-dom";
 import PropTypes from 'prop-types';
 import CourseView from "../../components/view/CourseView";
+import getCourse from "../../utils/GetCourse";
 
 // Define the props that should be passed to this component
 ViewCourse.propTypes = {
@@ -17,16 +18,7 @@ export default function ViewCourse({serverUrl}) {
     //get request to get course details
     useEffect(() => {
         setIsLoading(true);
-        fetch(
-            `${serverUrl}/course/${id}`
-        )
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                setIsLoading(false);
-                setCourseData(data);
-            });
+        getCourse(serverUrl, id, setCourseData, setIsLoading);
     }, [serverUrl, id])
 
     if (isLoading) {

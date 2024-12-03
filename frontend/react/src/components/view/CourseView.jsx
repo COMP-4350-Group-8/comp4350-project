@@ -27,7 +27,7 @@ export default function CourseView({courseData}) {
 
     for (let i = 0; i < courseData.courseMarks.length; i++) {
         points.push(
-            <div className={classes.mapbox}>
+            <div key={i} className={classes.mapbox}>
                 <div className={classes.boxhead}> Marker {i + 1}</div>
                 <div className={classes.details}>Description : {courseData.courseMarks[i].description}</div>
                 <div className={classes.details}>Latitude : {courseData.courseMarks[i].latitude}</div>

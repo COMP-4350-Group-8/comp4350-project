@@ -37,7 +37,29 @@ describe("Home", () => {
         expect(heading[0]).toHaveTextContent(/sail mapper/i);
     });
 
-    it("should render the Start Race button", () => {
+    it("should render the Regatta section", () => {
+        // Render the component in a router so navigation between pages works
+        render(<MemoryRouter>
+            (<Home/>);
+        </MemoryRouter>)
+
+        const button = screen.getByRole("button", {name: /create regatta/i});
+        expect(button).toBeInTheDocument();
+        expect(button).toHaveTextContent(/create regatta/i);
+    });
+
+    it("should render the Race section", () => {
+        // Render the component in a router so navigation between pages works
+        render(<MemoryRouter>
+            (<Home/>);
+        </MemoryRouter>)
+
+        const button = screen.getByRole("button", {name: /create race/i});
+        expect(button).toBeInTheDocument();
+        expect(button).toHaveTextContent(/create race/i);
+    });
+
+    it("should render the Course section", () => {
         // Render the component in a router so navigation between pages works
         render(<MemoryRouter>
             (<Home/>);
@@ -46,5 +68,16 @@ describe("Home", () => {
         const button = screen.getByRole("button", {name: /create course/i});
         expect(button).toBeInTheDocument();
         expect(button).toHaveTextContent(/create course/i);
+    });
+
+    it("should render the Set Server URL button", () => {
+        // Render the component in a router so navigation between pages works
+        render(<MemoryRouter>
+            (<Home/>);
+        </MemoryRouter>)
+
+        const button = screen.getByRole("button", {name: /set server url/i});
+        expect(button).toBeInTheDocument();
+        expect(button).toHaveTextContent(/set server url/i);
     });
 });
