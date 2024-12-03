@@ -7,7 +7,7 @@ import RaceForm from "../../../src/components/forms/RaceForm";
 
 // Mock for the getCourses method from GetCourses that is used in RaceForm
 vi.mock("../../../src/utils/GetCourses",  () => ({
-    default: vi.fn((setCourses) => {
+    default: vi.fn((serverUrl, setCourses) => {
         setCourses([{id: 1, name: "Course1"}, {id: 2, name: "Course2"}]);
     })
 }));
