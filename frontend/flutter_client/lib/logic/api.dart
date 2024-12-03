@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+//  singleton class for api access and url memory
 class Api {
   static final Api _api = Api._internal();
   String apiUrl = 'localhost:5000';
@@ -11,12 +12,11 @@ class Api {
 
   Api._internal();
 
-  set_api(String new_location) {
-    apiUrl = new_location;
-    print(apiUrl);
+  setApi(String newLocation) {
+    apiUrl = newLocation;
   }
 
-  String get_api() {
+  String getApi() {
     return apiUrl;
   }
 

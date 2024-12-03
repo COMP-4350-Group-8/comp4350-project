@@ -2,11 +2,8 @@
 
 import 'dart:async';
 import 'dart:io';
-import 'dart:math';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_client/logic/api.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:path_provider/path_provider.dart';
@@ -21,7 +18,6 @@ class TrackPage extends StatefulWidget {
 
 /// [_TrackPageState]
 class _TrackPageState extends State<TrackPage> {
-  @override
   LatLng start = LatLng(49.763089, -94.493308);
   List<Marker> markers = [];
   List<LatLng> points = [];
@@ -36,8 +32,6 @@ class _TrackPageState extends State<TrackPage> {
     if (!completer.isCompleted) {
       completer.complete(controller);
     }
-
-    print(Api().get_api());
 
     getAllTracks();
   }
@@ -70,7 +64,6 @@ class _TrackPageState extends State<TrackPage> {
       points = [];
 
       final contents = await file.readAsString();
-      print(contents);
       final xmlGpx = GpxReader().fromString(contents);
       if (xmlGpx.trks.isNotEmpty) {
         for (Trk trk in xmlGpx.trks) {
@@ -92,7 +85,7 @@ class _TrackPageState extends State<TrackPage> {
   setPolylines(List<LatLng> markers) async {
     List<LatLng> polylineCoordinates = [];
 
-    if (markers.length > 0) {
+    if (markers.isNotEmpty) {
       setState(() {
         start = markers[0];
       });
@@ -117,7 +110,7 @@ class _TrackPageState extends State<TrackPage> {
       points: polylineCoordinates,
       width: 4,
     );
-    print(polyline.points);
+
     setState(() {
       polylines[id] = polyline;
     });

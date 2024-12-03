@@ -182,7 +182,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   _setApi() {
-    print("here");
-    Api().set_api(_apiController.text);
+    Api().setApi(_apiController.text);
   }
 }
