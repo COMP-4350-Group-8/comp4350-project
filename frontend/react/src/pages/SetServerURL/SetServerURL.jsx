@@ -10,13 +10,14 @@ SetServerURL.propTypes = {
     setServerUrl: PropTypes.func
 }
 
-// 
+// An input page where the user can modify the url used for api requests
 export default function SetServerURL({serverUrl, setServerUrl})  {
     // Used to navigate back to the homepage after submitting the new server url
     const navigate = useNavigate();
 
     const urlInputRef = useRef();
 
+    // Update the server url state and return to the homepage
     function submitHandler(event) {
         event.preventDefault();
 

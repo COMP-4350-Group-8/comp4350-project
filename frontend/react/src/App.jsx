@@ -12,6 +12,7 @@ import SetServerURL from './pages/SetServerURL/SetServerURL.jsx';
 import "./App.css";
 
 export default function App() {
+    // State to track the url for the server
     const [serverUrl, setServerUrl] = useState("http://localhost:5000");
 
     return (
