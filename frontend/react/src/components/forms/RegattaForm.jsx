@@ -99,22 +99,29 @@ export default function RegattaForm({serverUrl, onAddRegatta}) {
             return;
         }
 
+        const regattaId = Math.floor(Math.random() * (99999999));
         const regattaTitle = regattaTitleInputRef.current.value;
 
-        const raceIds = [];
-        raceChoices.map((raceChoice) => {
-            raceIds.push(parseInt(raceChoice, 10));
-        });
-
         // Combine the data into a single object so it can be sent to the parent class
-        const data = {
-            id: Math.floor(Math.random() * (99999999)),
+        const regattaData = {
+            id: regattaId,
             name: regattaTitle,
-            description: ""
+            description: "placeholder description"
         }
 
+        const raceDataList = [];
+        raceChoices.map((raceChoice) => {
+            const id = parseInt(raceChoice, 10);
+            const race = races.find(item => item.id === id);
+
+            if (race != null) {
+                race.regattaId = regattaId;
+                raceDataList.push(race);
+            }
+        });
+
         // Send the regatta data to the parent class
-        onAddRegatta(data);
+        onAddRegatta(serverUrl, regattaData, raceDataList);
 
         // Move back to the homepage now that the regatta creation has finished
         navigate('/');
