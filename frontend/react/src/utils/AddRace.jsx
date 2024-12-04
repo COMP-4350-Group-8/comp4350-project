@@ -1,8 +1,8 @@
 // This function is in its own file so it can be easily mocked in tests and re-used if needed
 
 // Called by CreateRace when a race form is submitted and sends the data to the backend
-export default function addRaceHandler(serverUrl, raceData) {
-    fetch(
+export default async function addRaceHandler(serverUrl, raceData) {
+    const response = await fetch(
         `${serverUrl}/race`,
         {
             method: 'POST',
@@ -12,4 +12,6 @@ export default function addRaceHandler(serverUrl, raceData) {
             }
         }
     );
+
+    console.log(response.json());
 };

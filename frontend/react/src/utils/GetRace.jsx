@@ -10,6 +10,22 @@ export default async function getRace(serverUrl, id, setRaceData) {
         }
 
         const data = await response.json();
+
+        // Ensure the race has a course before continuing
+        if (data.courseId) {
+            const courseResponse = await fetch(`${serverUrl}/course/${data.courseId}`);
+
+            if (!courseResponse.ok) {
+                throw new Error(`HTTP error: ${courseResponse.status}`);
+            }
+            
+            const courseData = await courseResponse.json();
+    
+            // Add the course data into the race data
+            data.courses = [];
+            data.courses.push(courseData);
+        }
+        
         setRaceData(data);
     } catch (error) {
         console.error("Error fetching data:", error);
