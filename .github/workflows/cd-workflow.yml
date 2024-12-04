@@ -46,7 +46,7 @@ jobs:
 
   react-containerization-results:
     name: REACT Containerization
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
@@ -69,9 +69,9 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
-      - run: sudo apt-get install -y docker.io 
-      - run: sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-      - run: sudo apt-get install -y dotnet-sdk-8.0
+      #- run: sudo apt-get install -y docker.io 
+      #- run: sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+      #- run: sudo apt-get install -y dotnet-sdk-8.0
       - run: docker-compose build
       - run: docker image tag sailmapper-api owenhny/sailmapper_backend:latest
       - run: docker image tag mysql:8.0 owenhny/sailmapper_backend:db
