@@ -66,7 +66,7 @@ export default function RegattaForm({serverUrl, onAddRegatta}) {
                 <Card key={i}>
                     <div className={classes.control}>
                         <div className={classes.mapbox}>
-                            <label htmlFor='course'>{`Race ${i + 1}`}</label>
+                            <label>{`Race ${i + 1}`}</label>
                             {dropdown}
                         </div>
                     </div>

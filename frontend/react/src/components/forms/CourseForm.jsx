@@ -45,7 +45,6 @@ export default function CourseForm({serverUrl, onAddCourse}) {
                 // isStartLine: index === 0,
                 isStartLine: false,
                 //gate: rawMarker.gate,
-                //course: courseTitle,
                 courseId: courseId
             };
             markers.push(processedMarker);
@@ -110,10 +109,6 @@ export default function CourseForm({serverUrl, onAddCourse}) {
                 <div className={classes.control}>
                     <label htmlFor='description'>Description</label>
                     <textarea id='description' required rows='5' ref={courseDescriptionInputRef}></textarea>
-                </div>
-                <div className={classes.control}>
-                    <label htmlFor='notes'>Notes</label>
-                    <textarea id='notes' required rows='5'></textarea>
                 </div>
                 {/* Render all the marker forms */}
                 {markerForms}
