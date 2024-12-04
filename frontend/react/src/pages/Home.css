@@ -4,7 +4,7 @@
 }
 
 body {
-    background-image: linear-gradient(#98baec, #08295a);
+    background-image: linear-gradient(#537895, #09203f);
     height: 100%;
     width: 400px;
     padding: 1rem;
@@ -20,30 +20,89 @@ body {
 .home-header {
     font-size: 53px;
     color: hsl(216, 84%, 19%);
+    text-align: center;
 }
 
-.start-race-button{
-    position: relative;
+.card-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid hsl(216, 84%, 19%);
+    padding: 0px 20px;
+    height: 70px;
+}
+
+.no-border {
+    border-bottom: none;
+}
+
+.card-header {
+    align-content: center;
+    height: 50px;
+    line-height: 36px;
+    font-size: 36px;
+    color: hsl(216, 84%, 19%);
+}
+
+.create-button {
     background-color: rgb(2, 158, 255);
     color: white;
     border: none;
-    top:300px;
-    left: 35px;
     height: 50px;
-    width: 300px;
+    width: 200px;
     border-radius: 18px;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 20px;
     cursor: pointer;
-    margin-left: 8px;
-    margin-right: 8px;
-    transition: box-shadow 0.15s,
-    opacity 0.15s;
+    transition: box-shadow 0.15s, opacity 0.15s;
 }
-.start-race-button:hover{
+.create-button:hover {
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
 }
-
-.start-race-button:active{
+.create-button:active {
     opacity: 0.5;
+}
+
+.item-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.item-button {
+    background-color: rgb(2, 158, 255);
+    color: white;
+    border: none;
+    height: 50px;
+    width: 100%;
+    border-radius: 18px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: box-shadow 0.15s, opacity 0.15s;
+    margin-bottom: 10px;
+}
+.item-button:first-child {
+    margin-top: 10px;
+}
+.item-button:hover {
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
+}
+.item-button:active {
+    opacity: 0.5;
+}
+
+.set-server-url-button {
+    background-color: rgb(2, 158, 255);
+    color: white;
+    border: none;
+    height: 50px;
+    width: 200px;
+    border-radius: 18px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: box-shadow 0.15s, opacity 0.15s;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
 }

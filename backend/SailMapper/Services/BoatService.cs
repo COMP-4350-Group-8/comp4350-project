@@ -1,4 +1,5 @@
-﻿using SailMapper.Classes;
+﻿using Microsoft.EntityFrameworkCore;
+using SailMapper.Classes;
 using SailMapper.Data;
 
 namespace SailMapper.Services
@@ -14,20 +15,29 @@ namespace SailMapper.Services
 
         public async Task<string> AddBoat(Boat boat)
         {
-            var id = await _dbContext.Boats.AddAsync(boat);
-            await _dbContext.SaveChangesAsync();
-            return id.ToString();
+            if (boat != null && boat.Name != null && boat.Name.Replace(" ", "").Length > 0)
+            {
+                var entry = await _dbContext.Boats.AddAsync(boat);
+                await _dbContext.SaveChangesAsync();
+                return entry.Entity.Id.ToString();
+            }
+            return null;
         }
 
         public async Task<List<Boat>> GetBoats()
         {
-            List<Boat> boats = _dbContext.Boats.ToList();
+            List<Boat> boats = await _dbContext.Boats
+                .ToListAsync();
             return boats;
         }
 
         public async Task<Boat> GetBoat(int id)
         {
-            Boat boat = await GetBoatEntity(id);
+            Boat boat = await _dbContext.Boats
+                .Include(b => b.Results)
+                .Include(b => b.Tracks)
+                .Include(b => b.Races)
+                .FirstOrDefaultAsync(b => b.Id == id);
 
             return boat;
         }

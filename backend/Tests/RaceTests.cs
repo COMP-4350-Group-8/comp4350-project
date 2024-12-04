@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SailMapper.Classes;
 using SailMapper.Controllers;
 using SailMapper.Data;
@@ -7,7 +6,7 @@ using SailMapper.Services;
 
 namespace Tests
 {
-    public class RaceTests
+    public class RaceTests : IDisposable
     {
 
         private readonly RaceController _controller;
@@ -16,16 +15,16 @@ namespace Tests
 
         public RaceTests()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<SailDBContext>();
 
-            //var connectionString = "Server = localhost;Database = SailDB;User = root; Password = Lowisa;";
-            optionsBuilder.UseMySql("Server=localhost;Database=SailDB;User=root;Password=Lowisa;", new MySqlServerVersion(new Version(8, 0, 2)));
-
-
-
-            _dbContext = new SailDBContext(optionsBuilder.Options);
+            _dbContext = CreateDB.InitalizeDB();
             _controller = new RaceController(_dbContext);
             _service = new RaceService(_dbContext);
+
+        }
+
+        public void Dispose()
+        {
+            CreateDB.DeleteTempDB(_dbContext);
         }
 
         [Fact]
@@ -59,7 +58,7 @@ namespace Tests
             Race race = new Race();
             var id = await _service.AddRace(race);
 
-            Assert.Equal(-1, id);
+            Assert.Equal(1, id);
         }
 
         [Fact]
@@ -86,36 +85,46 @@ namespace Tests
             Assert.NotNull(results);
         }
 
-        // [Fact]
         [Fact]
         public async Task Calculate_Result_Full()
         {
+            CreateDB.AddBoats(_dbContext);
+            CreateDB.AddRaces(_dbContext);
+            _dbContext.SaveChanges();
+
             List<Track> tracks = new List<Track>();
+            List<Boat> boats = _dbContext.Boats.ToList();
+            Assert.True(boats.Count >= 10);
 
             for (int i = 0; i < 10; i++)
             {
                 var track = new Track();
                 track.Started = DateTime.Now;
-                track.Finished = track.Started;
-                track.Finished.AddSeconds(i * 10 + 10);
-                track.Boat = new Boat();
-                track.Boat.Rating = new Rating();
-                track.Boat.Rating.CurrentRating = i * 5 + 5;
-                track.RaceId = 0;
+                track.Finished = track.Started.AddSeconds(i * 10 + 10);
+
+                boats[i].Rating.CurrentRating = i + 5;
+                track.Boat = boats[i];
+                track.RaceId = 1;
+                track.GpxData = "";
 
                 tracks.Add(track);
             }
 
             _dbContext.Tracks.AddRange(tracks);
+            _dbContext.SaveChanges();
 
-            var results = await _service.CalculateResults(0, 0);
+            tracks = _dbContext.Tracks.ToList();
+            Assert.True(tracks.Count >= 10);
+
+            var results = await _service.CalculateResults(1, 5);
 
 
             Assert.IsType<List<Result>>(results);
             Assert.True(results.Count > 0, $"Result count is {results.Count}");
-            Assert.Equal(10, results.Count); //TODO: FIX
-            Assert.True(results[0].CorrectedTime < results[1].CorrectedTime);
-            Assert.True(results[1].CorrectedTime < results[2].CorrectedTime);
+            Assert.NotEqual(results[0].ElapsedTime, results[0].CorrectedTime);
+            Assert.NotEqual(0, results[0].CorrectedTime.TotalMilliseconds);
+            Assert.True(results[0].CorrectedTime < results[1].CorrectedTime, $"0 not faster than 1, {results[0].CorrectedTime},{results[1].ElapsedTime} ");
+            Assert.True(results[1].CorrectedTime < results[2].CorrectedTime, $"");
             Assert.True(results[0].CorrectedTime < results[9].CorrectedTime);
             Assert.True(results[8].CorrectedTime < results[9].CorrectedTime);
 

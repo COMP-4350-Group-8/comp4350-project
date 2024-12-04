@@ -1,4 +1,5 @@
-﻿using SailMapper.Classes;
+﻿using Microsoft.EntityFrameworkCore;
+using SailMapper.Classes;
 using SailMapper.Data;
 
 namespace SailMapper.Services
@@ -36,14 +37,19 @@ namespace SailMapper.Services
 
         public async Task<List<Race>> GetRaces()
         {
-            List<Race> races = _dbContext.Races.ToList();
+            List<Race> races = await _dbContext.Races.ToListAsync();
 
             return races;
         }
 
         public async Task<Race> GetRace(int id)
         {
-            return await GetRaceEntity(id);
+            return await _dbContext.Races
+                .Include(r => r.Participants)
+                .Include(r => r.Courses)
+                .Include(r => r.Results)
+                .Include(r => r.Tracks)
+                .FirstOrDefaultAsync(r => r.Id == id);
         }
 
 
@@ -137,6 +143,13 @@ namespace SailMapper.Services
         {
             List<Track> tracks = _dbContext.Tracks.Where(c => c.Race != null && c.Race.Id == id).ToList();
 
+            // write more efficinet query
+            foreach (Track track in tracks)
+            {
+                track.CurrentRating = _dbContext.Boats.Find(track.BoatId).Rating.CurrentRating;
+            }
+
+
             if (tracks.Count == 0)
             {
                 return new List<Result>();
@@ -162,19 +175,28 @@ namespace SailMapper.Services
         {
             List<Result> results = new List<Result>();
 
-            if (tracks != null && tracks.Count > averageBoat)
+            if (tracks != null && tracks.Count > averageBoat && tracks[averageBoat].CurrentRating != null)
             {
-                int A = tracks[averageBoat].Boat.Rating.CurrentRating;
+                int A = (int)tracks[averageBoat].CurrentRating;
+                if (A == 0)
+                {
+                    return results;
+                }
 
                 for (int i = 0; i < tracks.Count; i++)
                 {
                     Track track = tracks[i];
+                    results.Add(new Result());
+                    results[i].BoatId = track.BoatId;
+                    results[i].RaceId = track.RaceId;
+
                     if (track.Boat != null && track.Boat.Rating != null)
                     {
-                        var TCF = A / (B + track.Boat.Rating.CurrentRating);
 
-                        results[i].ElapsedTime = track.Started - track.Finished;
-                        results[i].CorrectedTime = results[i].ElapsedTime * TCF;
+                        double TCF = A / (B + (double)track.CurrentRating);
+
+                        results[i].ElapsedTime = TimeSpan.FromSeconds((track.Finished.Subtract(track.Started)).TotalSeconds);
+                        results[i].CorrectedTime = TimeSpan.FromSeconds(results[i].ElapsedTime.TotalSeconds * TCF);
                     }
                     else //boat could not be retrived or it did not have a rating 
                     {

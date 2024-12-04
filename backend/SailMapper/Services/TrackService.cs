@@ -49,9 +49,9 @@ namespace SailMapper.Services
             return tracks;
         }
 
-        public Task<string> GetGPX(int id)
+        public async Task<string> GetGPX(int id)
         {
-            return Task.FromResult("");
+            return _dbContext.Tracks.FindAsync(id).Result.GpxData;
         }
 
         private async Task<Track> GetTrackEntity(int id)
