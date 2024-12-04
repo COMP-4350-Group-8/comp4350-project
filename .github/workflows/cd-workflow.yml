@@ -37,7 +37,7 @@ jobs:
         shell: bash
         working-directory: frontend/flutter_client
     timeout-minutes: 5
-   # if: ${{ vars.DO_FLUTTER_CONTAINERIZATION == 'true' }}
+    if: ${{ vars.DO_FLUTTER_CONTAINERIZATION == 'true' }}
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -53,7 +53,7 @@ jobs:
       run:
         working-directory: frontend/react
     timeout-minutes: 5
-    #if: ${{ vars.DO_REACT_CONTAINERIZATION == 'true' }}
+    if: ${{ vars.DO_REACT_CONTAINERIZATION == 'true' }}
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -79,7 +79,7 @@ jobs:
       run:
         working-directory: backend/SailMapper/
     timeout-minutes: 5
-    #if: ${{ vars.DO_BACKEND_CONTAINERIZATION == 'true' }}
+    if: ${{ vars.DO_BACKEND_CONTAINERIZATION == 'true' }}
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
