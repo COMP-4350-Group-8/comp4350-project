@@ -3,6 +3,7 @@
 // Called by CreateRegatta when a regatta form is submitted and sends the data to the backend
 export default async function addRegattaHandler(serverUrl, regattaData, raceDataList) {
     try {
+        // Post the new regatta
         await fetch(
             `${serverUrl}/regatta`,
             {
@@ -14,6 +15,7 @@ export default async function addRegattaHandler(serverUrl, regattaData, raceData
             }
         );
 
+        // Update the races to be in the regatta
         raceDataList.forEach((race) => {
             fetch(
                 `${serverUrl}/race/${race.id}`,

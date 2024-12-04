@@ -3,6 +3,7 @@
 // Called by ViewRace to get the data for the race with the matching id
 export default async function getRace(serverUrl, id, setRaceData) {
     try {
+        // Get the race data
         const response = await fetch(`${serverUrl}/race/${id}`);
 
         if (!response.ok) {
@@ -13,6 +14,7 @@ export default async function getRace(serverUrl, id, setRaceData) {
 
         // Ensure the race has a course before continuing
         if (data.courseId) {
+            // Get the course data for this race
             const courseResponse = await fetch(`${serverUrl}/course/${data.courseId}`);
 
             if (!courseResponse.ok) {

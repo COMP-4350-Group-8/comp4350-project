@@ -99,6 +99,7 @@ export default function RegattaForm({serverUrl, onAddRegatta}) {
             return;
         }
 
+        // Get the regatta data
         const regattaId = Math.floor(Math.random() * (99999999));
         const regattaTitle = regattaTitleInputRef.current.value;
 
@@ -109,11 +110,14 @@ export default function RegattaForm({serverUrl, onAddRegatta}) {
             description: "placeholder description"
         }
 
+        // Use the added races to build an array that will be used to update the races so they are linked with this regatta
         const raceDataList = [];
         raceChoices.map((raceChoice) => {
+            // Get the race data for this added race
             const id = parseInt(raceChoice, 10);
             const race = races.find(item => item.id === id);
 
+            // Add the regatta id to the race object and add it to the array
             if (race != null) {
                 race.regattaId = regattaId;
                 raceDataList.push(race);
