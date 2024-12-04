@@ -68,7 +68,7 @@ jobs:
           sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
       - run: docker-compose build
-      - run: docker image tag react-frontend brettloewen/sailmapper_react:latest
+      - run: docker image tag react-frontend ${{vars.DOCKERHUB_USERNAME}}/sailmapper_react:latest
       - run: docker push ${{vars.DOCKERHUB_USERNAME}}/sailmapper_react:latest
 
   backend-containerization-results:
@@ -97,6 +97,7 @@ jobs:
       #- run: sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
       #- run: sudo apt-get install -y dotnet-sdk-8.0
       - run: docker-compose build
+      - run: docker ps --all
       - run: docker image tag sailmapper-api owenhny/sailmapper_backend:latest
       - run: docker image tag mysql:8.0 owenhny/sailmapper_backend:db
       - run: docker push owenhny/sailmapper_backend:latest
