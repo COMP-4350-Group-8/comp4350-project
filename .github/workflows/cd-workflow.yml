@@ -10,7 +10,7 @@ on:
   # (not including workflow_dispatch)
   workflow_dispatch:
     inputs:
-      environment:
+      environment: 
         description: 'Environment to run containerization'
         type: environment
         required: false
@@ -31,12 +31,13 @@ jobs:
   flutter-containerization-results:
     name: Flutter Containerization
     runs-on: ubuntu-latest
+    environment: production
     defaults:
       run:
         shell: bash
         working-directory: frontend/flutter_client
     timeout-minutes: 5
-    #if: ${{ vars.DO_FLUTTER_CONTAINERIZATION == 'true' }}
+    if: ${{ vars.DO_FLUTTER_CONTAINERIZATION == 'true' }}
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -46,12 +47,13 @@ jobs:
 
   react-containerization-results:
     name: REACT Containerization
+    environment: production
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: frontend/react
     timeout-minutes: 5
-    #if: ${{ vars.DO_REACT_CONTAINERIZATION == 'true' }}
+    if: ${{ vars.DO_REACT_CONTAINERIZATION == 'true' }}
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -71,12 +73,13 @@ jobs:
 
   backend-containerization-results:
     name: Backend Containerization
+    environment: production
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: backend/SailMapper/
     timeout-minutes: 5
-    #if: ${{ vars.DO_BACKEND_CONTAINERIZATION == 'true' }}
+    if: ${{ vars.DO_BACKEND_CONTAINERIZATION == 'true' }}
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
