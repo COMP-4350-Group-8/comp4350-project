@@ -1,0 +1,24 @@
+.regatta-description {
+    padding-top: 10px;
+}
+
+.regatta-boxhead {
+    text-align: center;
+    background: #154388;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+    margin: 0 10px;
+}
+
+.regatta-para {
+    text-align: center;
+    background: #2267c6;
+    color: white;
+    font-size: 15px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    margin: 0 10px;
+}

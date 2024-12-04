@@ -24,6 +24,7 @@ export default function RegattaForm({serverUrl, onAddRegatta}) {
 
     // References to the input fields to get their values
     const regattaTitleInputRef = useRef();
+    const regattaDescriptionInputRef = useRef();
 
     const [raceCount, setRaceCount] = useState(0);
     const [raceChoices, setRaceChoices] = useState([]);
@@ -102,12 +103,13 @@ export default function RegattaForm({serverUrl, onAddRegatta}) {
         // Get the regatta data
         const regattaId = Math.floor(Math.random() * (99999999));
         const regattaTitle = regattaTitleInputRef.current.value;
+        const regattaDescription = regattaDescriptionInputRef.current.value;
 
         // Combine the data into a single object so it can be sent to the parent class
         const regattaData = {
             id: regattaId,
             name: regattaTitle,
-            description: "placeholder description"
+            description: regattaDescription
         }
 
         // Use the added races to build an array that will be used to update the races so they are linked with this regatta
@@ -135,8 +137,12 @@ export default function RegattaForm({serverUrl, onAddRegatta}) {
         <Card>
             <form className={classes.form} onSubmit={submitHandler}>
                 <div className={classes.control}>
-                    <label htmlFor='title'>Regatta Title</label>
+                    <label htmlFor='title'>Title</label>
                     <input type='text' required id='title' ref={regattaTitleInputRef}/>
+                </div>
+                <div className={classes.control}>
+                    <label htmlFor='description'>Description</label>
+                    <input type='text' required id='description' ref={regattaDescriptionInputRef}/>
                 </div>
                 {raceDropdowns}
                 { /* Only render the submit and add race buttons if there are available races */

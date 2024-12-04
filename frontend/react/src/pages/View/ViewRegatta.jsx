@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Card from '../../components/ui/Card';
 import getRegatta from '../../utils/GetRegatta';
 import "../Home.css";
+import "./ViewRegatta.css"
 
 // Define the props that should be passed to this component
 ViewRegatta.propTypes = {
@@ -40,6 +41,10 @@ export default function ViewRegatta({serverUrl})  {
             <h1 className="create-header">{regattaData.name}</h1>
             <Card>
                 <>
+                    <div className="regatta-description">
+                        <div className="regatta-boxhead">DESCRIPTION</div>
+                        <div className="regatta-para">{regattaData.description}</div>
+                    </div>
                     <div className={`card-top-bar ${races.length === 0 ? "no-border" : ""}` /* Only show the border if there are items in the list */}>
                         <h1 className="card-header">Races</h1>
                     </div>
