@@ -10,7 +10,7 @@ on:
   # (not including workflow_dispatch)
   workflow_dispatch:
     inputs:
-      environment:
+      environment: 
         description: 'Environment to run containerization'
         type: environment
         required: false
@@ -31,6 +31,7 @@ jobs:
   flutter-containerization-results:
     name: Flutter Containerization
     runs-on: ubuntu-latest
+    environment: production
     defaults:
       run:
         shell: bash
@@ -46,36 +47,55 @@ jobs:
 
   react-containerization-results:
     name: REACT Containerization
-    runs-on: windows-latest
+    environment: production
+    runs-on: ubuntu-latest
     defaults:
       run:
-        shell: bash
         working-directory: frontend/react
     timeout-minutes: 5
     if: ${{ vars.DO_REACT_CONTAINERIZATION == 'true' }}
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
-      - run: sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+      - name: Login to Docker hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+      - run: |
+          sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
       - run: docker-compose build
-      - run: docker image tag react-frontend brettloewen/sailmapper_react:latest
-      - run: docker push brettloewen/sailmapper_react:latest
+      - run: docker image tag react-frontend ${{vars.DOCKERHUB_USERNAME}}/sailmapper_react:latest
+      - run: docker push ${{vars.DOCKERHUB_USERNAME}}/sailmapper_react:latest
 
   backend-containerization-results:
     name: Backend Containerization
+    environment: production
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend/SailMapper/
     timeout-minutes: 5
     if: ${{ vars.DO_BACKEND_CONTAINERIZATION == 'true' }}
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
-      - run: sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-      - run: sudo apt-get install -y dotnet-sdk-8.0
+      - name: Login to Docker hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+      - run: |
+          sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
       - run: docker-compose build
-      - run: docker image tag sailmapper-api owenhny/sailmapper_backend:latest
-      - run: docker image tag mysql:8.0 owenhny/sailmapper_backend:db
-      - run: docker push owenhny/sailmapper_backend:latest
-      - run: docker push owenhny/sailmapper_backend:db
+      - run: docker image tag sailmapper-api ${{vars.DOCKERHUB_USERNAME}}/sailmapper_backend:latest
+      - run: docker push ${{vars.DOCKERHUB_USERNAME}}/sailmapper_backend:latest
 
   containerization-results:
     if: ${{ !(vars.DO_BACKEND_CONTAINERIZATION != 'true' && vars.DO_FLUTTER_CONTAINERIZATION != 'true' && vars.DO_REACT_CONTAINERIZATION != 'true') && always() }}
