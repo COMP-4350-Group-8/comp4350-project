@@ -59,7 +59,7 @@ vi.mock("../src/utils/GetRace",  () => ({
 vi.mock("../src/utils/GetCourse",  () => ({
     default: vi.fn((serverUrl, id, setCourseData, setIsLoading) => {
         setIsLoading(false);
-        setCourseData({id: 1, name: "Course1", courseMarks: [{id: 1, description: "Marker description", latitude: "50", longitude: "50.1", rounding: true}]});
+        setCourseData({id: 1, name: "Course1", courseMarks: [{id: 1, description: "Marker description", latitude: 50, longitude: 50.1, rounding: true}]});
     })
 }));
 
@@ -76,7 +76,7 @@ describe("App", () => {
         // Check that we're on the Home page initially
         expect(screen.getByText(/sail mapper/i)).toBeInTheDocument();
 
-        // Find the Start Course button and click it (and wait for the click to finish)
+        // Find the Create Course button and click it (and wait for the click to finish)
         const button = screen.getByRole("button", { name: /create course/i });
         expect(button).toBeInTheDocument();
         await user.click(button);
@@ -104,7 +104,7 @@ describe("App", () => {
 
         // Fill in each text input with "Hello"
         let inputs = screen.getAllByRole("textbox");
-        expect(inputs).toHaveLength(7);
+        expect(inputs).toHaveLength(6);
         inputs.forEach((input) => {
             user.click(input);
             user.keyboard("Hello");
@@ -194,11 +194,13 @@ describe("App", () => {
         expect(button).toBeInTheDocument();
         await user.click(button);
 
-        // Fill in the regatta title
-        const input = screen.getByRole("textbox");
-        expect(input).toBeInTheDocument();
-        user.click(input);
-        user.keyboard("Hello");
+        // Fill in the regatta title and description
+        const inputs = screen.getAllByRole("textbox");
+        expect(inputs).toHaveLength(2);
+        inputs.forEach((input) => {
+            user.click(input);
+            user.keyboard("Hello");
+        });
 
         // Add a race to the regatta
         const addRaceButton = screen.getByRole("button", { name: /add race/i });

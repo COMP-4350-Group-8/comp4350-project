@@ -22,8 +22,11 @@ describe("RegattaForm", () => {
         );
 
         // Confirm that the core regatta form elements are being rendered
-        const regattaTitle = screen.getByText(/regatta title/i);
+        const regattaTitle = screen.getByText(/title/i);
         expect(regattaTitle).toBeInTheDocument();
+
+        const regattaDescription = screen.getByText(/description/i);
+        expect(regattaDescription).toBeInTheDocument();
 
         const button = screen.getByRole("button");
         expect(button).toBeInTheDocument();
@@ -86,11 +89,13 @@ describe("RegattaForm", () => {
         expect(buttons[0]).toHaveTextContent(/add race/i);
         await user.click(buttons[0]);
 
-        // Fill in the race title
-        const input = screen.getByRole("textbox");
-        expect(input).toBeInTheDocument();
-        user.click(input);
-        user.keyboard("Hello");
+        // Fill in the regatta title and description
+        const inputs = screen.getAllByRole("textbox");
+        expect(inputs).toHaveLength(2);
+        inputs.forEach((input) => {
+            user.click(input);
+            user.keyboard("Hello");
+        });
 
         // Confirm the Create button now exists
         buttons = screen.getAllByRole("button");
@@ -126,11 +131,13 @@ describe("RegattaForm", () => {
         expect(buttons[0]).toHaveTextContent(/add race/i);
         await user.click(buttons[0]);
 
-        // Fill in the race title
-        const input = screen.getByRole("textbox");
-        expect(input).toBeInTheDocument();
-        user.click(input);
-        user.keyboard("Hello");
+        // Fill in the regatta title and description
+        const inputs = screen.getAllByRole("textbox");
+        expect(inputs).toHaveLength(2);
+        inputs.forEach((input) => {
+            user.click(input);
+            user.keyboard("Hello");
+        });
 
         // Select the second race from the dropdown
         const dropdown = screen.getByRole("combobox");
@@ -166,11 +173,13 @@ describe("RegattaForm", () => {
             </MemoryRouter>
         );
 
-        // Fill in the race title
-        const input = screen.getByRole("textbox");
-        expect(input).toBeInTheDocument();
-        user.click(input);
-        user.keyboard("Hello");
+        // Fill in the regatta title and description
+        const inputs = screen.getAllByRole("textbox");
+        expect(inputs).toHaveLength(2);
+        inputs.forEach((input) => {
+            user.click(input);
+            user.keyboard("Hello");
+        });
 
         // Get the buttons (should just be the Add Race button)
         let buttons = screen.getAllByRole("button");

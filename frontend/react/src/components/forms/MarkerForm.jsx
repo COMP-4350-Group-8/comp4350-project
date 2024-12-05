@@ -67,7 +67,7 @@ export default function MarkerForm({index, markerTitle, onDataChanged}) {
 
         // Call the passed data changed callback function and pass the constructed data
         onDataChanged(index, markerData);
-    }, [index, onDataChanged, description, coordinates, markerType, gate, roundedIsChecked]);
+    }, [description, coordinates, markerType, gate, roundedIsChecked]);
 
     return (
         <div className={classes.mapbox}>

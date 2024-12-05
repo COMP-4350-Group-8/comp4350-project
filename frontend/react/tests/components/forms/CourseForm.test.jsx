@@ -21,9 +21,6 @@ describe("CourseForm", () => {
         const description = screen.getAllByText(/description/i);
         expect(description[0]).toBeInTheDocument();
 
-        const notes = screen.getByText(/notes/i);
-        expect(notes).toBeInTheDocument();
-
         const buttons = screen.getAllByRole("button");
         expect(buttons[0]).toBeInTheDocument();
         expect(buttons[0]).toHaveTextContent(/add marker/i);
@@ -60,7 +57,7 @@ describe("CourseForm", () => {
 
         // Confirm there are 3 elements with the text marker (the 2 forms and the add button)
         let markers = screen.getAllByText(/marker/i);
-        expect(markers).toHaveLength(3);
+        expect(markers).toHaveLength(7);
 
         // Add a marker to the list
         const buttons = screen.getAllByRole("button");
@@ -69,7 +66,7 @@ describe("CourseForm", () => {
 
         // Confirm there are now 4 elements with the text marker
         markers = screen.getAllByText(/marker/i);
-        expect(markers).toHaveLength(4);
+        expect(markers).toHaveLength(10);
     });
 
     it("should not create a new course when not all form inputs have been filled in", async () => {
@@ -112,16 +109,11 @@ describe("CourseForm", () => {
 
         // Fill in each text input with "Hello"
         let inputs = screen.getAllByRole("textbox");
-        expect(inputs).toHaveLength(7);
+        expect(inputs).toHaveLength(6);
         inputs.forEach((input) => {
             user.click(input);
             user.keyboard("Hello");
         });
-
-        // Make sure checkboxes are tested
-        const checkboxes = screen.getAllByRole("checkbox");
-        expect(checkboxes).toHaveLength(2);
-        user.click(checkboxes[0]);
 
         // Make sure latitude and longitude inputs are tested
         const latLngInputs = screen.getAllByRole("spinbutton");
@@ -155,7 +147,7 @@ describe("CourseForm", () => {
 
         // Fill in each text input with special characters: "蟲誤,修正!"
         let inputs = screen.getAllByRole("textbox");
-        expect(inputs).toHaveLength(7);
+        expect(inputs).toHaveLength(6);
         inputs.forEach((input) => {
             user.click(input);
             user.keyboard("蟲誤,修正!");
@@ -188,13 +180,19 @@ describe("CourseForm", () => {
         const buttons = screen.getAllByRole("button");
         expect(buttons[0]).toBeInTheDocument();
         await user.click(buttons[0]);
+        await user.click(buttons[0]);
 
-        // Fill in each text input with "Hello"
+        // Fill in each text input with "Hello" up to the last marker's gate
         let inputs = screen.getAllByRole("textbox");
-        expect(inputs).toHaveLength(9);
-        inputs.forEach((input) => {
+        expect(inputs).toHaveLength(10);
+        inputs.forEach((input, index) => {
             user.click(input);
-            user.keyboard("Hello");
+            // Different gates require different values, so this ensures the second gate (last 2 markers) have different values from the first gate
+            if (index < 7) {
+                user.keyboard("Hello");
+            } else {
+                user.keyboard("Howdy");
+            }
         });
 
         // Create a course with the inputted data
