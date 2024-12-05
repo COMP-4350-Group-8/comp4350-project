@@ -35,20 +35,53 @@ export default function CourseForm({serverUrl, onAddCourse}) {
         
         // Process and format the data for the course markers
         let markers = [];
-        markerData.map((rawMarker) => {
+        let gates = [];
+        markerData.forEach((rawMarker, index) => {
+            const markerId = Math.floor(Math.random() * (99999999));
+
+            // Create the new marker object and add it to the array of markers
             let processedMarker = {
-                id: Math.floor(Math.random() * (99999999)),
+                id: markerId,
                 latitude: Number(rawMarker.latitude),
                 longitude: Number(rawMarker.longitude),
                 description: rawMarker.description,
                 rounding: rawMarker.round,
-                // isStartLine: index === 0,
-                isStartLine: false,
-                //gate: rawMarker.gate,
+                isStartLine: index === 0,
                 courseId: courseId
             };
             markers.push(processedMarker);
+
+            // If the marker is a gate as well, record that so it can be used later to link the gates together
+            if (rawMarker.gate != null && rawMarker.gate != undefined && rawMarker.gate != "") {
+                // If a gate already exists for this marker's gate value, increment the count and record the marker's id
+                const gateIndex = gates.findIndex(gate => gate.value === rawMarker.gate);
+                if (gateIndex >= 0) {
+                    gates[gateIndex].count += 1;
+                    gates[gateIndex].gateIds.push(processedMarker.id);
+                }
+                // If a gate doesn't exist for this gate value, create a new one and record the marker's id
+                else {
+                    const gate = {
+                        value: rawMarker.gate,
+                        count: 1,
+                        gateIds: [processedMarker.id]
+                    }
+                    gates.push(gate);
+                }
+            }
         });
+
+        // Verify that each gate is in a set of 2
+        let invalidData = false;
+        gates.forEach((gate) => {
+            if (gate.count != 2) {
+                invalidData = true;
+            }
+        });
+        if (invalidData) {
+            alert("Your gates are not setup correctly");
+            return;
+        }
 
         // Combine the data into a single object so it can be sent to the parent class
         const data = {
@@ -58,8 +91,36 @@ export default function CourseForm({serverUrl, onAddCourse}) {
             courseMarks: markers
         }
 
+        // For every gate in the markers, create updated markers that are linked together in a new array.
+        // This needs to happen in a separate array so it can be given separately to the add course handler.
+        // This is because the gate ids can't be linked until after the corresponding markers are already created in the database.
+        let gateMarkerData = [];
+        gates.forEach((gate) => {
+            // Get the markers that make up this gate
+            const markerOne = markers.find(marker => marker.id === gate.gateIds[0]);
+            const markerTwo = markers.find(marker => marker.id === gate.gateIds[1]);
+
+            // This gate is the start line if either of the markers are the start line
+            let isStartLine = false;
+            if (markerOne.isStartLine || markerTwo.isStartLine) {
+                isStartLine = true;
+            }
+
+            // Create the updated markers
+            const gateOne = { ...markerOne };
+            gateOne.gateId = markerTwo.id;
+            gateOne.isStartLine = isStartLine;
+
+            const gateTwo = { ...markerTwo };
+            gateTwo.gateId = markerOne.id;
+            gateTwo.isStartLine = isStartLine;
+
+            gateMarkerData.push(gateOne);
+            gateMarkerData.push(gateTwo);
+        });
+
         // Send the course data to the parent class
-        onAddCourse(serverUrl, data);
+        onAddCourse(serverUrl, data, gateMarkerData);
 
         // Move back to the homepage now that the course creation has finished
         navigate('/');

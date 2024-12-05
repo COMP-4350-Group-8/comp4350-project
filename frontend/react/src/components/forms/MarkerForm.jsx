@@ -1,5 +1,5 @@
 import Gmap from "../map/Gmap.jsx";
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import PropTypes from "prop-types";
 import classes from "./Form.module.css";
 import Card from "../ui/Card.jsx";
@@ -17,56 +17,64 @@ MarkerForm.propTypes = {
 
 // Renders a form for a single race course Marker
 export default function MarkerForm({index, markerTitle, onDataChanged}) {
-    // References to the input fields to get their values
-    const descriptionInputRef = useRef();
-    const gateInputRef = useRef();
-
+    // State to hold values for the inputs
+    const [description, setDescription] = useState("");
     const [coordinates, setCoordinates] = useState({ lat: STARTING_LATITUDE, lng: STARTING_LONGITUDE});
     const [markerType, setMarkerType] = useState("gate");
+    const [gate, setGate] = useState("");
     const [roundedIsChecked, setRoundedIsChecked] = useState(false);
 
-    // Handlers for latitude and longitude input changes
+    // Handlers for input changes
+    const handleDescriptionChange = (event) => {
+        setDescription(event.target.value);
+    };
     const handleLatitudeChange = (event) => {
         setCoordinates((prev) => ({ ...prev, lat: event.target.value }));
-        dataHandler();
     };
-
     const handleLongitudeChange = (event) => {
         setCoordinates((prev) => ({ ...prev, lng: event.target.value }));
-        dataHandler();
     };
-
     const handleMarkerTypeChange = (event) => {
         const newType = event.target.value;
         if (newType === "gate" || newType === "pylon" || newType === "info") {
             setMarkerType(newType);
         }
-    }
-
-    // Handler for the "Rounding" checkbox
+    };
+    const handleGateChange = (event) => {
+        setGate(event.target.value);
+    };
     const roundedCheckHandler = () => {
         setRoundedIsChecked(!roundedIsChecked);
-        dataHandler();
     };
 
-    // Handler to update the data and pass it up to the parent component
-    const dataHandler = () => {
-        // Call the passed data changed callback function and pass the relevant data
-        onDataChanged(index, {
+    // When the inputs change, collect the data and send it to the CourseForm
+    useEffect(() => {
+        // Create an object to hold the marker's data
+        const markerData = {
             latitude: coordinates.lat,
             longitude: coordinates.lng,
-            description: descriptionInputRef.current.value,
-            round: roundedIsChecked,
-            gate: gateInputRef.current.value,
-        });
-    };
+            description: description
+        };
+
+        // If the marker is a gate, add the gate info to the object
+        if (markerType === "gate") {
+            markerData.gate = gate;
+        }
+        // If the marker is a pylon, add the rounding info to the object
+        else if (markerType === "pylon") {
+            markerData.round = roundedIsChecked;
+        }
+
+        // Call the passed data changed callback function and pass the constructed data
+        onDataChanged(index, markerData);
+    }, [description, coordinates, markerType, gate, roundedIsChecked]);
 
     return (
         <div className={classes.mapbox}>
             <h4>{markerTitle}</h4>
             <div className={classes.control}>
                 <label htmlFor={`marker-${index}-description`}>Description</label>
-                <textarea id={`marker-${index}-description`} required rows='3' ref={descriptionInputRef} onChange={dataHandler}></textarea>
+                <textarea id={`marker-${index}-description`} required rows='3' onChange={handleDescriptionChange}></textarea>
             </div>
             {/* Inputs to change latitude and longitude */}
             <div className={classes.control}>
@@ -108,7 +116,7 @@ export default function MarkerForm({index, markerTitle, onDataChanged}) {
                                         <label htmlFor='gate'>Gate</label>
                                         <p>A gate is created when 2 markers share the same gate value (i.e. "A")</p>
                                     </div>
-                                    <input type='text' required id='gate' ref={gateInputRef} onChange={dataHandler}/>
+                                    <input type='text' required id='gate' onChange={handleGateChange}/>
                                 </>
                             : markerType === "pylon" ? 
                                 <div className={classes.horizontal}>
@@ -120,26 +128,7 @@ export default function MarkerForm({index, markerTitle, onDataChanged}) {
                         }
                     </div>
                 </div>
-                {/* <select value={markerType} onChange={handleMarkerTypeChange}>
-                    <option value="gate">Gate</option>
-                    <option value="pylon">Pylon</option>
-                    <option value="info">Info</option>
-                </select> */}
-                {/* If */
-                    // markerType === "gate" ? 
-                    //     <div className={classes.control}>
-                    //         <label htmlFor='gate'>Gate</label>
-                    //         <input type='text' required id='gate' ref={gateInputRef} onChange={dataHandler}/>
-                    //     </div>
-                    // : markerType === "pylon" ? 
-                    //     <div>
-                    //         <input type="checkbox" id="checkbox" checked={roundedIsChecked} onChange={roundedCheckHandler}/>
-                    //         <label htmlFor="checkbox">Rounding</label>
-                    //     </div>
-                    // : <></>
-                }
             </Card>
-
             {/* Pass coordinates as props to the map component */}
             <Gmap latitude={coordinates.lat} longitude={coordinates.lng}/>
         </div>
