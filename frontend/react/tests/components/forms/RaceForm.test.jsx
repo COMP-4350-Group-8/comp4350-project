@@ -1,10 +1,9 @@
-import { it, expect, describe, vi, afterEach } from "vitest";
+import { it, expect, describe, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import React from "react";
 import RaceForm from "../../../src/components/forms/RaceForm";
-import getCourses from "../../../src/utils/GetCourses";
 
 // Mock for the getCourses method from GetCourses that is used in RaceForm
 vi.mock("../../../src/utils/GetCourses",  () => ({

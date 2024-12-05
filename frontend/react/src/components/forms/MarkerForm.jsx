@@ -1,5 +1,5 @@
 import Gmap from "../map/Gmap.jsx";
-import React, {useState, useRef, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import PropTypes from "prop-types";
 import classes from "./Form.module.css";
 import Card from "../ui/Card.jsx";
@@ -67,7 +67,7 @@ export default function MarkerForm({index, markerTitle, onDataChanged}) {
 
         // Call the passed data changed callback function and pass the constructed data
         onDataChanged(index, markerData);
-    }, [description, coordinates, markerType, gate, roundedIsChecked]);
+    }, [index, onDataChanged, description, coordinates, markerType, gate, roundedIsChecked]);
 
     return (
         <div className={classes.mapbox}>
@@ -114,7 +114,7 @@ export default function MarkerForm({index, markerTitle, onDataChanged}) {
                                 <>
                                     <div className={classes.horizontal}>
                                         <label htmlFor='gate'>Gate</label>
-                                        <p>A gate is created when 2 markers share the same gate value (i.e. "A")</p>
+                                        <p>A gate is created when 2 markers share the same gate value (i.e. &quot;A&quot;)</p>
                                     </div>
                                     <input type='text' required id='gate' onChange={handleGateChange}/>
                                 </>
