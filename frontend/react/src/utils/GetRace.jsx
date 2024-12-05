@@ -3,6 +3,7 @@
 // Called by ViewRace to get the data for the race with the matching id
 export default async function getRace(serverUrl, id, setRaceData) {
     try {
+        // Get the race data
         const response = await fetch(`${serverUrl}/race/${id}`);
 
         if (!response.ok) {
@@ -10,6 +11,23 @@ export default async function getRace(serverUrl, id, setRaceData) {
         }
 
         const data = await response.json();
+
+        // Ensure the race has a course before continuing
+        if (data.courseId) {
+            // Get the course data for this race
+            const courseResponse = await fetch(`${serverUrl}/course/${data.courseId}`);
+
+            if (!courseResponse.ok) {
+                throw new Error(`HTTP error: ${courseResponse.status}`);
+            }
+            
+            const courseData = await courseResponse.json();
+    
+            // Add the course data into the race data
+            data.courses = [];
+            data.courses.push(courseData);
+        }
+        
         setRaceData(data);
     } catch (error) {
         console.error("Error fetching data:", error);

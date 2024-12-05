@@ -31,6 +31,13 @@ export default function RaceForm({serverUrl, onAddRace}) {
         setSelectedCourse(event.target.value);
     }
 
+    // If the course data is only obtained after the selectedCourse state is initialized, update it according to the course data
+    useEffect(() => {
+        if (selectedCourse === -1 && courses.length > 0) {
+            setSelectedCourse(courses[0].id)
+        }
+    }, [courses, selectedCourse])
+
     // Create a dropdown with all the courses as options, or just text if there are no courses available
     let courseDropdown = <></>;
     if (courses.length === 0) {
@@ -57,15 +64,15 @@ export default function RaceForm({serverUrl, onAddRace}) {
 
         const raceTitle = raceTitleInputRef.current.value;
 
-        // Combine the data into a single object so it can be sent to the parent class
+        // Create the data object so it can be sent to the parent class
         const data = {
             id: Math.floor(Math.random() * (99999999)),
-            name: raceTitle
-            // courseId: selectedCourse
+            name: raceTitle,
+            courseId: selectedCourse
         }
 
         // Send the race data to the parent class
-        onAddRace(data);
+        onAddRace(serverUrl, data);
 
         // Move back to the homepage now that the race creation has finished
         navigate('/');

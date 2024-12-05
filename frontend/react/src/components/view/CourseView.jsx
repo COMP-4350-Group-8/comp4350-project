@@ -11,8 +11,8 @@ CourseView.propTypes = {
         description: PropTypes.string,
         courseMarks: PropTypes.arrayOf(PropTypes.shape({
             id: PropTypes.number,
-            latitude: PropTypes.string,
-            longitude: PropTypes.string,
+            latitude: PropTypes.number,
+            longitude: PropTypes.number,
             description: PropTypes.string,
             rounding: PropTypes.bool,
             isStartLine: PropTypes.bool,

@@ -23,6 +23,11 @@
     padding: 10px;
 }
 
+.mapbox h4 {
+    font-size: 18px;
+    margin: 0px 0px 10px 0px;
+}
+
 .control input,
 .control textarea,
 .control select {
@@ -32,6 +37,10 @@
     border: 1px solid #ccc;
     padding: 0.25rem;
     width: 100%;
+}
+.control p {
+    margin-bottom: 0.5rem;
+    margin-block-start: 0;
 }
 
 .actions {
@@ -60,4 +69,23 @@
 
 textarea {
     resize: vertical; /* user can resize vertically, but width is fixed */
+}
+
+.dropdown {
+    margin-bottom: 10px;
+}
+
+.horizontal {
+    display: flex;
+    /* justify-content: space-between; */
+    flex-direction: row;
+    /* align-items: center;
+    text-align: center; */
+    gap: 20px;
+}
+
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0;
 }

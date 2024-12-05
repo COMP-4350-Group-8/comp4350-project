@@ -24,6 +24,7 @@ export default function RegattaForm({serverUrl, onAddRegatta}) {
 
     // References to the input fields to get their values
     const regattaTitleInputRef = useRef();
+    const regattaDescriptionInputRef = useRef();
 
     const [raceCount, setRaceCount] = useState(0);
     const [raceChoices, setRaceChoices] = useState([]);
@@ -65,7 +66,7 @@ export default function RegattaForm({serverUrl, onAddRegatta}) {
                 <Card key={i}>
                     <div className={classes.control}>
                         <div className={classes.mapbox}>
-                            <label htmlFor='course'>{`Race ${i + 1}`}</label>
+                            <label>{`Race ${i + 1}`}</label>
                             {dropdown}
                         </div>
                     </div>
@@ -99,22 +100,34 @@ export default function RegattaForm({serverUrl, onAddRegatta}) {
             return;
         }
 
+        // Get the regatta data
+        const regattaId = Math.floor(Math.random() * (99999999));
         const regattaTitle = regattaTitleInputRef.current.value;
-
-        const raceIds = [];
-        raceChoices.map((raceChoice) => {
-            raceIds.push(parseInt(raceChoice, 10));
-        });
+        const regattaDescription = regattaDescriptionInputRef.current.value;
 
         // Combine the data into a single object so it can be sent to the parent class
-        const data = {
-            id: Math.floor(Math.random() * (99999999)),
+        const regattaData = {
+            id: regattaId,
             name: regattaTitle,
-            description: ""
+            description: regattaDescription
         }
 
+        // Use the added races to build an array that will be used to update the races so they are linked with this regatta
+        const raceDataList = [];
+        raceChoices.map((raceChoice) => {
+            // Get the race data for this added race
+            const id = parseInt(raceChoice, 10);
+            const race = races.find(item => item.id === id);
+
+            // Add the regatta id to the race object and add it to the array
+            if (race != null) {
+                race.regattaId = regattaId;
+                raceDataList.push(race);
+            }
+        });
+
         // Send the regatta data to the parent class
-        onAddRegatta(data);
+        onAddRegatta(serverUrl, regattaData, raceDataList);
 
         // Move back to the homepage now that the regatta creation has finished
         navigate('/');
@@ -124,8 +137,12 @@ export default function RegattaForm({serverUrl, onAddRegatta}) {
         <Card>
             <form className={classes.form} onSubmit={submitHandler}>
                 <div className={classes.control}>
-                    <label htmlFor='title'>Regatta Title</label>
+                    <label htmlFor='title'>Title</label>
                     <input type='text' required id='title' ref={regattaTitleInputRef}/>
+                </div>
+                <div className={classes.control}>
+                    <label htmlFor='description'>Description</label>
+                    <input type='text' required id='description' ref={regattaDescriptionInputRef}/>
                 </div>
                 {raceDropdowns}
                 { /* Only render the submit and add race buttons if there are available races */
