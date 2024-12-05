@@ -12,7 +12,7 @@ using SailMapper.Data;
 namespace SailMapper.Migrations
 {
     [DbContext(typeof(SailDBContext))]
-    [Migration("20241203080419_InitialCreate")]
+    [Migration("20241205092033_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
