@@ -128,7 +128,7 @@ namespace Tests
             existingTrack.GpxData = "{}";
 
             // Act
-            var result = await _controller.UpdateTrack(1 ,existingTrack);
+            var result = await _controller.UpdateTrack(1, existingTrack);
 
             // Assert
             Assert.IsType<OkObjectResult>(result);
