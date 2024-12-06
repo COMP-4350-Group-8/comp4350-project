@@ -125,6 +125,7 @@ namespace Tests
 
         //cannot create string that breaks database that does not break c#
         //[Fact]
+        [Fact]
         public async Task CreateBoat_MaxLengthExceeded_ThrowsArgumentException()
         {
             // Arrange

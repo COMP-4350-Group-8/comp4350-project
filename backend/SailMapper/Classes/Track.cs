@@ -7,9 +7,9 @@ namespace SailMapper.Classes
     public class Track
     {
         [SetsRequiredMembers]
-        public Track() 
+        public Track()
         {
-            Id = 0;    
+            Id = 0;
         }
         public int Id { get; set; }
         [JsonIgnore]
