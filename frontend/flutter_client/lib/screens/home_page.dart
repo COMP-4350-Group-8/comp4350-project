@@ -1,7 +1,7 @@
 /// [Home_Page]
 
 import 'dart:async';
-
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_client/logic/api.dart';
 import '../logic/theme.dart';
@@ -23,6 +23,8 @@ class _HomePageState extends State<HomePage> {
   bool _isTracking = false;
   final List<Position> _points = [];
   final TextEditingController _apiController = TextEditingController();
+  final TextEditingController _boatIdController = TextEditingController();
+  final TextEditingController _raceIdController = TextEditingController();
 
   CustomTheme customTheme = CustomTheme();
   @override
@@ -45,6 +47,22 @@ class _HomePageState extends State<HomePage> {
               Text(
                 _status,
                 textAlign: TextAlign.center,
+              ),
+              TextField(
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ],
+                controller: _boatIdController,
+                decoration: InputDecoration(hintText: "Boat Id", filled: true),
+              ),
+              TextField(
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ],
+                controller: _raceIdController,
+                decoration: InputDecoration(hintText: "Race Id", filled: true),
               ),
               Container(
                 padding: EdgeInsets.all(8.0),
@@ -91,7 +109,6 @@ class _HomePageState extends State<HomePage> {
 
   void _startTracking() async {
     if (!await _checkLocationPermission()) return;
-//    await FlutterBackground.enableBackgroundExecution();
 
     setState(() {
       _isTracking = true;
@@ -133,6 +150,9 @@ class _HomePageState extends State<HomePage> {
       final timestamp = DateTime.now().toIso8601String().replaceAll(':', '-');
       final file = File('${directory.path}/track_$timestamp.gpx');
 
+      String? start;
+      String end = "";
+
       final builder = XmlBuilder();
       builder.processing('xml', 'version="1.0" encoding="UTF-8"');
       builder.element('gpx', attributes: {
@@ -158,7 +178,9 @@ class _HomePageState extends State<HomePage> {
                   builder.text(point.altitude.toString());
                 });
                 builder.element('time', nest: () {
-                  builder.text(DateTime.now().toIso8601String());
+                  start ??= point.timestamp.toIso8601String();
+                  end = point.timestamp.toIso8601String();
+                  builder.text(point.timestamp.toIso8601String());
                 });
               });
             }
@@ -173,7 +195,10 @@ class _HomePageState extends State<HomePage> {
         _status = "GPX file saved: ${file.path}";
       });
 
-      await Api().sendGPX(gpx);
+      int boatId = int.parse(_boatIdController.text);
+      int raceId = int.parse(_raceIdController.text);
+
+      await Api().sendGPX(gpx, boatId, raceId, start ?? "", end);
     } catch (e) {
       setState(() {
         _status = "Error: $e";
