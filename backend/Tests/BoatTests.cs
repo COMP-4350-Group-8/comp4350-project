@@ -135,7 +135,7 @@ namespace Tests
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<OutOfMemoryException>(() =>
+            await Assert.ThrowsAsync<Microsoft.EntityFrameworkCore.DbUpdateException>(() =>
                 _service.AddBoat(invalidBoat));
         }
 
