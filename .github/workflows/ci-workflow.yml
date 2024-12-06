@@ -85,14 +85,18 @@ jobs:
   backend-linting:
     name: Backend Lint Check
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend/SailMapper/
     timeout-minutes: 5
     if: ${{ vars.DO_BACKEND_LINT_TEST == 'true' }}
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
-      - name: Print
-        run: |
-          echo Backend: No Unit tests
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+      - run: docker-compose up --build
+      - run: dotnet format SailMapper.sln
 
   lint-test-results:
     if: ${{ !(vars.DO_BACKEND_LINT_TEST != 'true' && vars.DO_FLUTTER_LINT_TEST != 'true' && vars.DO_REACT_LINT_TEST != 'true') && always() }}
@@ -156,14 +160,18 @@ jobs:
   backend-unit-tests:
     name: Backend Unit Tests
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend/SailMapper/
     timeout-minutes: 5
     if: ${{ vars.DO_BACKEND_UNIT_TEST == 'true' }}
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
-      - name: Print
-        run: |
-          echo Backend: No Unit tests
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+      - run: docker-compose up --build
+      - run: dotnet format SailMapper.sln
 
   unit-test-results:
     if: ${{ !(vars.DO_BACKEND_UNIT_TEST != 'true' && vars.DO_FLUTTER_UNIT_TEST != 'true' && vars.DO_REACT_UNIT_TEST != 'true') && always() }}
