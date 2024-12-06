@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
     Geolocator.getPositionStream(
         locationSettings: LocationSettings(
       accuracy: LocationAccuracy.high,
-      distanceFilter: 0, //update every 2m
+      distanceFilter: 2, //update every 2m
     )).listen((Position position) {
       setState(() {
         _points.add(position);
