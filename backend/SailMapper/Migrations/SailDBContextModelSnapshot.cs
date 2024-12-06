@@ -17,7 +17,7 @@ namespace SailMapper.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.8")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
@@ -84,12 +84,7 @@ namespace SailMapper.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("RaceId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("RaceId");
 
                     b.ToTable("Courses");
                 });
@@ -141,6 +136,9 @@ namespace SailMapper.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime(6)");
 
@@ -155,6 +153,8 @@ namespace SailMapper.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
 
                     b.HasIndex("RegattaId");
 
@@ -309,13 +309,6 @@ namespace SailMapper.Migrations
                     b.Navigation("Rating");
                 });
 
-            modelBuilder.Entity("SailMapper.Classes.Course", b =>
-                {
-                    b.HasOne("SailMapper.Classes.Race", null)
-                        .WithMany("Courses")
-                        .HasForeignKey("RaceId");
-                });
-
             modelBuilder.Entity("SailMapper.Classes.CourseMark", b =>
                 {
                     b.HasOne("SailMapper.Classes.Course", "Course")
@@ -324,7 +317,8 @@ namespace SailMapper.Migrations
 
                     b.HasOne("SailMapper.Classes.CourseMark", "Gate")
                         .WithMany()
-                        .HasForeignKey("GateId");
+                        .HasForeignKey("GateId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Course");
 
@@ -333,9 +327,15 @@ namespace SailMapper.Migrations
 
             modelBuilder.Entity("SailMapper.Classes.Race", b =>
                 {
+                    b.HasOne("SailMapper.Classes.Course", "Course")
+                        .WithMany("races")
+                        .HasForeignKey("CourseId");
+
                     b.HasOne("SailMapper.Classes.Regatta", "Regatta")
                         .WithMany("Races")
                         .HasForeignKey("RegattaId");
+
+                    b.Navigation("Course");
 
                     b.Navigation("Regatta");
                 });
@@ -388,12 +388,12 @@ namespace SailMapper.Migrations
             modelBuilder.Entity("SailMapper.Classes.Course", b =>
                 {
                     b.Navigation("courseMarks");
+
+                    b.Navigation("races");
                 });
 
             modelBuilder.Entity("SailMapper.Classes.Race", b =>
                 {
-                    b.Navigation("Courses");
-
                     b.Navigation("Results");
 
                     b.Navigation("Tracks");

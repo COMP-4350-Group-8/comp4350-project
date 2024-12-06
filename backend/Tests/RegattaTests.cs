@@ -1,4 +1,5 @@
-﻿using SailMapper.Classes;
+﻿using Microsoft.AspNetCore.Mvc;
+using SailMapper.Classes;
 using SailMapper.Controllers;
 using SailMapper.Data;
 using SailMapper.Services;
@@ -36,11 +37,13 @@ namespace Tests
 
 
             // Act
-            int result = await _service.AddRegatta(newRegatta);
+            var result = await _controller.CreateRegatta(newRegatta);
 
             // Assert
-            Assert.NotEqual(-1, result);
-            Assert.Equal(1, result);
+            Assert.IsType<CreatedAtActionResult>(result);
+            var regatta = await _dbContext.Regattas.FindAsync(1);
+            Assert.NotNull(regatta);
+            Assert.Equal(1, regatta.Id);
         }
 
         [Fact]
@@ -57,12 +60,14 @@ namespace Tests
             _dbContext.SaveChanges();
 
             // Act
-            var result = await _service.GetRegattas();
+            var result = await _controller.GetRegattas();
+            var list = await _service.GetRegattas();
 
             // Assert
-            Assert.Equal(2, result.Count());
-            Assert.Contains(result, r => r.Name == "Summer Series");
-            Assert.Contains(result, r => r.Name == "Winter Series");
+            Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(2, list.Count());
+            Assert.Contains(list, r => r.Name == "Summer Series");
+            Assert.Contains(list, r => r.Name == "Winter Series");
         }
 
         [Fact]
@@ -81,11 +86,12 @@ namespace Tests
             _dbContext.SaveChanges();
 
             // Act
-            var result = await _service.GetRegatta(1);
-
+            var result = await _controller.GetRegatta(1);
+            var response = await _dbContext.Regattas.FindAsync(1);
             // Assert
-            Assert.NotNull(result);
-            Assert.Equal(regatta.Name, result.Name);
+            Assert.IsType<OkObjectResult>(result);
+            Assert.NotNull(response);
+            Assert.Equal(regatta.Name, response.Name);
         }
 
         [Fact]
@@ -105,11 +111,12 @@ namespace Tests
             updateRegatta.Name = "Updated Summer Series";
 
             // Act
-            var result = await _service.UpdateRegatta(updateRegatta);
+            var result = await _controller.UpdateRegatta(1, updateRegatta);
+            var response = await _dbContext.Regattas.FindAsync(1);
 
             // Assert
-            Assert.True(result);
-            Assert.Equal(_dbContext.Regattas.Find(1).Name, updateRegatta.Name);
+            Assert.IsType<OkResult>(result);
+            Assert.Equal(response.Name, updateRegatta.Name);
         }
 
         // Race Management Tests
@@ -136,10 +143,10 @@ namespace Tests
             _dbContext.SaveChanges();
 
             // Act
-            var result = await _service.AddRace(1, 1);
+            var result = await _controller.AddRace(1, 1);
 
             // Assert
-            Assert.True(result);
+            Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]
@@ -160,10 +167,10 @@ namespace Tests
             _dbContext.Regattas.Add(regatta);
 
             // Act
-            var result = await _service.RemoveRace(1, 1);
+            var result = await _controller.DeleteRace(1, 1);
 
             // Assert
-            Assert.True(result);
+            Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]
@@ -206,9 +213,11 @@ namespace Tests
             _dbContext.SaveChanges();
 
             // Act
+            var response = await _controller.GetRegattaResults(1);
             var result = await _service.GetRegattaResults(1);
 
             // Assert
+            Assert.IsType<OkObjectResult>(response);
             Assert.Single(result);
             Assert.Equal(2, result[0].Count());
             Assert.Equal(1, result[0][0].Points);

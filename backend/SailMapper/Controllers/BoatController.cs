@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 using SailMapper.Classes;
 using SailMapper.Data;
 using SailMapper.Services;
@@ -180,6 +181,23 @@ namespace SailMapper.Controllers
             }
 
             return Problem();
+        }
+
+        /// <summary>
+        /// Deletes a boat
+        /// </summary>
+        /// <response code="200">Boat deleted successfully.</response>
+        /// <response code="404">Boat not found.</response>
+        /// <response code="500">If there is an internal server error.</response>
+        /// <param name="id"></param>
+        [HttpDelete("boat/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> DeleteBoat(int id)
+        {
+            bool success = await boatService.DeleteBoat(id);
+            return Ok(success);
         }
     }
 }
