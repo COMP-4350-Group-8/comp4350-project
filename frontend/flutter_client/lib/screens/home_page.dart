@@ -150,7 +150,7 @@ class _HomePageState extends State<HomePage> {
       final timestamp = DateTime.now().toIso8601String().replaceAll(':', '-');
       final file = File('${directory.path}/track_$timestamp.gpx');
 
-      String? start = null;
+      String? start;
       String end = "";
 
       final builder = XmlBuilder();
