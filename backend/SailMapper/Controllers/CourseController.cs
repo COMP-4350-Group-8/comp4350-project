@@ -92,7 +92,7 @@ namespace SailMapper.Controllers
         public async Task<IActionResult> GetCourses()
         {
             var courses = await courseService.GetCourses();
-            if(courses == null)
+            if (courses == null)
             {
                 return NotFound();
             }
@@ -113,7 +113,7 @@ namespace SailMapper.Controllers
         public async Task<IActionResult> GetCourse(int id)
         {
             var course = await courseService.GetCourse(id);
-            if(course == null)
+            if (course == null)
             {
                 return NotFound();
             }

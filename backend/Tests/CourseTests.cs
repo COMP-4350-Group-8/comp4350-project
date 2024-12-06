@@ -52,7 +52,7 @@ namespace Tests
         [Fact]
         public async Task Add_Course()
         {
-            Course course = new Course 
+            Course course = new Course
             {
                 Id = 1,
                 Name = "Test",

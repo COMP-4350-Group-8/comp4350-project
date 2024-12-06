@@ -13,7 +13,7 @@ import "./App.css";
 
 export default function App() {
     // State to track the url for the server
-    const [serverUrl, setServerUrl] = useState("http://localhost:5000");
+    const [serverUrl, setServerUrl] = useState("http://146.190.251.228:5000");
 
     return (
         <div className="app">
