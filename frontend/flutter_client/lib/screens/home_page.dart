@@ -91,7 +91,6 @@ class _HomePageState extends State<HomePage> {
 
   void _startTracking() async {
     if (!await _checkLocationPermission()) return;
-//    await FlutterBackground.enableBackgroundExecution();
 
     setState(() {
       _isTracking = true;
@@ -173,7 +172,8 @@ class _HomePageState extends State<HomePage> {
         _status = "GPX file saved: ${file.path}";
       });
 
-      await Api().sendGPX(gpx);
+      await Api().sendGPX(
+          gpx, 1, 1, "2024-12-06T14:34:28.060Z", "2024-12-06T14:34:28.060Z");
     } catch (e) {
       setState(() {
         _status = "Error: $e";
