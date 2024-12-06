@@ -43,28 +43,60 @@ namespace Tests
             Assert.IsType<NotFoundResult>(ok);
         }
 
-
-        [Fact]
-        public async Task Service_ReturnsListOfRaces()
-        {
-            var result = await _service.GetRaces();
-
-            Assert.IsType<List<Race>>(result);
-        }
-
         [Fact]
         public async Task Add_Race()
         {
             Race race = new Race();
-            var id = await _service.AddRace(race);
+            var id = await _controller.CreateRace(race);
 
-            Assert.Equal(1, id);
+            var result = await _dbContext.Races.FindAsync(1);
+            Assert.NotNull(result);
+            Assert.IsType<Race>(result);
+        }
+
+        [Fact]
+        public async Task Update_Race()
+        {
+
+            var updateRace = new Race
+            {
+                Id = 1,
+                Name = "SeaRay",
+            };
+            await _controller.CreateRace(updateRace);
+
+            updateRace.Name = "1";
+            // Act
+            var result = await _controller.UpdateRace(1, updateRace);
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
+
+        }
+
+        [Fact]
+        public async Task Delete_Race()
+        {
+            // Arrange
+            var existingRace = new Race
+            {
+                Id = 1,
+                Name = "SeaRay",
+            };
+            await _controller.CreateRace(existingRace);
+
+            // Act
+            var result = await _controller.DeleteRace(1);
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
+
         }
 
         [Fact]
         public async Task Calc_Res_null()
         {
-            var results = _service.CalculateResults(0);
+            var results = _controller.CalculateResults(0, 0, 0);
 
             Assert.NotNull(results);
         }

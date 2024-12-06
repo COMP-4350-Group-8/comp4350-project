@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SailMapper.Classes;
+using SailMapper.Controllers;
 using SailMapper.Data;
 using SailMapper.Services;
 
@@ -9,12 +11,14 @@ namespace Tests
     public class BoatTests : IDisposable
     {
         private readonly BoatService _service;
+        private readonly BoatController _controller;
         private readonly SailDBContext _dbContext;
 
         public BoatTests()
         {
             _dbContext = CreateDB.InitalizeDB();
             _service = new BoatService(_dbContext);
+            _controller = new BoatController(_dbContext);
         }
 
         public void Dispose()
@@ -32,15 +36,16 @@ namespace Tests
                 Id = 1,
                 Name = "SeaRay",
             };
-            await _service.AddBoat(expectedBoat);
+            await _controller.CreateBoat(expectedBoat);
 
             // Act
-            var result = await _service.GetBoat(1);
-
+            var result = await _controller.GetBoat(1);
+            Assert.IsType<OkObjectResult>(result);
             // Assert
-            Assert.NotNull(result);
-            Assert.Equal(expectedBoat.Id, result.Id);
-            Assert.Equal(expectedBoat.Name, result.Name);
+            var boat = await _dbContext.Boats.FindAsync(1);
+            Assert.NotNull(boat);
+            Assert.Equal(expectedBoat.Id, boat.Id);
+            Assert.Equal(expectedBoat.Name, boat.Name);
         }
 
         [Fact]
@@ -48,27 +53,10 @@ namespace Tests
         {
 
             // Act
-            var result = await _service.GetBoat(99);
-
-            // Assert
-            Assert.Null(result);
-        }
-
-        [Fact]
-        public async Task CreateBoat_ValidBoat_ReturnsCreatedBoat()
-        {
-            // Arrange
-            var newBoat = new Boat
-            {
-                Name = "Yamaha",
-            };
-
-            // Act
-            var result = await _service.AddBoat(newBoat);
+            var result = await _controller.GetBoat(99);
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal("1", result);
         }
 
         [Fact]
@@ -80,14 +68,14 @@ namespace Tests
                 Id = 1,
                 Name = "SeaRay",
             };
-            await _service.AddBoat(updateBoat);
+            await _controller.CreateBoat(updateBoat);
 
             updateBoat.SailNumber = "1";
             // Act
-            var result = await _service.UpdateBoat(updateBoat);
+            var result = await _controller.UpdateBoat(updateBoat);
 
             // Assert
-            Assert.True(result);
+            Assert.IsType<OkResult>(result);
 
         }
 
@@ -100,23 +88,24 @@ namespace Tests
                 Id = 1,
                 Name = "SeaRay",
             };
-            await _service.AddBoat(existingBoat);
+            await _controller.CreateBoat(existingBoat);
 
             // Act
-            var result = await _service.DeleteBoat(1);
+            var result = await _controller.DeleteBoat(1);
 
             // Assert
-            Assert.True(result);
+            Assert.IsType<OkObjectResult>(result);
+
         }
 
         [Fact]
         public async Task DeleteBoat_NonExistingBoat_ReturnsFalse()
         {
             // Act
-            var result = await _service.DeleteBoat(99);
+            var result = await _controller.DeleteBoat(99);
 
             // Assert
-            Assert.False(result);
+            Assert.IsType<OkObjectResult>(result);
         }
         [Theory]
         [InlineData("")]

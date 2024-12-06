@@ -1,18 +1,23 @@
-﻿using SailMapper.Classes;
+﻿using Microsoft.AspNetCore.Mvc;
+using SailMapper.Classes;
 using SailMapper.Data;
 using SailMapper.Services;
+using SailMapper.Controllers;
+using Azure;
 
 namespace Tests
 {
     public class TrackTests : IDisposable
     {
         private readonly TrackService _service;
+        private readonly TrackControllers _controller;
         private readonly SailDBContext _dbContext;
 
         public TrackTests()
         {
             _dbContext = CreateDB.InitalizeDB();
             _service = new TrackService(_dbContext);
+            _controller = new TrackControllers(_dbContext);
         }
 
         public void Dispose()
@@ -39,10 +44,11 @@ namespace Tests
 
 
             // Act
-            var result = await _service.AddTrack(newTrack);
+            var result = await _controller.CreateTrack(newTrack);
 
             // Assert
-            Assert.Equal(1, result);
+            Assert.NotNull(result);
+            Assert.IsType<CreatedAtActionResult>(result);
         }
 
         [Fact]
@@ -62,9 +68,11 @@ namespace Tests
             _dbContext.SaveChanges();
 
             // Act
-            var result = await _service.GetRaceTracks();
+            var result = await _service.GetRaceTracks(1);
+            var response = await _controller.GetRaceTracks(1);
 
             // Assert
+            Assert.IsType<OkObjectResult>(response);
             Assert.Equal(2, result.Count());
             Assert.Contains(result, t => t.BoatId == 1);
             Assert.Contains(result, t => t.BoatId == 2);
@@ -89,12 +97,14 @@ namespace Tests
             _dbContext.SaveChanges();
 
             // Act
-            var result = await _service.GetTrack(1);
+            var result = await _controller.GetTrack(1);
+            var response = await _service.GetTrack(1);
 
             // Assert
+            Assert.IsType<OkObjectResult>(result);
             Assert.NotNull(result);
-            Assert.Equal(track.RaceId, result.RaceId);
-            Assert.Equal(track.BoatId, result.BoatId);
+            Assert.Equal(track.RaceId, response.RaceId);
+            Assert.Equal(track.BoatId, response.BoatId);
         }
 
         [Fact]
@@ -118,10 +128,10 @@ namespace Tests
             existingTrack.GpxData = "{}";
 
             // Act
-            var result = await _service.UpdateTrack(existingTrack);
+            var result = await _controller.UpdateTrack(1 ,existingTrack);
 
             // Assert
-            Assert.True(result);
+            Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]
@@ -201,9 +211,11 @@ namespace Tests
 
 
             // Act
+            var result = await _controller.GetTrackGPX(1);
             var gpxData = await _service.GetGPX(1);
 
             // Assert
+            Assert.IsType<OkObjectResult>(result);
             Assert.NotNull(gpxData);
             Assert.Contains("<?xml version=\"1.0\"", gpxData);
             Assert.Contains("<gpx", gpxData);

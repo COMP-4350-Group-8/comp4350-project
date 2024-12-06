@@ -25,7 +25,6 @@ namespace SailMapper.Services
         public async Task<List<Course>> GetCourses()
         {
             return await _dbContext.Courses
-                .Include(o => o.courseMarks)
                 .ToListAsync();
         }
 
@@ -33,6 +32,7 @@ namespace SailMapper.Services
         {
             return await _dbContext.Courses
                 .Include(o => o.courseMarks)
+                .Include(o => o.races)
                 .FirstOrDefaultAsync(o => o.Id == id);
         }
 
@@ -48,11 +48,13 @@ namespace SailMapper.Services
             return false;
         }
 
-        public async Task<bool> UpdateCourse(Course courseUpdate)
+        public async Task<bool> UpdateCourse(UpdateCourseDTO courseUpdate, int id)
         {
-            var course = _dbContext.Courses.Update(courseUpdate);
+            var course = await _dbContext.Courses.FindAsync(id);
             if (course != null)
             {
+                if (courseUpdate.Name != null) { course.Name = (string)courseUpdate.Name; }
+                if (courseUpdate.Description != null) { course.Description = (string)courseUpdate.Description; }
                 await _dbContext.SaveChangesAsync();
                 return true;
             }
@@ -86,6 +88,12 @@ namespace SailMapper.Services
             CourseMark mark = await GetCourseMarkEntity(markId);
             if (mark != null)
             {
+                if(mark.GateId != null)
+                {
+                    CourseMark gate = await GetCourseMarkEntity((int)mark.GateId);
+                    gate.GateId = null;
+                }
+                
                 _dbContext.CourseMarks.Remove(mark);
                 await _dbContext.SaveChangesAsync();
                 return true;
