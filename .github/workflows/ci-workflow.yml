@@ -173,7 +173,7 @@ jobs:
       - run: docker-compose build
       - run: docker-compose up -d
       - run: docker-compose up -d
-      - run: dotnet format SailMapper.sln
+      - run: dotnet test 
 
   unit-test-results:
     if: ${{ !(vars.DO_BACKEND_UNIT_TEST != 'true' && vars.DO_FLUTTER_UNIT_TEST != 'true' && vars.DO_REACT_UNIT_TEST != 'true') && always() }}
