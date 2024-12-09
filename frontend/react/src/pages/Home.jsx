@@ -86,7 +86,7 @@ export default  function Home({serverUrl})  {
     return (
         <>
             <div className="home-page">
-                <h1 className= "home-header">SAIL MAPPER</h1>
+                <h1 className= "home-header">SAIL MAPPER DEMO</h1>
             </div>
             <div className="card-list">
                 {/* Regattas */}
